@@ -7,12 +7,13 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DatabaseFormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DatabaseFormController">
    <children>
       <VBox layoutX="6.0" prefHeight="800.0" prefWidth="1200.0">
          <children>
@@ -28,18 +29,21 @@
                      <font>
                         <Font size="14.0" />
                      </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="mainTableToggleGroup" />
+                     </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="viewWeekRadioButton" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByWeekView" text="View by Week">
+                  <RadioButton fx:id="viewWeekRadioButton" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByWeekView" text="View by Week" toggleGroup="$mainTableToggleGroup">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="viewMonthRadioButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByMonthView" text="View by Month">
+                  <RadioButton fx:id="viewMonthRadioButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByMonthView" text="View by Month" toggleGroup="$mainTableToggleGroup">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="viewAllRadioButton" layoutX="212.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionViewAll" text="View All">
+                  <RadioButton fx:id="viewAllRadioButton" layoutX="212.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionViewAll" text="View All" toggleGroup="$mainTableToggleGroup">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -66,24 +70,24 @@
                   <TableColumn fx:id="contactEmailColumn" prefWidth="75.0" text="contactEmail" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="120.0">
                <children>
                   <Button maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionViewReports" prefHeight="35.0" text="Reports">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="dynamicAddButton" layoutX="548.0" layoutY="43.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionAddEntry" prefHeight="35.0">
+                  <Button fx:id="dynamicAddButton" layoutX="548.0" layoutY="43.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionAddEntry" prefHeight="35.0" prefWidth="150.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="dynamicModifyButton" layoutX="670.0" layoutY="43.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionModifyEntry" prefHeight="35.0">
+                  <Button fx:id="dynamicModifyButton" layoutX="670.0" layoutY="43.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionModifyEntry" prefHeight="35.0" prefWidth="150.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="dynamicDeleteButton" layoutX="793.0" layoutY="43.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionDeleteEntry" prefHeight="35.0">
+                  <Button fx:id="dynamicDeleteButton" layoutX="793.0" layoutY="43.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionDeleteEntry" prefHeight="35.0" prefWidth="150.0">
                      <font>
                         <Font size="14.0" />
                      </font>

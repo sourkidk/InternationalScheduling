@@ -22,44 +22,63 @@ import static controller.SceneController.switchToScene;
 public class DatabaseFormController implements Initializable {
 
     @FXML private TableColumn<Table, String> contactEmailColumn;
-
     @FXML private TableColumn<Table, Integer> contactIdColumn;
-
     @FXML private TableColumn<Table, String> contactNameColumn;
-
     @FXML private TableView<Table> mainTableview;
-
     @FXML private Button dynamicAddButton;
-
     @FXML private Button dynamicDeleteButton;
-
     @FXML private Button dynamicModifyButton;
-
     @FXML private DatePicker mainDatePicker;
-
-
     @FXML private Label systemTimeZoneLabel;
-
     @FXML private RadioButton viewAllRadioButton;
-
     @FXML private RadioButton viewCustomersRadioButton;
-
     @FXML private RadioButton viewMonthRadioButton;
-
     @FXML private RadioButton viewWeekRadioButton;
 
     @FXML
-    void onActionAddEntry(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionByMonthView(ActionEvent event) {
+    void onActionViewCustomers(ActionEvent event) {
+        dynamicAddButton.setText("Add Customer");
+        dynamicModifyButton.setText("Modify Customer");
+        dynamicDeleteButton.setText("Delete Customer");
 
     }
 
     @FXML
     void onActionByWeekView(ActionEvent event) {
+        dynamicAddButton.setText("Add Appointment");
+        dynamicModifyButton.setText("Modify Appointment");
+        dynamicDeleteButton.setText("Delete Appointment");
+
+    }
+    @FXML
+    void onActionByMonthView(ActionEvent event) {
+        dynamicAddButton.setText("Add Appointment");
+        dynamicModifyButton.setText("Modify Appointment");
+        dynamicDeleteButton.setText("Delete Appointment");
+    }
+
+    @FXML
+    void onActionViewAll(ActionEvent event) {
+        dynamicAddButton.setText("Add Appointment");
+        dynamicModifyButton.setText("Modify Appointment");
+        dynamicDeleteButton.setText("Delete Appointment");
+
+    }
+
+    @FXML
+    void onActionViewReports(ActionEvent event) throws IOException {
+        switchToScene(event,"/view/ReportForm.fxml");
+    }
+
+    @FXML
+    void onActionAddEntry(ActionEvent event) throws IOException {
+
+        switchToScene(event, "/view/AddCustomerForm.fxml");
+
+    }
+
+    @FXML
+    void onActionModifyEntry(ActionEvent event) {
 
     }
 
@@ -74,27 +93,9 @@ public class DatabaseFormController implements Initializable {
 
     }
 
-    @FXML
-    void onActionModifyEntry(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionViewAll(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionViewCustomers(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onActionViewReports(ActionEvent event) throws IOException {
-        switchToScene(event,"/view/ReportForm.fxml");
 
 
-    }
+
 
     ObservableList<Table> contactList = FXCollections.observableArrayList();
 
