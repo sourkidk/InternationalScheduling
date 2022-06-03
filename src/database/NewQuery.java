@@ -1,8 +1,7 @@
-package main;
+package database;
 
-import com.mysql.cj.protocol.Resultset;
+import database.JDBC;
 
-import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
