@@ -105,27 +105,27 @@
                      </children>
                   </HBox>
                   <ComboBox fx:id="customerCountryCombo" prefHeight="30.0" prefWidth="250.0" promptText="Select Country" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="customerIdErrorMessage" textFill="#ae2828" GridPane.columnIndex="3">
+                  <Label fx:id="customerIdErrorMessage" text="This is sample text for input validation" textFill="#ae2828" GridPane.columnIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="customerNameErrorMessage" layoutX="444.0" layoutY="15.0" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <Label fx:id="customerNameErrorMessage" layoutX="444.0" layoutY="15.0" text="This is sample text for input validation" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="customerAddressErrorMessage" layoutX="444.0" layoutY="65.0" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                  <Label fx:id="customerAddressErrorMessage" layoutX="444.0" layoutY="65.0" text="This is sample text for input validation" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="customerPostalErrorMessage" layoutX="444.0" layoutY="115.0" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <Label fx:id="customerPostalErrorMessage" layoutX="444.0" layoutY="115.0" text="This is sample text for input validation" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="customerPhoneErrorMessage" layoutX="444.0" layoutY="165.0" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                  <Label fx:id="customerPhoneErrorMessage" layoutX="444.0" layoutY="165.0" text="This is sample text for input validation" textFill="#ae2828" GridPane.columnIndex="3" GridPane.rowIndex="4">
                      <font>
                         <Font size="14.0" />
                      </font>

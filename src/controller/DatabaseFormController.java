@@ -73,12 +73,26 @@ public class DatabaseFormController implements Initializable {
     @FXML
     void onActionAddEntry(ActionEvent event) throws IOException {
 
-        switchToScene(event, "/view/AddCustomerForm.fxml");
+        if ( viewCustomersRadioButton.isSelected() ) {
+            switchToScene(event, "/view/AddCustomerForm.fxml");
+        }
+        else {
+            switchToScene(event, "/view/AddAppointmentForm.fxml");
+        }
+
+
 
     }
 
     @FXML
-    void onActionModifyEntry(ActionEvent event) {
+    void onActionModifyEntry(ActionEvent event) throws IOException {
+
+        if ( viewCustomersRadioButton.isSelected() ) {
+            switchToScene(event, "/view/ModifyCustomerForm.fxml");
+        }
+        else {
+            switchToScene(event, "/view/ModifyAppointmentForm.fxml");
+        }
 
     }
 
@@ -116,6 +130,10 @@ public class DatabaseFormController implements Initializable {
         }
 
         JDBC.closeConnection();
+
+        dynamicAddButton.setText("Add Appointment");
+        dynamicModifyButton.setText("Modify Appointment");
+        dynamicDeleteButton.setText("Delete Appointment");
 
         contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         contactNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

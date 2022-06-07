@@ -33,7 +33,7 @@
                         <ToggleGroup fx:id="mainTableToggleGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="viewWeekRadioButton" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByWeekView" text="View by Week" toggleGroup="$mainTableToggleGroup">
+                  <RadioButton fx:id="viewWeekRadioButton" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByWeekView" selected="true" text="View by Week" toggleGroup="$mainTableToggleGroup">
                      <font>
                         <Font size="14.0" />
                      </font>
