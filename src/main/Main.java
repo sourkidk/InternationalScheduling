@@ -24,6 +24,7 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
         JDBC.makeConnection();
+//        JDBC.closeConnection();
 
 //        int rowsAffected = NewQuery.update(4, "Keith Fletcher");
 //
@@ -31,8 +32,8 @@ public class Main extends Application {
 //            System.out.println("Update Successful! " + rowsAffected + " rows affected!");
 //        }
 
-
-//        int rowsAffected = NewQuery.insert("Keith Fletcher", "sourkidk@gmail.com");
+//
+//        int rowsAffected = NewQuery.insertCustomer("Taco Billy", "222 Haywood Rd.", "28806", "828-999-9090", 10);
 //
 //        if (rowsAffected > 0) {
 //            System.out.println("Update Successful! " + rowsAffected + " rows affected!");
@@ -52,9 +53,6 @@ public class Main extends Application {
 //        }
 
 //        NewQuery.select(3);
-
-
-
         JDBC.closeConnection();
         launch(args);
     }

@@ -122,7 +122,7 @@ public class DatabaseFormController implements Initializable {
             ResultSet rs = NewQuery.getSelect();
             while (rs.next() ) {
                 contactList.add(new Table(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email")));
-                System.out.println("Adding contact to list " + rs.getString("Contact_Name"));
+//                System.out.println("Adding contact to list " + rs.getString("Contact_Name"));
             }
 
         } catch (SQLException throwables) {
@@ -131,9 +131,9 @@ public class DatabaseFormController implements Initializable {
 
         JDBC.closeConnection();
 
-        dynamicAddButton.setText("Add Appointment");
-        dynamicModifyButton.setText("Modify Appointment");
-        dynamicDeleteButton.setText("Delete Appointment");
+        dynamicAddButton.setText("Add Customer");
+        dynamicModifyButton.setText("Modify Customer");
+        dynamicDeleteButton.setText("Delete Customer");
 
         contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         contactNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
