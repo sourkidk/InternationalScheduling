@@ -1,5 +1,6 @@
 package controller;
 
+import database.DbValidation;
 import database.JDBC;
 import database.Queries;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws IOException, SQLException {
+
         String userName = JDBC.getUserName();
         String customerName = customerNameTextfield.getText();
         String customerAddress = customerAddressTextfield.getText();
@@ -40,20 +42,23 @@ public class AddCustomerFormController implements Initializable {
         String customerPhoneNumber = customerPhoneTextfield.getText();
         int divisionID = 10; // To be filled by combobox when that functionality is added.
 
+        if (DbValidation.validateCustomer(customerName)) {
 
 
+            int rowsAffected = Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
 
-        int rowsAffected = Queries.insertCustomer(customerName,customerAddress,customerPostalCode,customerPhoneNumber,userName,userName,divisionID);
+            if (rowsAffected > 0) {
+                System.out.println("Update Successful! " + rowsAffected + " rows affected!");
+            } else {
+                System.out.println("Update Failed...");
+            }
 
-        if (rowsAffected > 0) {
-            System.out.println("Update Successful! " + rowsAffected + " rows affected!");
+            JDBC.closeConnection();
+            switchToScene(event, "/view/DatabaseForm.fxml");
         }
         else {
-            System.out.println("Update Failed...");
+            System.out.println("Something went wrong!");
         }
-
-        JDBC.closeConnection();
-        switchToScene(event, "/view/DatabaseForm.fxml");
 
     }
 
