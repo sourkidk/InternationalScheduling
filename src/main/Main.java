@@ -1,7 +1,6 @@
 package main;
 
 import database.JDBC;
-import database.NewQuery;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

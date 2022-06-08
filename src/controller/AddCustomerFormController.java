@@ -1,7 +1,7 @@
 package controller;
 
 import database.JDBC;
-import database.NewQuery;
+import database.Queries;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +33,7 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws IOException, SQLException {
+        String userName = JDBC.getUserName();
         String customerName = customerNameTextfield.getText();
         String customerAddress = customerAddressTextfield.getText();
         String customerPostalCode = customerPostalTextfield.getText();
@@ -42,7 +43,7 @@ public class AddCustomerFormController implements Initializable {
 
 
 
-        int rowsAffected = NewQuery.insertCustomer(customerName,customerAddress,customerPostalCode,customerPhoneNumber,divisionID);
+        int rowsAffected = Queries.insertCustomer(customerName,customerAddress,customerPostalCode,customerPhoneNumber,userName,userName,divisionID);
 
         if (rowsAffected > 0) {
             System.out.println("Update Successful! " + rowsAffected + " rows affected!");

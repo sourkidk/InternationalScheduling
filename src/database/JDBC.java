@@ -59,4 +59,16 @@ public class JDBC {
            else System.out.println("Null reference to Prepared Statement");
            return null;
        }
-   }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        JDBC.password = password;
+    }
+}

@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import database.JDBC;
-import database.NewQuery;
+import database.Queries;
 import model.Table;
 
 import java.io.IOException;
@@ -119,7 +119,7 @@ public class DatabaseFormController implements Initializable {
         JDBC.makeConnection();
 
         try {
-            ResultSet rs = NewQuery.getSelect();
+            ResultSet rs = Queries.getSelect();
             while (rs.next() ) {
                 contactList.add(new Table(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email")));
 //                System.out.println("Adding contact to list " + rs.getString("Contact_Name"));

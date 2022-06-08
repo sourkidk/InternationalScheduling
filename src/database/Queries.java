@@ -6,16 +6,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class NewQuery {
+public abstract class Queries {
 
-    public static int insertCustomer(String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, int divisionID) throws SQLException {
-        String sql = "INSERT INTO CUSTOMERS (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES(?, ?, ?, ?, ?)";
+    public static int insertCustomer(String customerName, String customerAddress,
+                                     String customerPostalCode, String customerPhoneNumber,
+                                     String createdBy, String lastUpdatedBy, int divisionID) throws SQLException {
+        String sql = "INSERT INTO CUSTOMERS (Customer_Name, Address, Postal_Code, Phone, Created_By, Last_Updated_By, Division_ID) VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1,customerName);
         ps.setString(2,customerAddress);
         ps.setString(3,customerPostalCode);
         ps.setString(4,customerPhoneNumber);
-        ps.setInt(5,divisionID);
+        ps.setString(5,createdBy);
+        ps.setString(6,lastUpdatedBy);
+        ps.setInt(7,divisionID);
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
