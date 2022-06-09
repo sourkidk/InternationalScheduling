@@ -43,28 +43,19 @@ public class AddCustomerFormController implements Initializable {
         String customerPhoneNumber = customerPhoneTextfield.getText();
         int divisionID = 10; // To be filled by combobox when that functionality is added.
 
-        if (DbValidation.validateCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber)) {
+        try {
+            DbValidation.validateCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber);
             Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
-//            int rowsAffected = Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
-//
-//            if (rowsAffected > 0) {
-//                System.out.println("Update Successful! " + rowsAffected + " rows affected!");
-//            } else {
-//                System.out.println("Update Failed...");
-//            }
-            JDBC.closeConnection();
             switchToScene(event, "/view/DatabaseForm.fxml");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        else {
-            Alerts.dialogBox("Error", "Error", "Something went wrong");
-        }
-
     }
 
     @FXML void onActionCancel(ActionEvent event) throws IOException {
-        JDBC.closeConnection();
-        switchToScene(event, "/view/DatabaseForm.fxml");
-
+        if (Alerts.confirmCancelBox()) {
+            switchToScene(event, "/view/DatabaseForm.fxml");
+        }
     }
 
 

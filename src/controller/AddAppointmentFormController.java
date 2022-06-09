@@ -1,18 +1,25 @@
 package controller;
 
+import database.JDBC;
+import database.Queries;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import utilities.Alerts;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
 
-public class AddAppointmentFormController {
+public class AddAppointmentFormController implements Initializable {
 
     @FXML private Label appointmentDescriptionErrorMessage;
     @FXML private TextField appointmentDescriptionTextfield;
@@ -45,11 +52,28 @@ public class AddAppointmentFormController {
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
-        switchToScene(event, "/view/DatabaseForm.fxml");
+        if (Alerts.confirmCancelBox()) {
+            switchToScene(event, "/view/DatabaseForm.fxml");
+        }
     }
 
     @FXML
-    void onActionSaveAppointment(ActionEvent event) throws IOException {
+    void onActionSaveAppointment(ActionEvent event) throws IOException, SQLException {
+        String userName = JDBC.getUserName();
+        String apptTitle = appointmentTitleTextfield.getText();
+        String apptDescription = appointmentDescriptionTextfield.getText();
+        String apptLocation = appointmentLocationTextfield.getText();
+        String apptType = appointmentTypeTextfield.getText();
+        int customerID = 1;
+        int userID = 1;
+        int contactID = 1;
+
+        Queries.insertAppointment(apptTitle,apptDescription,apptLocation,apptType,userName,userName,customerID,userID,contactID);
         switchToScene(event, "/view/DatabaseForm.fxml");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        JDBC.makeConnection();
     }
 }

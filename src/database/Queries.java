@@ -13,13 +13,53 @@ public abstract class Queries {
                                      String createdBy, String lastUpdatedBy, int divisionID) throws SQLException {
         String sql = "INSERT INTO CUSTOMERS (Customer_Name, Address, Postal_Code, Phone, Created_By, Last_Updated_By, Division_ID) VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, customerName);
+        ps.setString(2, customerAddress);
+        ps.setString(3, customerPostalCode);
+        ps.setString(4, customerPhoneNumber);
+        ps.setString(5, createdBy);
+        ps.setString(6, lastUpdatedBy);
+        ps.setInt(7, divisionID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
+    public static int updateCustomer(int customerID, String customerName, String customerAddress,
+                                     String customerPostalCode, String customerPhoneNumber,
+                                     String lastUpdatedBy, int divisionID) throws SQLException {
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Updated_By =?, Division_ID = ?"
+                + " WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1,customerName);
         ps.setString(2,customerAddress);
         ps.setString(3,customerPostalCode);
         ps.setString(4,customerPhoneNumber);
-        ps.setString(5,createdBy);
-        ps.setString(6,lastUpdatedBy);
-        ps.setInt(7,divisionID);
+        ps.setString(5,lastUpdatedBy);
+        ps.setInt(6,divisionID);
+        ps.setInt(7, customerID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
+    public static int insertAppointment(String apptTitle, String apptDescription,
+                                             String apptLocation, String apptType, String createdBy,
+                                             String lastUpdatedBy, int customerID,
+                                             int userID, int contactID) throws SQLException {
+        String sql = "INSERT INTO APPOINTMENTS ( Title, Description, Location, Type, Start, End, Created_by, " +
+                "Last_Updated_By, Customer_ID, User_ID, Contact_ID ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1,apptTitle);
+        ps.setString(2,apptDescription);
+        ps.setString(3,apptLocation);
+        ps.setString(4,apptType);
+        ps.setString(5,"2022-01-01 09:30:00");
+        ps.setString(6,"2022-01-01 10:00:00");
+        ps.setString(7,createdBy);
+        ps.setString(8,lastUpdatedBy);
+        ps.setInt(9,customerID);
+        ps.setInt(10,userID);
+        ps.setInt(11,contactID);
+
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
