@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import utilities.Alerts;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,22 +43,20 @@ public class AddCustomerFormController implements Initializable {
         String customerPhoneNumber = customerPhoneTextfield.getText();
         int divisionID = 10; // To be filled by combobox when that functionality is added.
 
-        if (DbValidation.validateCustomer(customerName)) {
-
-
-            int rowsAffected = Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
-
-            if (rowsAffected > 0) {
-                System.out.println("Update Successful! " + rowsAffected + " rows affected!");
-            } else {
-                System.out.println("Update Failed...");
-            }
-
+        if (DbValidation.validateCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber)) {
+            Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
+//            int rowsAffected = Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
+//
+//            if (rowsAffected > 0) {
+//                System.out.println("Update Successful! " + rowsAffected + " rows affected!");
+//            } else {
+//                System.out.println("Update Failed...");
+//            }
             JDBC.closeConnection();
             switchToScene(event, "/view/DatabaseForm.fxml");
         }
         else {
-            System.out.println("Something went wrong!");
+            Alerts.dialogBox("Error", "Error", "Something went wrong");
         }
 
     }
