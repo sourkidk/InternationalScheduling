@@ -39,7 +39,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID">
+                  <Text fill="#6f6f6f" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -74,7 +74,7 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="customerPhoneTextfield" layoutX="132.0" layoutY="55.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <TextField fx:id="customerAddressTextfield" layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -84,7 +84,7 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="customerAddressTextfield" layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="customerPhoneTextfield" layoutX="132.0" layoutY="55.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -94,6 +94,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <ComboBox fx:id="customerCountryCombo" prefHeight="30.0" prefWidth="250.0" promptText="Select Country" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Division">
@@ -104,7 +105,6 @@
                         <ComboBox fx:id="customerDivisionCombo" prefHeight="30.0" prefWidth="250.0" promptText="Select Division" />
                      </children>
                   </HBox>
-                  <ComboBox fx:id="customerCountryCombo" prefHeight="30.0" prefWidth="250.0" promptText="Select Country" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label fx:id="customerIdErrorMessage" text="This is sample text for input validation" textFill="#ae2828" GridPane.columnIndex="3">
                      <font>
                         <Font size="14.0" />

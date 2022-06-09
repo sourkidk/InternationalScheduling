@@ -150,14 +150,14 @@
                   <DatePicker fx:id="endDatePicker" layoutX="132.0" layoutY="410.0" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="3" GridPane.rowIndex="8" />
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
                      <children>
-                        <Spinner fx:id="startHourSpinner" prefHeight="30.0" prefWidth="100.0" />
-                        <Spinner fx:id="startMinuteSpinner" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="100.0" />
+                        <Spinner fx:id="startHourSpinner" editable="true" prefHeight="30.0" prefWidth="100.0" />
+                        <Spinner fx:id="startMinuteSpinner" editable="true" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="100.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0" GridPane.columnIndex="3" GridPane.rowIndex="9">
                      <children>
-                        <Spinner fx:id="endHourSpinner" prefHeight="30.0" prefWidth="100.0" />
-                        <Spinner fx:id="endMinuteSpinner" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="100.0" />
+                        <Spinner fx:id="endHourSpinner" editable="true" prefHeight="30.0" prefWidth="100.0" />
+                        <Spinner fx:id="endMinuteSpinner" editable="true" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="100.0" />
                      </children>
                   </HBox>
                   <Text layoutX="10.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact ID" GridPane.rowIndex="6">

@@ -5,11 +5,7 @@ import database.Queries;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import utilities.Alerts;
 
 import java.io.IOException;
@@ -40,15 +36,21 @@ public class AddAppointmentFormController implements Initializable {
     @FXML private Label customerPhoneErrorMessage;
     @FXML private Label customerPostalErrorMessage;
     @FXML private DatePicker endDatePicker;
-    @FXML private Spinner<?> endHourSpinner;
-    @FXML private Spinner<?> endMinuteSpinner;
+    @FXML private Spinner<Integer> endHourSpinner;
+    @FXML private Spinner<Integer> endMinuteSpinner;
     @FXML private Label endTimeErrorMessage;
     @FXML private DatePicker startDatePicker;
-    @FXML private Spinner<?> startHourSpinner;
-    @FXML private Spinner<?> startMinuteSpinner;
+    @FXML private Spinner<Integer> startHourSpinner;
+    @FXML private Spinner<Integer> startMinuteSpinner;
     @FXML private Label startTimeErrorMessage;
     @FXML private ComboBox<?> userIdCombo;
     @FXML private Label userIdErrorMessage;
+
+//    public int startHour;
+//    public int startMinute;
+//    public int endHour;
+//    public int endMinute;
+
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -69,11 +71,35 @@ public class AddAppointmentFormController implements Initializable {
         int contactID = 1;
 
         Queries.insertAppointment(apptTitle,apptDescription,apptLocation,apptType,userName,userName,customerID,userID,contactID);
+        int startHour = startHourSpinner.getValue();
+        int startMinute = startMinuteSpinner.getValue();
+        int endHour = startHourSpinner.getValue();
+        int endMinute = startMinuteSpinner.getValue();
+        String startTime = String.valueOf(startHour) + ":" + String.valueOf(startMinute) + ":00";
+        System.out.println(startTime);
+
+
         switchToScene(event, "/view/DatabaseForm.fxml");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JDBC.makeConnection();
+
+        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23, 12);
+        hourValueFactory.setWrapAround(true);
+//        hourValueFactory.setValue(12);
+        startHourSpinner.setValueFactory(hourValueFactory);
+        endHourSpinner.setValueFactory((hourValueFactory));
+
+        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59, 0, 5);
+        minuteValueFactory.increment(5);
+        minuteValueFactory.setWrapAround(true);
+//        minuteValueFactory.setValue(0);
+        startMinuteSpinner.setValueFactory(minuteValueFactory);
+        endMinuteSpinner.setValueFactory(minuteValueFactory);
+
+
+
     }
 }
