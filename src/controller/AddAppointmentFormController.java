@@ -20,48 +20,29 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
-import static database.Queries.getSelect;
-import static database.Queries.insertAppointment;
+import static database.Queries.*;
 import static utilities.DateTimeHelper.concatDateTime;
 
 public class AddAppointmentFormController implements Initializable {
 
-    @FXML private Label appointmentDescriptionErrorMessage;
     @FXML private TextField appointmentDescriptionTextfield;
-    @FXML private Label appointmentIdErrorMessage;
     @FXML private TextField appointmentIdTextfield;
-    @FXML private Label appointmentLocationErrorMessage;
     @FXML private TextField appointmentLocationTextfield;
-    @FXML private Label appointmentTitleErrorMessage;
     @FXML private TextField appointmentTitleTextfield;
-    @FXML private Label appointmentTypeErrorMessage;
     @FXML private TextField appointmentTypeTextfield;
-    @FXML private ComboBox<Contact> contactIdCombo;
-    @FXML private Label contactIdErrorMessage;
-    @FXML private Label customerAddressErrorMessage;
-    @FXML private ComboBox<?> customerIdCombo;
-    @FXML private Label customerIdErrorMessage;
-    @FXML private Label customerNameErrorMessage;
-    @FXML private Label customerPhoneErrorMessage;
-    @FXML private Label customerPostalErrorMessage;
+    @FXML private ComboBox<String> contactIdCombo;
+    @FXML private ComboBox<Integer> customerIdCombo;
     @FXML private DatePicker endDatePicker;
     @FXML private Spinner<Integer> endHourSpinner;
     @FXML private Spinner<Integer> endMinuteSpinner;
-    @FXML private Label endTimeErrorMessage;
     @FXML private DatePicker startDatePicker;
     @FXML private Spinner<Integer> startHourSpinner;
     @FXML private Spinner<Integer> startMinuteSpinner;
-    @FXML private Label startTimeErrorMessage;
     @FXML private ComboBox<?> userIdCombo;
-    @FXML private Label userIdErrorMessage;
 
-    private ObservableList<Contact> contacts = FXCollections.observableArrayList();
-
-//    public int startHour;
-//    public int startMinute;
-//    public int endHour;
-//    public int endMinute;
-
+    private ObservableList<String> contacts = FXCollections.observableArrayList();
+    private ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
+    private ObservableList<Integer> usersIDs = FXCollections.observableArrayList();
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -117,13 +98,10 @@ public class AddAppointmentFormController implements Initializable {
         endMinuteSpinner.setValueFactory(endMinuteValueFactory);
 
         try {
-            ResultSet rs = getSelect();
+            ResultSet rs = getContactNameSelect();
             while (rs.next()) {
-                int contactId = rs.getInt("Contact_ID");
                 String contactName = rs.getString("Contact_Name");
-                String contactEmail = rs.getString("Email");
-                Contact contact = new Contact(contactId,contactName,contactEmail);
-                contacts.add(contact);
+                contacts.add(contactName);
             }
         }
         catch (SQLException e) {
@@ -131,8 +109,6 @@ public class AddAppointmentFormController implements Initializable {
         }
 
         contactIdCombo.getItems().addAll(contacts);
-        contactIdCombo.
-
 
 
     }
