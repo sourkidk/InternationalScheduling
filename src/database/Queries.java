@@ -1,12 +1,20 @@
 package database;
 
 import database.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Contact;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
 public abstract class Queries {
+
+    private ObservableList<Contact> contacts = FXCollections.observableArrayList();
+
 
     public static int insertCustomer(String customerName, String customerAddress,
                                      String customerPostalCode, String customerPhoneNumber,
@@ -44,7 +52,7 @@ public abstract class Queries {
     public static int insertAppointment(String apptTitle, String apptDescription,
                                              String apptLocation, String apptType, String createdBy,
                                              String lastUpdatedBy, int customerID,
-                                             int userID, int contactID) throws SQLException {
+                                             int userID, int contactID, String startDateTime, String endDateTime) throws SQLException {
         String sql = "INSERT INTO APPOINTMENTS ( Title, Description, Location, Type, Start, End, Created_by, " +
                 "Last_Updated_By, Customer_ID, User_ID, Contact_ID ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -52,8 +60,8 @@ public abstract class Queries {
         ps.setString(2,apptDescription);
         ps.setString(3,apptLocation);
         ps.setString(4,apptType);
-        ps.setString(5,"2022-01-01 09:30:00");
-        ps.setString(6,"2022-01-01 10:00:00");
+        ps.setString(5,startDateTime);
+        ps.setString(6,endDateTime);
         ps.setString(7,createdBy);
         ps.setString(8,lastUpdatedBy);
         ps.setInt(9,customerID);
