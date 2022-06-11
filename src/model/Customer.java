@@ -18,6 +18,11 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
+    @Override
+    public String toString() {
+        return customerId + " " + customerName;
+    }
+
     public int getCustomerId() {
         return customerId;
     }

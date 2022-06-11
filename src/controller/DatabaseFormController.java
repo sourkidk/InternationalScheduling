@@ -119,7 +119,7 @@ public class DatabaseFormController implements Initializable {
         JDBC.makeConnection();
 
         try {
-            ResultSet rs = Queries.getSelect();
+            ResultSet rs = Queries.getContactsSelect();
             while (rs.next() ) {
                 contactList.add(new Table(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email")));
 //                System.out.println("Adding contact to list " + rs.getString("Contact_Name"));

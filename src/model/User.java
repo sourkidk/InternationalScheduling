@@ -14,6 +14,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
+    @Override
+    public String toString() {
+        return userID + " " + userName;
+    }
+
     public int getUserID() {
         return userID;
     }

@@ -108,8 +108,21 @@ public abstract class Queries {
             System.out.println(contactId + " | " + contactName + " | " + contactEmail);
         }
     }
-    public static ResultSet getSelect() throws SQLException {
+    public static ResultSet getContactsSelect() throws SQLException {
         String sql = "SELECT * FROM CONTACTS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
+    public static ResultSet getCustomersSelect() throws SQLException {
+        String sql = "SELECT * FROM CUSTOMERS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+    public static ResultSet getUsersSelect() throws SQLException {
+        String sql = "SELECT * FROM USERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;

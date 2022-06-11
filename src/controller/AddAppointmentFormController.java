@@ -1,7 +1,9 @@
 package controller;
 
+import database.DbValidation;
 import database.JDBC;
 import database.Queries;
+import database.DbValidation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import model.Contact;
+import model.Customer;
+import model.User;
 import utilities.Alerts;
 import utilities.DateTimeHelper;
 
@@ -19,7 +23,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+
 import static controller.SceneController.switchToScene;
+import static database.DbValidation.*;
 import static database.Queries.*;
 import static utilities.DateTimeHelper.concatDateTime;
 
@@ -30,19 +36,19 @@ public class AddAppointmentFormController implements Initializable {
     @FXML private TextField appointmentLocationTextfield;
     @FXML private TextField appointmentTitleTextfield;
     @FXML private TextField appointmentTypeTextfield;
-    @FXML private ComboBox<String> contactIdCombo;
-    @FXML private ComboBox<Integer> customerIdCombo;
+    @FXML private ComboBox<Contact> contactIdCombo;
+    @FXML private ComboBox<Customer> customerIdCombo;
     @FXML private DatePicker endDatePicker;
     @FXML private Spinner<Integer> endHourSpinner;
     @FXML private Spinner<Integer> endMinuteSpinner;
     @FXML private DatePicker startDatePicker;
     @FXML private Spinner<Integer> startHourSpinner;
     @FXML private Spinner<Integer> startMinuteSpinner;
-    @FXML private ComboBox<?> userIdCombo;
+    @FXML private ComboBox<User> userIdCombo;
 
-    private ObservableList<String> contacts = FXCollections.observableArrayList();
-    private ObservableList<Integer> customerIDs = FXCollections.observableArrayList();
-    private ObservableList<Integer> usersIDs = FXCollections.observableArrayList();
+    private ObservableList<Contact> contacts = FXCollections.observableArrayList();
+    private ObservableList<Customer> customers = FXCollections.observableArrayList();
+    private ObservableList<User> users = FXCollections.observableArrayList();
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -58,9 +64,6 @@ public class AddAppointmentFormController implements Initializable {
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();
         String apptType = appointmentTypeTextfield.getText();
-        int customerID = 1;
-        int userID = 1;
-        int contactID = 1;
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
         int startHour = startHourSpinner.getValue();
@@ -71,9 +74,20 @@ public class AddAppointmentFormController implements Initializable {
         String startDateTime = concatDateTime(startDate,startHour,startMinute);
         String endDateTime = concatDateTime(endDate,endHour,endMinute);
 
-        insertAppointment(apptTitle,apptDescription,apptLocation,apptType,userName,userName,customerID,userID,contactID, startDateTime, endDateTime);
+        if ( userIdCombo.getValue() == null || customerIdCombo.getValue() == null || contactIdCombo.getValue() == null) {
+            Alerts.dialogBox("Invalid Input","Input Fields Blank", "Please select an option for each field.");
+        }
+        int userID = userIdCombo.getValue().getUserID();
+        int customerID = customerIdCombo.getValue().getCustomerId();
+        int contactID = contactIdCombo.getValue().getContactID();
 
-        switchToScene(event, "/view/DatabaseForm.fxml");
+        try {
+            validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName);
+            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, startDateTime, endDateTime);
+            switchToScene(event, "/view/DatabaseForm.fxml");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -97,18 +111,49 @@ public class AddAppointmentFormController implements Initializable {
         endMinuteValueFactory.setWrapAround(true);
         endMinuteSpinner.setValueFactory(endMinuteValueFactory);
 
+
         try {
-            ResultSet rs = getContactNameSelect();
+            ResultSet rs = Queries.getContactsSelect();
             while (rs.next()) {
+                int contactID = rs.getInt("Contact_ID");
                 String contactName = rs.getString("Contact_Name");
-                contacts.add(contactName);
+                String contactEmail = rs.getString("Email");
+                contacts.add(new Contact(contactID,contactName,contactEmail));
             }
         }
         catch (SQLException e) {
-
         }
-
         contactIdCombo.getItems().addAll(contacts);
+
+        try {
+            ResultSet rs = Queries.getCustomersSelect();
+            while (rs.next()) {
+                int customerID = rs.getInt("Customer_ID");
+                String customerName = rs.getString("Customer_Name");
+                String customerAddress = rs.getString("Address");
+                String customerPostal = rs.getString("Postal_Code");
+                String customerPhone = rs.getString("Phone");
+                int divisionID = rs.getInt("Division_ID");
+                customers.add(new Customer(customerID, customerName, customerAddress, customerPostal, customerPhone, divisionID));
+            }
+        }
+        catch (SQLException e) {
+        }
+        customerIdCombo.getItems().addAll(customers);
+
+        try {
+            ResultSet rs = Queries.getUsersSelect();
+            while (rs.next()) {
+                int userID = rs.getInt("User_ID");
+                String userName = rs.getString("User_Name");
+                String password = rs.getString("Password");
+                users.add(new User(userID,userName, password));
+            }
+        }
+        catch (SQLException e) {
+        }
+        userIdCombo.getItems().addAll(users);
+
 
 
     }
