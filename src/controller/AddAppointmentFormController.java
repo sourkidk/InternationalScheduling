@@ -64,8 +64,16 @@ public class AddAppointmentFormController implements Initializable {
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();
         String apptType = appointmentTypeTextfield.getText();
+
+        if ( startDatePicker.getValue() == null || endDatePicker.getValue() == null || (startDatePicker.getValue().isAfter(endDatePicker.getValue()))) {
+            Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.");
+        }
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
+
+        if ( startHourSpinner.getValue() == null || startMinuteSpinner.getValue() == null || endHourSpinner.getValue() == null || endMinuteSpinner.getValue() == null) {
+            Alerts.dialogBox("Invalid Time Input", "Blank Time Values", "Please enter valid values for start and end time.");
+        }
         int startHour = startHourSpinner.getValue();
         int startMinute = startMinuteSpinner.getValue();
         int endHour = endHourSpinner.getValue();
