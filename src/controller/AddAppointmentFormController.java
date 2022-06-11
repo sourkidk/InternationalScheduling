@@ -64,38 +64,48 @@ public class AddAppointmentFormController implements Initializable {
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();
         String apptType = appointmentTypeTextfield.getText();
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+        boolean validDates = false;
+        boolean validTimes = false;
+        boolean validCombos = false;
 
         if ( startDatePicker.getValue() == null || endDatePicker.getValue() == null || (startDatePicker.getValue().isAfter(endDatePicker.getValue()))) {
             Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.");
         }
-        LocalDate startDate = startDatePicker.getValue();
-        LocalDate endDate = endDatePicker.getValue();
+        else {validDates = true;}
+
 
         if ( startHourSpinner.getValue() == null || startMinuteSpinner.getValue() == null || endHourSpinner.getValue() == null || endMinuteSpinner.getValue() == null) {
             Alerts.dialogBox("Invalid Time Input", "Blank Time Values", "Please enter valid values for start and end time.");
         }
+        else { validTimes = true;}
+
         int startHour = startHourSpinner.getValue();
         int startMinute = startMinuteSpinner.getValue();
         int endHour = endHourSpinner.getValue();
         int endMinute = endMinuteSpinner.getValue();
 
-        String startDateTime = concatDateTime(startDate,startHour,startMinute);
-        String endDateTime = concatDateTime(endDate,endHour,endMinute);
+
+        String startDateTime = concatDateTime(startDate, startHour, startMinute);
+        String endDateTime = concatDateTime(endDate, endHour, endMinute);
+
 
         if ( userIdCombo.getValue() == null || customerIdCombo.getValue() == null || contactIdCombo.getValue() == null) {
             Alerts.dialogBox("Invalid Input","Input Fields Blank", "Please select an option for each field.");
         }
+        else {validCombos = true;}
+
         int userID = userIdCombo.getValue().getUserID();
         int customerID = customerIdCombo.getValue().getCustomerId();
         int contactID = contactIdCombo.getValue().getContactID();
 
-        try {
-            validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName);
+
+        if ((validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName)) && validDates && validTimes && validCombos) {
             insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, startDateTime, endDateTime);
             switchToScene(event, "/view/DatabaseForm.fxml");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+
     }
 
     @Override
@@ -118,6 +128,9 @@ public class AddAppointmentFormController implements Initializable {
         SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59, 0, 5);
         endMinuteValueFactory.setWrapAround(true);
         endMinuteSpinner.setValueFactory(endMinuteValueFactory);
+
+        startDatePicker.setValue(LocalDate.now());
+        endDatePicker.setValue(LocalDate.now());
 
 
         try {

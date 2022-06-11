@@ -68,7 +68,7 @@ public class DbValidation {
         error = "";
         if (validateTitle(title) == false || validateDescription(description) == false ||
                 validateLocation(location) == false || validateType(type) == false
-                || validateUserName(userName) ){
+                || validateUserName(userName) == false ){
             System.out.println(error);
 
             Alerts.dialogBox("Missing field","Additional Info Required", error );
