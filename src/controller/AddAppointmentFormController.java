@@ -1,38 +1,32 @@
 package controller;
 
-import database.DbValidation;
 import database.JDBC;
 import database.Queries;
-import database.DbValidation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.util.converter.LocalDateTimeStringConverter;
 import model.Contact;
 import model.Customer;
 import model.User;
 import utilities.Alerts;
-import utilities.DateTimeHelper;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 
 import static controller.SceneController.switchToScene;
 import static database.DbValidation.*;
 import static database.Queries.*;
-import static utilities.DateTimeHelper.concatDateTime;
 import static utilities.DateTimeHelper.formatTime;
+import static utilities.DateTimeHelper.toStringDateTime;
 
 public class AddAppointmentFormController implements Initializable {
 
@@ -69,43 +63,31 @@ public class AddAppointmentFormController implements Initializable {
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();
         String apptType = appointmentTypeTextfield.getText();
-        LocalDate startDate = startDatePicker.getValue();
-        LocalDate endDate = endDatePicker.getValue();
-        boolean validDates = false;
-        boolean validTimes = false;
-        boolean validCombos = false;
-
-        if (  startDate.isAfter(endDate) || startDate.isBefore(LocalDate.now())) {
-            Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
-                    "Start date must be today or later.");
-        }
-        else {validDates = true;}
-
-
 
         int startHour = startHourSpinner.getValue();
         int startMinute = startMinuteSpinner.getValue();
         int endHour = endHourSpinner.getValue();
         int endMinute = endMinuteSpinner.getValue();
 
-//        System.out.println(DateTimeHelper.formatTime(startHour,startMinute));
+        LocalDateTime ldtStartDate = LocalDateTime.parse(startDatePicker.getValue() + "T"+ formatTime(startHour,startMinute));
+        LocalDateTime ldtEndDate = LocalDateTime.parse(endDatePicker.getValue() + "T"+ formatTime(endHour,endMinute));
 
-        LocalTime startTime = LocalTime.parse(formatTime(startHour,startMinute));
-        LocalTime endTime = LocalTime.parse(formatTime(endHour,endMinute));
+        boolean validDates = false;
+        boolean validTimes = false;
+        boolean validCombos = false;
 
-        if ( startHour == endHour && startMinute >= endMinute || startHour > endHour ) {
-            Alerts.dialogBox("Invalid Time Input", "Blank Time Values", "Please enter valid values for start and end time.");
+        if (  ldtStartDate.isAfter(ldtEndDate) || ldtStartDate.isEqual(ldtEndDate)|| ldtStartDate.isBefore(LocalDateTime.now())) {
+            Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
+                    "Start date must be today or later.");
         }
-        else { validTimes = true;}
-
-
-        String startDateTime = concatDateTime(startDate, startHour, startMinute);
-        String endDateTime = concatDateTime(endDate, endHour, endMinute);
-
+        else {
+            validDates = true;
+            validTimes = true;
+        }
 
 
         if ( userIdCombo.getValue() == null || customerIdCombo.getValue() == null || contactIdCombo.getValue() == null) {
-            Alerts.dialogBox("Invalid Input","Input Fields Blank", "Please select an option for each field.");
+            Alerts.dialogBox("Invalid Input","Input Fields Blank", "Please select an option for each dropdown field.");
         }
         else {validCombos = true;}
 
@@ -115,7 +97,7 @@ public class AddAppointmentFormController implements Initializable {
 
 
         if ((validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName)) && validDates && validTimes && validCombos) {
-            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, startDateTime, endDateTime);
+            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, ldtStartDate.toString(), ldtStartDate.toString());
             switchToScene(event, "/view/DatabaseForm.fxml");
         }
 

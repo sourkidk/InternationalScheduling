@@ -19,8 +19,8 @@ public class DateTimeHelper {
         return time;
      }
 
-    public static String concatDateTime(LocalDate date, int hour, int minute) {
-        String time = String.valueOf(hour) + ":" + String.valueOf(minute) + ":00";
+    public static String toStringDateTime(String date, int hour, int minute) {
+        String time = formatTime(hour, minute);
         String dateTime = String.valueOf(date) + " " + time;
 //        System.out.println(time);
         return dateTime;
