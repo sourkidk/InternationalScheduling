@@ -115,6 +115,27 @@ public abstract class Queries {
         return rs;
     }
 
+    public static ResultSet getCountriesSelect() throws SQLException {
+        String sql = "SELECT * FROM COUNTRIES";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+    public static ResultSet getFirstLevelDivSelect() throws SQLException {
+        String sql = "SELECT * FROM First_Level_Divisions";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
+    public static ResultSet getFilteredFirstLevelDivSelect(int country) throws SQLException {
+        String sql = "SELECT * FROM First_Level_Divisions WHERE Country_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, country);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
     public static ResultSet getCustomersSelect() throws SQLException {
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -122,7 +143,7 @@ public abstract class Queries {
         return rs;
     }
     public static ResultSet getUsersSelect() throws SQLException {
-        String sql = "SELECT * FROM USERS";
+        String sql = "SELECT * FROM USERS0";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;

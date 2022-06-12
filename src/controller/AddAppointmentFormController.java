@@ -63,7 +63,8 @@ public class AddAppointmentFormController implements Initializable {
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();
         String apptType = appointmentTypeTextfield.getText();
-
+        boolean validDateTimes = false;
+        boolean validCombos = false;
         int startHour = startHourSpinner.getValue();
         int startMinute = startMinuteSpinner.getValue();
         int endHour = endHourSpinner.getValue();
@@ -72,19 +73,14 @@ public class AddAppointmentFormController implements Initializable {
         LocalDateTime ldtStartDate = LocalDateTime.parse(startDatePicker.getValue() + "T"+ formatTime(startHour,startMinute));
         LocalDateTime ldtEndDate = LocalDateTime.parse(endDatePicker.getValue() + "T"+ formatTime(endHour,endMinute));
 
-        boolean validDates = false;
-        boolean validTimes = false;
-        boolean validCombos = false;
 
         if (  ldtStartDate.isAfter(ldtEndDate) || ldtStartDate.isEqual(ldtEndDate)|| ldtStartDate.isBefore(LocalDateTime.now())) {
             Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
                     "Start date must be today or later.");
         }
         else {
-            validDates = true;
-            validTimes = true;
+            validDateTimes = true;
         }
-
 
         if ( userIdCombo.getValue() == null || customerIdCombo.getValue() == null || contactIdCombo.getValue() == null) {
             Alerts.dialogBox("Invalid Input","Input Fields Blank", "Please select an option for each dropdown field.");
@@ -96,7 +92,7 @@ public class AddAppointmentFormController implements Initializable {
         int contactID = contactIdCombo.getValue().getContactID();
 
 
-        if ((validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName)) && validDates && validTimes && validCombos) {
+        if (validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName) && validDateTimes && validCombos) {
             insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, ldtStartDate.toString(), ldtStartDate.toString());
             switchToScene(event, "/view/DatabaseForm.fxml");
         }

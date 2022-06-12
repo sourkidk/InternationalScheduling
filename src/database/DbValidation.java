@@ -22,6 +22,16 @@ public class DbValidation {
         }
     }
 
+    private static boolean validateCombo(ComboBox combo) {
+        if ( combo.getValue() == null ) {
+            error = "Please enter a value for each dropdown menu.";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     private static boolean validateName(String name) {
         if(name.isEmpty()) {
             error = "Please enter Customer Name";

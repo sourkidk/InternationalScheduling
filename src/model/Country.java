@@ -10,6 +10,11 @@ public class Country {
         this.countryName = countryName;
     }
 
+    @Override
+    public String toString() {
+        return countryID + " " + countryName;
+    }
+
     public int getCountryID() {
         return countryID;
     }
