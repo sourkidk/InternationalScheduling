@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.util.converter.LocalDateTimeStringConverter;
 import model.Contact;
 import model.Customer;
 import model.User;
@@ -20,7 +21,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 
@@ -28,6 +32,7 @@ import static controller.SceneController.switchToScene;
 import static database.DbValidation.*;
 import static database.Queries.*;
 import static utilities.DateTimeHelper.concatDateTime;
+import static utilities.DateTimeHelper.formatTime;
 
 public class AddAppointmentFormController implements Initializable {
 
@@ -70,25 +75,33 @@ public class AddAppointmentFormController implements Initializable {
         boolean validTimes = false;
         boolean validCombos = false;
 
-        if ( startDatePicker.getValue() == null || endDatePicker.getValue() == null || (startDatePicker.getValue().isAfter(endDatePicker.getValue()))) {
-            Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.");
+        if (  startDate.isAfter(endDate) || startDate.isBefore(LocalDate.now())) {
+            Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
+                    "Start date must be today or later.");
         }
         else {validDates = true;}
 
 
-        if ( startHourSpinner.getValue() == null || startMinuteSpinner.getValue() == null || endHourSpinner.getValue() == null || endMinuteSpinner.getValue() == null) {
-            Alerts.dialogBox("Invalid Time Input", "Blank Time Values", "Please enter valid values for start and end time.");
-        }
-        else { validTimes = true;}
 
         int startHour = startHourSpinner.getValue();
         int startMinute = startMinuteSpinner.getValue();
         int endHour = endHourSpinner.getValue();
         int endMinute = endMinuteSpinner.getValue();
 
+//        System.out.println(DateTimeHelper.formatTime(startHour,startMinute));
+
+        LocalTime startTime = LocalTime.parse(formatTime(startHour,startMinute));
+        LocalTime endTime = LocalTime.parse(formatTime(endHour,endMinute));
+
+        if ( startHour == endHour && startMinute >= endMinute || startHour > endHour ) {
+            Alerts.dialogBox("Invalid Time Input", "Blank Time Values", "Please enter valid values for start and end time.");
+        }
+        else { validTimes = true;}
+
 
         String startDateTime = concatDateTime(startDate, startHour, startMinute);
         String endDateTime = concatDateTime(endDate, endHour, endMinute);
+
 
 
         if ( userIdCombo.getValue() == null || customerIdCombo.getValue() == null || contactIdCombo.getValue() == null) {
@@ -112,20 +125,20 @@ public class AddAppointmentFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JDBC.makeConnection();
 
-        SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23, 12);
+        SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
         startHourValueFactory.setWrapAround(true);
         startHourSpinner.setValueFactory(startHourValueFactory);
 
-        SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59, 0, 5);
+        SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
         startMinuteValueFactory.setWrapAround(true);
         startMinuteSpinner.setValueFactory(startMinuteValueFactory);
 
 
-        SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23, 12);
+        SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
         endHourValueFactory.setWrapAround(true);
         endHourSpinner.setValueFactory((endHourValueFactory));
 
-        SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59, 0, 5);
+        SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
         endMinuteValueFactory.setWrapAround(true);
         endMinuteSpinner.setValueFactory(endMinuteValueFactory);
 
@@ -175,7 +188,7 @@ public class AddAppointmentFormController implements Initializable {
         }
         userIdCombo.getItems().addAll(users);
 
-
-
+//        LocalTime start = LocalTime.parse("12:00");
+//        System.out.println(start);
     }
 }
