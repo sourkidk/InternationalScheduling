@@ -119,7 +119,7 @@ public class DatabaseFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        JDBC.makeConnection();
+
 
 
         data = FXCollections.observableArrayList();
