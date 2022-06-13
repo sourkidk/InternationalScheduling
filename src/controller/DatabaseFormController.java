@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -65,7 +66,7 @@ public class DatabaseFormController implements Initializable {
         setRadioButtonsLabel("Appointment");
 
         try {
-            ResultSet rs = Queries.getThisWeeksAppointmentsSelect();
+            ResultSet rs = Queries.getThisWeeksAppointmentsSelect(mainDatePicker.getValue());
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
@@ -92,7 +93,7 @@ public class DatabaseFormController implements Initializable {
         setRadioButtonsLabel("Appointment");
 
         try {
-            ResultSet rs = Queries.getAllCustomersSelect();
+            ResultSet rs = Queries.getAllAppointmentsSelect();
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
@@ -152,6 +153,8 @@ public class DatabaseFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        mainDatePicker.setValue(LocalDate.now());
 
 
 

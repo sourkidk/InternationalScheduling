@@ -1,6 +1,5 @@
 package database;
 
-import database.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Contact;
@@ -8,7 +7,7 @@ import model.Contact;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.time.LocalDate;
 
 
 public abstract class Queries {
@@ -129,11 +128,21 @@ public abstract class Queries {
         return rs;
     }
 
-    public static ResultSet getThisWeeksAppointmentsSelect() throws SQLException {
+    public static ResultSet getThisWeeksAppointmentsSelect(LocalDate date) throws SQLException {
         String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, "2022-06-11");
-        ps.setString(2, "2022-06-18");
+        int dayValue = date.getDayOfWeek().getValue(); // ? 1
+        int yearValue = date.getDayOfYear();            // 164
+        int sunday = yearValue - (dayValue);        //163
+
+
+        int saturday = sunday + 6;
+
+        LocalDate mondayWeek = LocalDate.ofYearDay(2022, sunday);
+        LocalDate saturdayWeek = LocalDate.ofYearDay(2022, saturday);
+
+        ps.setString(1, mondayWeek.toString());
+        ps.setString(2, saturdayWeek.toString());
         ResultSet rs = ps.executeQuery();
         return rs;
     }
