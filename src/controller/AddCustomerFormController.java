@@ -70,7 +70,15 @@ public class AddCustomerFormController implements Initializable {
         String customerAddress = customerAddressTextfield.getText();
         String customerPostalCode = customerPostalTextfield.getText();
         String customerPhoneNumber = customerPhoneTextfield.getText();
-        int divisionID = 10; // To be filled by combobox when that functionality is added.
+        int divisionID = 0; // To be filled by combobox when that functionality is added.
+
+
+        if (customerCountryCombo.getValue() == null || customerDivisionCombo.getValue() == null) {
+            Alerts.dialogBox("Invalid Input", "Input Fields Blank", "Please select a valid Country and State/Territory.");
+        }
+        else {
+            divisionID = customerDivisionCombo.getValue().getDivisionID();
+        }
 
         try {
             DbValidation.validateCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber);
