@@ -1,5 +1,6 @@
 package controller;
 
+import database.DynamicTableview;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import model.Table;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -128,46 +130,10 @@ public class DatabaseFormController implements Initializable {
             //SQL FOR SELECTING ALL OF CUSTOMER
 
             //ResultSet
-            ResultSet rs = Queries.getAppointmentsSelect();
+            ResultSet rs = Queries.getCustomersSelect();
 
-            /**********************************
-             * TABLE COLUMN ADDED DYNAMICALLY *
-             **********************************/
-            for(int i = 0 ; i < rs.getMetaData().getColumnCount() ;  i++){
-                //We are using non property style for making dynamic table
-                int j = i;
-                TableColumn column = new TableColumn(rs.getMetaData().getColumnName(i+1));
-                column.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>, ObservableValue<String>>(){
-                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                        return new SimpleStringProperty(param.getValue().get(j).toString());
-                    }
-                });
+            DynamicTableview.populateTableView(mainTableview, rs, data);
 
-                mainTableview.getColumns().addAll(column);
-                System.out.println("Column ["+i+"] ");
-            }
-
-            /********************************
-             * Data added to ObservableList *
-             ********************************/
-            while(rs.next()){
-                //Iterate Row
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=rs.getMetaData().getColumnCount(); i++){
-                    //Iterate Column
-                    row.add(rs.getString(i));
-                }
-                System.out.println("Row [1] added "+row );
-                data.add(row);
-
-            }
-
-            //FINALLY ADDED TO TableView
-            mainTableview.setItems(data);
-        }catch(Exception e){
-            e.printStackTrace();
-            System.out.println("Error on Building Data");
-        }
 
 
         JDBC.closeConnection();
@@ -180,5 +146,7 @@ public class DatabaseFormController implements Initializable {
 //        contactNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 //        contactEmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+    } catch (SQLException e) {
+        }
+        }
     }
-}
