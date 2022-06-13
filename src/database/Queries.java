@@ -121,6 +121,14 @@ public abstract class Queries {
         ResultSet rs = ps.executeQuery();
         return rs;
     }
+
+    public static ResultSet getAppointmentsSelect() throws SQLException {
+        String sql = "SELECT * FROM Appointments";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
     public static ResultSet getFirstLevelDivSelect() throws SQLException {
         String sql = "SELECT * FROM First_Level_Divisions";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -143,7 +151,7 @@ public abstract class Queries {
         return rs;
     }
     public static ResultSet getUsersSelect() throws SQLException {
-        String sql = "SELECT * FROM USERS0";
+        String sql = "SELECT * FROM USERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;

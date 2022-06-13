@@ -128,7 +128,7 @@ public class DatabaseFormController implements Initializable {
             //SQL FOR SELECTING ALL OF CUSTOMER
 
             //ResultSet
-            ResultSet rs = Queries.getCustomersSelect();
+            ResultSet rs = Queries.getAppointmentsSelect();
 
             /**********************************
              * TABLE COLUMN ADDED DYNAMICALLY *

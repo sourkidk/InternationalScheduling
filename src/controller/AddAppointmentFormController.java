@@ -160,6 +160,7 @@ public class AddAppointmentFormController implements Initializable {
                 String userName = rs.getString("User_Name");
                 String password = rs.getString("Password");
                 users.add(new User(userID,userName, password));
+                ;
             }
         }
         catch (SQLException e) {
