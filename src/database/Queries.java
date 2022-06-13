@@ -122,9 +122,26 @@ public abstract class Queries {
         return rs;
     }
 
-    public static ResultSet getAppointmentsSelect() throws SQLException {
+    public static ResultSet getAllAppointmentsSelect() throws SQLException {
         String sql = "SELECT * FROM Appointments";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
+    public static ResultSet getThisWeeksAppointmentsSelect() throws SQLException {
+        String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, "2022-06-11");
+        ps.setString(2, "2022-06-18");
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+    public static ResultSet getThisMonthsAppointmentsSelect() throws SQLException {
+        String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, "2022-06-01");
+        ps.setString(2, "2022-06-30");
         ResultSet rs = ps.executeQuery();
         return rs;
     }
@@ -144,7 +161,7 @@ public abstract class Queries {
         return rs;
     }
 
-    public static ResultSet getCustomersSelect() throws SQLException {
+    public static ResultSet getAllCustomersSelect() throws SQLException {
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();

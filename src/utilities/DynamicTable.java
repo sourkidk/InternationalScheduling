@@ -41,7 +41,7 @@ public class DynamicTable extends Application{
             JDBC.makeConnection();
             //SQL FOR SELECTING ALL OF CUSTOMER
             //ResultSet
-            ResultSet rs = Queries.getCustomersSelect();
+            ResultSet rs = Queries.getAllCustomersSelect();
 
             /**********************************
              * TABLE COLUMN ADDED DYNAMICALLY *

@@ -1,8 +1,6 @@
 package controller;
 
 import database.DynamicTableview;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import database.JDBC;
 import database.Queries;
-import javafx.util.Callback;
 import model.Table;
 
 import java.io.IOException;
@@ -40,33 +37,68 @@ public class DatabaseFormController implements Initializable {
 
     private ObservableList<ObservableList> data;
 
+    public void setRadioButtonsLabel(String viewType) {
+        dynamicAddButton.setText("Add " + viewType);
+        dynamicModifyButton.setText("Modify " + viewType);
+        dynamicDeleteButton.setText("Delete " + viewType);
+    }
+
     @FXML
-    void onActionViewCustomers(ActionEvent event) {
-        dynamicAddButton.setText("Add Customer");
-        dynamicModifyButton.setText("Modify Customer");
-        dynamicDeleteButton.setText("Delete Customer");
+    void onActionViewCustomers(ActionEvent event) throws SQLException {
+        setRadioButtonsLabel("Customer");
+
+
+        try {
+            ResultSet rs = Queries.getAllCustomersSelect();
+            DynamicTableview.populateTableView(mainTableview, rs, data);
+
+        } catch (SQLException e) {
+
+        }
+
+
 
     }
 
     @FXML
     void onActionByWeekView(ActionEvent event) {
-        dynamicAddButton.setText("Add Appointment");
-        dynamicModifyButton.setText("Modify Appointment");
-        dynamicDeleteButton.setText("Delete Appointment");
+        setRadioButtonsLabel("Appointment");
+
+        try {
+            ResultSet rs = Queries.getThisWeeksAppointmentsSelect();
+            DynamicTableview.populateTableView(mainTableview, rs, data);
+
+        } catch (SQLException e) {
+
+        }
 
     }
     @FXML
     void onActionByMonthView(ActionEvent event) {
-        dynamicAddButton.setText("Add Appointment");
-        dynamicModifyButton.setText("Modify Appointment");
-        dynamicDeleteButton.setText("Delete Appointment");
+        setRadioButtonsLabel("Appointment");
+
+        try {
+            ResultSet rs = Queries.getThisMonthsAppointmentsSelect();
+            DynamicTableview.populateTableView(mainTableview, rs, data);
+
+        } catch (SQLException e) {
+
+        }
+
     }
 
     @FXML
     void onActionViewAll(ActionEvent event) {
-        dynamicAddButton.setText("Add Appointment");
-        dynamicModifyButton.setText("Modify Appointment");
-        dynamicDeleteButton.setText("Delete Appointment");
+        setRadioButtonsLabel("Appointment");
+
+        try {
+            ResultSet rs = Queries.getAllCustomersSelect();
+            DynamicTableview.populateTableView(mainTableview, rs, data);
+
+        } catch (SQLException e) {
+
+        }
+
 
     }
 
@@ -127,26 +159,19 @@ public class DatabaseFormController implements Initializable {
         data = FXCollections.observableArrayList();
         try{
             JDBC.makeConnection();
-            //SQL FOR SELECTING ALL OF CUSTOMER
-
-            //ResultSet
-            ResultSet rs = Queries.getCustomersSelect();
-
+            ResultSet rs = Queries.getAllAppointmentsSelect();
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
 
 
-        JDBC.closeConnection();
+//        JDBC.closeConnection();
 
-        dynamicAddButton.setText("Add Customer");
-        dynamicModifyButton.setText("Modify Customer");
-        dynamicDeleteButton.setText("Delete Customer");
+            setRadioButtonsLabel("Appointment");
 
-//        contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        contactNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        contactEmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-    } catch (SQLException e) {
-        }
+
+
+        } catch (SQLException e) {
+            }
         }
     }

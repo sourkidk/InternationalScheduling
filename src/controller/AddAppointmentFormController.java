@@ -26,7 +26,6 @@ import static controller.SceneController.switchToScene;
 import static database.DbValidation.*;
 import static database.Queries.*;
 import static utilities.DateTimeHelper.formatTime;
-import static utilities.DateTimeHelper.toStringDateTime;
 
 public class AddAppointmentFormController implements Initializable {
 
@@ -138,7 +137,7 @@ public class AddAppointmentFormController implements Initializable {
         contactIdCombo.getItems().addAll(contacts);
 
         try {
-            ResultSet rs = Queries.getCustomersSelect();
+            ResultSet rs = Queries.getAllCustomersSelect();
             while (rs.next()) {
                 int customerID = rs.getInt("Customer_ID");
                 String customerName = rs.getString("Customer_Name");

@@ -15,6 +15,9 @@ public class DynamicTableview {
 
     public static void populateTableView(TableView tableview, ResultSet rs, ObservableList data) throws SQLException {
         try {
+
+            tableview.getItems().clear();
+            tableview.getColumns().clear();
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 
                 int j = i;
