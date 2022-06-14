@@ -16,7 +16,11 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import static controller.SceneController.switchToScene;
 
@@ -155,6 +159,17 @@ public class DatabaseFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         mainDatePicker.setValue(LocalDate.now());
+
+//        systemTimeZoneLabel.setText(LocalDateTime.now().toString());
+        systemTimeZoneLabel.setText(ZoneId.systemDefault().getId());
+
+        Set<String> zones = ZoneId.getAvailableZoneIds();
+        System.out.println(zones.size());
+
+//        for ( String zone : zones  ) {
+//            System.out.println(zone);
+//        }
+
 
 
 

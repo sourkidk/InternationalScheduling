@@ -127,6 +127,12 @@ public abstract class Queries {
         ResultSet rs = ps.executeQuery();
         return rs;
     }
+    public static ResultSet getUniqueTypeSelect() throws SQLException {
+        String sql = "SELECT DISTINCT Type FROM Appointments";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
 
     public static ResultSet getThisWeeksAppointmentsSelect(LocalDate date) throws SQLException {
         String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
@@ -151,6 +157,13 @@ public abstract class Queries {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, "2022-06-01");
         ps.setString(2, "2022-06-30");
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+    public static ResultSet getThisContactsAppointmentsSelect(int contactID) throws SQLException {
+        String sql = "SELECT * FROM Appointments WHERE Contact_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, String.valueOf(contactID));
         ResultSet rs = ps.executeQuery();
         return rs;
     }
