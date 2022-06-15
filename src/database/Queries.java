@@ -153,11 +153,22 @@ public abstract class Queries {
         ResultSet rs = ps.executeQuery();
         return rs;
     }
-    public static ResultSet getThisMonthsAppointmentsSelect() throws SQLException {
+
+    /**
+     * Working on completing query for appointments by month view on database form.
+     *
+     * */
+    public static ResultSet getThisMonthsAppointmentsSelect(LocalDate date) throws SQLException {
         String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
+        date.getMonth();
+        LocalDate monthStart = LocalDate.of(Integer.parseInt(year),month.getMonthID(),1);
+        LocalDate monthEnd = LocalDate.of(Integer.parseInt(year), month.getMonthID(), 30);
+        System.out.println(monthStart);
+        System.out.println(monthEnd);
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, "2022-06-01");
-        ps.setString(2, "2022-06-30");
+//        ps.setString(1, month.getMonthName());
+        ps.setString(1, monthStart.toString());
+        ps.setString(2, monthEnd.toString());
         ResultSet rs = ps.executeQuery();
         return rs;
     }

@@ -180,7 +180,28 @@ public class DatabaseFormController implements Initializable {
             ResultSet rs = Queries.getAllAppointmentsSelect();
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
+            mainDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
 
+                    mainDatePicker.setDisable(false);
+                    if( viewMonthRadioButton.isSelected() ) {
+
+                        try {
+                            ResultSet rs = Queries.getThisMonthsAppointmentsSelect(newVal);
+                            DynamicTableview.populateTableView(mainTableview, rs, data);
+                        } catch (SQLException e) {
+                        }
+                    } else if ( viewWeekRadioButton.isSelected() ) {
+
+                        try {
+                            ResultSet rs2 = Queries.getThisWeeksAppointmentsSelect(newVal);
+                            DynamicTableview.populateTableView(mainTableview, rs, data);
+                        } catch (SQLException e) {
+                        }
+                    } else {
+                        return;
+                    }
+
+            });
 
 //        JDBC.closeConnection();
 
