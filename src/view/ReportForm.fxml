@@ -15,7 +15,7 @@
    <children>
       <VBox layoutX="6.0" prefHeight="800.0" prefWidth="1200.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="75.0">
+            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="30.0">
                <children>
                   <RadioButton fx:id="contactScheduleRadioButton" mnemonicParsing="false" onAction="#onActionContactScheduleReport" selected="true" text="Contact Schedule" wrapText="true">
                      <font>
@@ -30,7 +30,7 @@
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="customerByMonthRadioButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByMonthReport" text="Total Customers by Month" toggleGroup="$reportTogglegroup" wrapText="true">
+                  <RadioButton fx:id="customerByMonthRadioButton" layoutX="125.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionByMonthReport" text="Total Customer Appointments by Month" toggleGroup="$reportTogglegroup" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -41,6 +41,11 @@
                      </font>
                   </RadioButton>
                   <VBox alignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#onActionSubmitRefresh" prefHeight="30.0" text="Submit/Refresh">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets left="40.0" />

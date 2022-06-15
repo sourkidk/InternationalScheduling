@@ -3,6 +3,7 @@ package database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Contact;
+import model.Month;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -157,6 +158,32 @@ public abstract class Queries {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, "2022-06-01");
         ps.setString(2, "2022-06-30");
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+    public static ResultSet getMonthsCustomersSelect(String year, Month month) throws SQLException {
+        String sql = "Select Count(*) AS \"Total Customer Appointments by Month\"  from customers inner join appointments \n" +
+                "on customers.Customer_ID = appointments.Customer_ID \n" +
+                "Where Start >= ? AND Start <= ?";
+        month.getMonthID();
+        LocalDate monthStart = LocalDate.of(Integer.parseInt(year),month.getMonthID(),1);
+        LocalDate monthEnd = LocalDate.of(Integer.parseInt(year), month.getMonthID(), 30);
+        System.out.println(monthStart);
+        System.out.println(monthEnd);
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setString(1, month.getMonthName());
+        ps.setString(1, monthStart.toString());
+        ps.setString(2, monthEnd.toString());
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+    public static ResultSet getCustomersByTypeSelect(String type) throws SQLException {
+        String sql = "Select Count(*) AS \"Total Customer Appointments by Type\"  from customers inner join appointments \n" +
+                "on customers.Customer_ID = appointments.Customer_ID \n" +
+                "WHERE appointments.Type = ?";
+
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, type);
         ResultSet rs = ps.executeQuery();
         return rs;
     }

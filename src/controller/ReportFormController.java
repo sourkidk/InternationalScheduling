@@ -5,7 +5,6 @@ import database.JDBC;
 import database.Queries;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,15 +12,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import model.Contact;
-import model.FirstLevelDivision;
 import model.Month;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -35,13 +31,14 @@ public class ReportFormController implements Initializable {
     @FXML private RadioButton specialReportRadioButton;
     @FXML private ComboBox<String> typeComboBox;
     @FXML private ComboBox<Contact> contactComboBox;
-    @FXML private ComboBox<?> extraComboBox;
+    @FXML private ComboBox<String> extraComboBox;
     @FXML private ComboBox<Month> monthComboBox;
 
     private ObservableList<ObservableList> data;
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private ObservableList<Month> monthsList = FXCollections.observableArrayList();
     private ObservableList<String> types = FXCollections.observableArrayList();
+    private ObservableList<String> yearList = FXCollections.observableArrayList();
 
     void addMonths() {
         String[] months = {"January", "February", "March", "April","May","June", "July","August","September","October", "November", "December"};
@@ -56,13 +53,34 @@ public class ReportFormController implements Initializable {
         System.out.println(monthsList);
     }
 
+    void addYears() {
+        for (int i = 0; i < 31 ; i++ ) {
+            int startYear = 2020;
+            yearList.add(String.valueOf(startYear + i));
 
+        }
+    }
+
+    @FXML
+    void onActionSubmitRefresh(ActionEvent event) {
+
+    }
 
     @FXML
     void onActionByMonthReport(ActionEvent event) {
+        mainTableview.getColumns().clear();
+        mainTableview.getItems().clear();
+
+        contactComboBox.setDisable(true);
+        typeComboBox.setDisable(true);
+        monthComboBox.setDisable(false);
+        extraComboBox.setDisable(false);
+
+        Month selectedMonth = monthComboBox.getValue();
+        String year = extraComboBox.getValue();
 
         try {
-            ResultSet rs = Queries.getAllCustomersSelect();
+            ResultSet rs = Queries.getMonthsCustomersSelect(year, selectedMonth);
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
@@ -72,11 +90,22 @@ public class ReportFormController implements Initializable {
 
     @FXML
     void onActionByTypeReport(ActionEvent event) {
+        mainTableview.getColumns().clear();
+        mainTableview.getItems().clear();
+
+        contactComboBox.setDisable(true);
+        typeComboBox.setDisable(false);
+        monthComboBox.setDisable(true);
+        extraComboBox.setDisable(true);
 
     }
 
     @FXML
     void onActionContactScheduleReport(ActionEvent event) {
+        typeComboBox.setDisable(true);
+        monthComboBox.setDisable(true);
+        extraComboBox.setDisable(true);
+        contactComboBox.setDisable(false);
 
     }
 
@@ -95,13 +124,25 @@ public class ReportFormController implements Initializable {
 
     @FXML
     void onActionSpecialReport(ActionEvent event) {
+        mainTableview.getColumns().clear();
+        mainTableview.getItems().clear();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        typeComboBox.setDisable(true);
+        monthComboBox.setDisable(true);
+        extraComboBox.setDisable(true);
+        contactComboBox.setDisable(false);
+
         addMonths();
+        monthComboBox.getItems().addAll(monthsList);
+
+        addYears();
+        extraComboBox.getItems().addAll(yearList);
+        extraComboBox.setValue(yearList.get(2));
 
         data = FXCollections.observableArrayList();
         try{
@@ -138,7 +179,6 @@ public class ReportFormController implements Initializable {
         }
         typeComboBox.getItems().addAll(types);
 
-        monthComboBox.getItems().addAll(monthsList);
 
 
 
@@ -157,6 +197,55 @@ public class ReportFormController implements Initializable {
                 }
             }
         });
+
+        typeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    if (newVal == null) {
+                        typeComboBox.getItems().clear();
+                        typeComboBox.setDisable(true);
+
+                    } else {
+                        typeComboBox.setDisable(false);
+                        try {
+                            ResultSet rs = Queries.getCustomersByTypeSelect(newVal);
+                            DynamicTableview.populateTableView(mainTableview,rs,data);
+                            } catch (SQLException e) {
+                        }
+                    }
+                });
+
+
+
+        monthComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    String year = extraComboBox.getValue();
+                    if (newVal == null) {
+                        monthComboBox.getItems().clear();
+                        monthComboBox.setDisable(true);
+
+                    } else {
+                        monthComboBox.setDisable(false);
+                        try {
+                            ResultSet rs = Queries.getMonthsCustomersSelect(year, newVal);
+                            DynamicTableview.populateTableView(mainTableview,rs,data);
+                            } catch (SQLException e) {
+                        }
+                    }
+                });
+
+        extraComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    Month month = monthComboBox.getValue();
+                    if (newVal == null) {
+                        extraComboBox.getItems().clear();
+                        extraComboBox.setDisable(true);
+
+                    } else {
+                        extraComboBox.setDisable(false);
+                        try {
+                            ResultSet rs = Queries.getMonthsCustomersSelect(newVal, month);
+                            DynamicTableview.populateTableView(mainTableview,rs,data);
+                            } catch (SQLException e) {
+                        }
+                    }
+                });
     }
 
 }
