@@ -83,7 +83,7 @@ public class DatabaseFormController implements Initializable {
         setRadioButtonsLabel("Appointment");
 
         try {
-            ResultSet rs = Queries.getThisMonthsAppointmentsSelect();
+            ResultSet rs = Queries.getThisMonthsAppointmentsSelect(mainDatePicker.getValue());
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
@@ -186,15 +186,15 @@ public class DatabaseFormController implements Initializable {
                     if( viewMonthRadioButton.isSelected() ) {
 
                         try {
-                            ResultSet rs = Queries.getThisMonthsAppointmentsSelect(newVal);
-                            DynamicTableview.populateTableView(mainTableview, rs, data);
+                            ResultSet rs2 = Queries.getThisMonthsAppointmentsSelect(newVal);
+                            DynamicTableview.populateTableView(mainTableview, rs2, data);
                         } catch (SQLException e) {
                         }
                     } else if ( viewWeekRadioButton.isSelected() ) {
 
                         try {
-                            ResultSet rs2 = Queries.getThisWeeksAppointmentsSelect(newVal);
-                            DynamicTableview.populateTableView(mainTableview, rs, data);
+                            ResultSet rs3 = Queries.getThisWeeksAppointmentsSelect(newVal);
+                            DynamicTableview.populateTableView(mainTableview, rs3, data);
                         } catch (SQLException e) {
                         }
                     } else {

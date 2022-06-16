@@ -26,5 +26,23 @@ public class DateTimeHelper {
         return dateTime;
     }
 
+    public static LocalDate getStartofMonth(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonthValue();
+        LocalDate monthStart = LocalDate.of(year,month,1);
+        System.out.println(monthStart);
+        return monthStart;
+    }
+
+    public static LocalDate getEndOfMonth(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonthValue();
+        LocalDate nextMonthStart = LocalDate.of(year,month + 1,1);
+        int lastDay = nextMonthStart.getDayOfYear() - 1;
+        LocalDate monthEnd = LocalDate.ofYearDay(year, lastDay);
+        System.out.println(monthEnd);
+        return monthEnd;
+    }
+
 
 }

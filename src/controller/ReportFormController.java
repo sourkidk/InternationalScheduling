@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -31,14 +32,14 @@ public class ReportFormController implements Initializable {
     @FXML private RadioButton specialReportRadioButton;
     @FXML private ComboBox<String> typeComboBox;
     @FXML private ComboBox<Contact> contactComboBox;
-    @FXML private ComboBox<String> extraComboBox;
+    @FXML private ComboBox<Integer> extraComboBox;
     @FXML private ComboBox<Month> monthComboBox;
 
     private ObservableList<ObservableList> data;
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private ObservableList<Month> monthsList = FXCollections.observableArrayList();
     private ObservableList<String> types = FXCollections.observableArrayList();
-    private ObservableList<String> yearList = FXCollections.observableArrayList();
+    private ObservableList<Integer> yearList = FXCollections.observableArrayList();
 
     void addMonths() {
         String[] months = {"January", "February", "March", "April","May","June", "July","August","September","October", "November", "December"};
@@ -56,7 +57,7 @@ public class ReportFormController implements Initializable {
     void addYears() {
         for (int i = 0; i < 31 ; i++ ) {
             int startYear = 2020;
-            yearList.add(String.valueOf(startYear + i));
+            yearList.add(startYear + i);
 
         }
     }
@@ -77,7 +78,7 @@ public class ReportFormController implements Initializable {
         extraComboBox.setDisable(false);
 
         Month selectedMonth = monthComboBox.getValue();
-        String year = extraComboBox.getValue();
+        int year = extraComboBox.getValue();
 
         try {
             ResultSet rs = Queries.getMonthsCustomersSelect(year, selectedMonth);
@@ -139,6 +140,12 @@ public class ReportFormController implements Initializable {
 
         addMonths();
         monthComboBox.getItems().addAll(monthsList);
+        int currentMonth = LocalDate.now().getMonthValue();
+        for (Month monthObj: monthsList) {
+            if (monthObj.getMonthID() == currentMonth) {
+                monthComboBox.setValue(monthObj);
+            }
+        }
 
         addYears();
         extraComboBox.getItems().addAll(yearList);
@@ -216,7 +223,7 @@ public class ReportFormController implements Initializable {
 
 
         monthComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-                    String year = extraComboBox.getValue();
+                    int year = extraComboBox.getValue();
                     if (newVal == null) {
                         monthComboBox.getItems().clear();
                         monthComboBox.setDisable(true);
