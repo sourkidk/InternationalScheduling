@@ -197,7 +197,7 @@ public abstract class Queries {
         return rs;
     }
     public static ResultSet getThisContactsAppointmentsSelect(int contactID) throws SQLException {
-        String sql = "SELECT * FROM Appointments WHERE Contact_ID = ?";
+        String sql = "SELECT Appointment_ID, Title, Type, Description, Start, End, Customer_ID FROM Appointments WHERE Contact_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, String.valueOf(contactID));
         ResultSet rs = ps.executeQuery();
@@ -206,6 +206,15 @@ public abstract class Queries {
 
     public static ResultSet getFirstLevelDivSelect() throws SQLException {
         String sql = "SELECT * FROM First_Level_Divisions";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
+    public static ResultSet getTotalAppointmentsByContact() throws SQLException {
+        String sql = "Select Contact_Name, Count(*) AS \"Total Appointments by Contact\" from appointments " +
+                "Inner Join Contacts On appointments.Contact_ID =\n" +
+                "contacts.Contact_ID\n" + "group by Contact_Name;";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;

@@ -32,7 +32,7 @@ public class ReportFormController implements Initializable {
     @FXML private RadioButton specialReportRadioButton;
     @FXML private ComboBox<String> typeComboBox;
     @FXML private ComboBox<Contact> contactComboBox;
-    @FXML private ComboBox<Integer> extraComboBox;
+    @FXML private ComboBox<Integer> yearComboBox;
     @FXML private ComboBox<Month> monthComboBox;
 
     private ObservableList<ObservableList> data;
@@ -62,10 +62,6 @@ public class ReportFormController implements Initializable {
         }
     }
 
-    @FXML
-    void onActionSubmitRefresh(ActionEvent event) {
-
-    }
 
     @FXML
     void onActionByMonthReport(ActionEvent event) {
@@ -75,10 +71,10 @@ public class ReportFormController implements Initializable {
         contactComboBox.setDisable(true);
         typeComboBox.setDisable(true);
         monthComboBox.setDisable(false);
-        extraComboBox.setDisable(false);
+        yearComboBox.setDisable(false);
 
         Month selectedMonth = monthComboBox.getValue();
-        int year = extraComboBox.getValue();
+        int year = yearComboBox.getValue();
 
         try {
             ResultSet rs = Queries.getMonthsCustomersSelect(year, selectedMonth);
@@ -97,7 +93,7 @@ public class ReportFormController implements Initializable {
         contactComboBox.setDisable(true);
         typeComboBox.setDisable(false);
         monthComboBox.setDisable(true);
-        extraComboBox.setDisable(true);
+        yearComboBox.setDisable(true);
 
     }
 
@@ -105,7 +101,7 @@ public class ReportFormController implements Initializable {
     void onActionContactScheduleReport(ActionEvent event) {
         typeComboBox.setDisable(true);
         monthComboBox.setDisable(true);
-        extraComboBox.setDisable(true);
+        yearComboBox.setDisable(true);
         contactComboBox.setDisable(false);
 
     }
@@ -124,9 +120,15 @@ public class ReportFormController implements Initializable {
     }
 
     @FXML
-    void onActionSpecialReport(ActionEvent event) {
+    void onActionSpecialReport(ActionEvent event) throws SQLException {
         mainTableview.getColumns().clear();
         mainTableview.getItems().clear();
+        typeComboBox.setDisable(true);
+        monthComboBox.setDisable(true);
+        yearComboBox.setDisable(true);
+        contactComboBox.setDisable(true);
+        ResultSet rs = Queries.getTotalAppointmentsByContact();
+        DynamicTableview.populateTableView(mainTableview, rs, data);
 
     }
 
@@ -135,7 +137,7 @@ public class ReportFormController implements Initializable {
 
         typeComboBox.setDisable(true);
         monthComboBox.setDisable(true);
-        extraComboBox.setDisable(true);
+        yearComboBox.setDisable(true);
         contactComboBox.setDisable(false);
 
         addMonths();
@@ -146,20 +148,6 @@ public class ReportFormController implements Initializable {
                 monthComboBox.setValue(monthObj);
             }
         }
-
-        addYears();
-        extraComboBox.getItems().addAll(yearList);
-        extraComboBox.setValue(yearList.get(2));
-
-        data = FXCollections.observableArrayList();
-        try{
-            JDBC.makeConnection();
-            ResultSet rs = Queries.getAllAppointmentsSelect();
-            DynamicTableview.populateTableView(mainTableview, rs, data);
-
-        } catch (SQLException e) {
-        }
-
         try {
             ResultSet rs = Queries.getContactsSelect();
             while (rs.next()) {
@@ -171,7 +159,23 @@ public class ReportFormController implements Initializable {
         }
         catch (SQLException e) {
         }
+
+        contactComboBox.setValue(contacts.get(0));
+
+        addYears();
         contactComboBox.getItems().addAll(contacts);
+        yearComboBox.getItems().addAll(yearList);
+        yearComboBox.setValue(yearList.get(2));
+
+        data = FXCollections.observableArrayList();
+        try{
+            JDBC.makeConnection();
+            ResultSet rs = Queries.getThisContactsAppointmentsSelect(contactComboBox.getValue().getContactID());
+            DynamicTableview.populateTableView(mainTableview, rs, data);
+
+        } catch (SQLException e) {
+        }
+
 
 
 
@@ -223,7 +227,7 @@ public class ReportFormController implements Initializable {
 
 
         monthComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-                    int year = extraComboBox.getValue();
+                    int year = yearComboBox.getValue();
                     if (newVal == null) {
                         monthComboBox.getItems().clear();
                         monthComboBox.setDisable(true);
@@ -238,14 +242,14 @@ public class ReportFormController implements Initializable {
                     }
                 });
 
-        extraComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+        yearComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
                     Month month = monthComboBox.getValue();
                     if (newVal == null) {
-                        extraComboBox.getItems().clear();
-                        extraComboBox.setDisable(true);
+                        yearComboBox.getItems().clear();
+                        yearComboBox.setDisable(true);
 
                     } else {
-                        extraComboBox.setDisable(false);
+                        yearComboBox.setDisable(false);
                         try {
                             ResultSet rs = Queries.getMonthsCustomersSelect(newVal, month);
                             DynamicTableview.populateTableView(mainTableview,rs,data);

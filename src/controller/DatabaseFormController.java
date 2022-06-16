@@ -204,6 +204,7 @@ public class DatabaseFormController implements Initializable {
             });
 
 //        JDBC.closeConnection();
+            //TODO Maybe delete this closeConnection
 
             setRadioButtonsLabel("Appointment");
 
