@@ -94,7 +94,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="customerCountryCombo" prefHeight="30.0" prefWidth="250.0" promptText="Select Country" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <ComboBox fx:id="customerCountryCombo" onAction="#onActionFilterDivisions" prefHeight="30.0" prefWidth="250.0" promptText="Select Country" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Division">

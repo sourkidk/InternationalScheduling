@@ -15,14 +15,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import static controller.SceneController.switchToScene;
+import static java.time.ZoneOffset.*;
 
 public class DatabaseFormController implements Initializable {
 
@@ -162,10 +160,15 @@ public class DatabaseFormController implements Initializable {
 
 //        systemTimeZoneLabel.setText(LocalDateTime.now().toString());
         systemTimeZoneLabel.setText(ZoneId.systemDefault().getId());
+        ZonedDateTime currentSystemTime = ZonedDateTime.now();
+        ZonedDateTime utcTime = currentSystemTime.withZoneSameInstant(UTC);
+        System.out.println(currentSystemTime);
+        System.out.println(utcTime);
 
         Set<String> zones = ZoneId.getAvailableZoneIds();
         System.out.println(zones.size());
 
+//
 //        for ( String zone : zones  ) {
 //            System.out.println(zone);
 //        }

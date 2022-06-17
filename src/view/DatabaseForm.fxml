@@ -5,6 +5,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -62,7 +63,13 @@
                      </children>
                   </VBox>
                </children></HBox>
-            <TableView fx:id="mainTableview" prefHeight="600.0" prefWidth="200.0" />
+            <TableView fx:id="mainTableview" prefHeight="600.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="contactIdColumn" prefWidth="75.0" text="contactID" />
+                <TableColumn fx:id="contactNameColumn" prefWidth="75.0" text="contactName" />
+                  <TableColumn fx:id="contactEmailColumn" prefWidth="75.0" text="contactEmail" />
+              </columns>
+            </TableView>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="120.0">
                <children>
                   <Button maxHeight="-Infinity" minHeight="-Infinity" minWidth="95.0" mnemonicParsing="false" onAction="#onActionViewReports" prefHeight="35.0" text="Reports">

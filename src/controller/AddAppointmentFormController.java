@@ -17,14 +17,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 
 import static controller.SceneController.switchToScene;
 import static database.DbValidation.*;
 import static database.Queries.*;
+import static java.time.ZoneOffset.UTC;
 import static utilities.DateTimeHelper.formatTime;
 
 public class AddAppointmentFormController implements Initializable {
@@ -43,10 +44,12 @@ public class AddAppointmentFormController implements Initializable {
     @FXML private Spinner<Integer> startHourSpinner;
     @FXML private Spinner<Integer> startMinuteSpinner;
     @FXML private ComboBox<User> userIdCombo;
+    private static ZoneId currentTimeZone;
 
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<User> users = FXCollections.observableArrayList();
+    DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
@@ -69,13 +72,33 @@ public class AddAppointmentFormController implements Initializable {
         int endHour = endHourSpinner.getValue();
         int endMinute = endMinuteSpinner.getValue();
 
+
         LocalDateTime ldtStartDate = LocalDateTime.parse(startDatePicker.getValue() + "T"+ formatTime(startHour,startMinute));
         LocalDateTime ldtEndDate = LocalDateTime.parse(endDatePicker.getValue() + "T"+ formatTime(endHour,endMinute));
 
+        ZonedDateTime utcStartDate = ZonedDateTime.of(ldtStartDate, currentTimeZone).withZoneSameInstant(UTC);
+        ZonedDateTime utcEndDate = ZonedDateTime.of(ldtEndDate, currentTimeZone).withZoneSameInstant(UTC);
 
-        if (  ldtStartDate.isAfter(ldtEndDate) || ldtStartDate.isEqual(ldtEndDate)|| ldtStartDate.isBefore(LocalDateTime.now())) {
+        String formatStart = utcStartDate.format(sqlFormatter).toString();
+        String formatEnd = utcEndDate.format(sqlFormatter).toString();
+
+        System.out.println(formatStart);
+        System.out.println(formatEnd);
+
+        ZonedDateTime estBusinessStart = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(8,0), ZoneId.of("America/New_York") );
+        ZonedDateTime estBusinessEnd = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(22,0), ZoneId.of("America/New_York") );
+        System.out.println(estBusinessStart);
+        System.out.println(estBusinessEnd);
+
+        ZonedDateTime estStartDate = utcStartDate.minusHours(4);
+        System.out.println(estStartDate);
+
+        if (  utcStartDate.isAfter(utcEndDate) || utcStartDate.isEqual(utcEndDate)|| utcStartDate.isBefore(ZonedDateTime.now(UTC))) {
             Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
                     "Start date must be today or later.");
+        }
+        else if ( utcStartDate.isBefore(estBusinessStart) || utcStartDate.isAfter(estBusinessEnd) || utcEndDate.isBefore(estBusinessStart) || utcEndDate.isAfter(estBusinessEnd) ) {
+            Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time between 8AM and 10PM Eastern Standard Time");
         }
         else {
             validDateTimes = true;
@@ -92,7 +115,7 @@ public class AddAppointmentFormController implements Initializable {
 
 
         if (validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName) && validDateTimes && validCombos) {
-            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, ldtStartDate.toString(), ldtStartDate.toString());
+            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, formatStart, formatEnd);
             switchToScene(event, "/view/DatabaseForm.fxml");
         }
 
@@ -121,6 +144,8 @@ public class AddAppointmentFormController implements Initializable {
 
         startDatePicker.setValue(LocalDate.now());
         endDatePicker.setValue(LocalDate.now());
+
+        currentTimeZone = ZoneId.systemDefault();
 
 
         try {
