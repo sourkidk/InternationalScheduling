@@ -26,6 +26,7 @@ import static controller.SceneController.switchToScene;
 import static database.DbValidation.*;
 import static database.Queries.*;
 import static java.time.ZoneOffset.UTC;
+import static utilities.DateTimeHelper.convertToUTC;
 import static utilities.DateTimeHelper.formatTime;
 
 public class AddAppointmentFormController implements Initializable {
@@ -73,31 +74,36 @@ public class AddAppointmentFormController implements Initializable {
         int endMinute = endMinuteSpinner.getValue();
 
 
-        LocalDateTime ldtStartDate = LocalDateTime.parse(startDatePicker.getValue() + "T"+ formatTime(startHour,startMinute));
-        LocalDateTime ldtEndDate = LocalDateTime.parse(endDatePicker.getValue() + "T"+ formatTime(endHour,endMinute));
-
-        ZonedDateTime utcStartDate = ZonedDateTime.of(ldtStartDate, currentTimeZone).withZoneSameInstant(UTC);
-        ZonedDateTime utcEndDate = ZonedDateTime.of(ldtEndDate, currentTimeZone).withZoneSameInstant(UTC);
+        ZonedDateTime utcStartDate = convertToUTC(startDatePicker.getValue(),startHour,startMinute, currentTimeZone);
+        ZonedDateTime utcEndDate = convertToUTC(endDatePicker.getValue(),endHour,endMinute, currentTimeZone);
 
         String formatStart = utcStartDate.format(sqlFormatter).toString();
         String formatEnd = utcEndDate.format(sqlFormatter).toString();
 
-        System.out.println(formatStart);
-        System.out.println(formatEnd);
 
         ZonedDateTime estBusinessStart = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(8,0), ZoneId.of("America/New_York") );
         ZonedDateTime estBusinessEnd = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(22,0), ZoneId.of("America/New_York") );
-        System.out.println(estBusinessStart);
-        System.out.println(estBusinessEnd);
+
 
         ZonedDateTime estStartDate = utcStartDate.minusHours(4);
-        System.out.println(estStartDate);
+        ZonedDateTime estEndDate = utcEndDate.minusHours(4);
+
+        System.out.println("");
+        System.out.println("");
+        System.out.println("UTC Start    " + utcStartDate);
+        System.out.println("UTC End    " + utcEndDate);
+        System.out.println("EST Start    " + estStartDate);
+        System.out.println("EST END   " + estEndDate);
+
+        System.out.println("Business Start    " + estBusinessStart);
+        System.out.println("Business End    " + estBusinessEnd);
+
 
         if (  utcStartDate.isAfter(utcEndDate) || utcStartDate.isEqual(utcEndDate)|| utcStartDate.isBefore(ZonedDateTime.now(UTC))) {
             Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
                     "Start date must be today or later.");
         }
-        else if ( utcStartDate.isBefore(estBusinessStart) || utcStartDate.isAfter(estBusinessEnd) || utcEndDate.isBefore(estBusinessStart) || utcEndDate.isAfter(estBusinessEnd) ) {
+        else if ( estStartDate.isBefore(estBusinessStart) || estStartDate.isAfter(estBusinessEnd) || estEndDate.isBefore(estBusinessStart) || estEndDate.isAfter(estBusinessEnd) ) {
             Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time between 8AM and 10PM Eastern Standard Time");
         }
         else {

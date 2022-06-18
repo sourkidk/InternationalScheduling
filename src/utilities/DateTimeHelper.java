@@ -2,8 +2,16 @@ package utilities;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static java.time.ZoneOffset.UTC;
 
 public class DateTimeHelper {
+
+    DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 
     public static String formatTime(int hour, int minute) {
         String tempHour = "";
@@ -24,6 +32,20 @@ public class DateTimeHelper {
         String dateTime = String.valueOf(date) + " " + time;
 //        System.out.println(time);
         return dateTime;
+    }
+
+    public static ZonedDateTime convertToUTC(LocalDate date, int hour, int min, ZoneId timeZone) {
+
+        LocalDateTime localDateTime = LocalDateTime.parse(date + "T"+ formatTime(hour,min));
+
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, timeZone).withZoneSameInstant(UTC);
+
+//        String formattedZonedDateTime = zonedDateTime.format(sqlFormatter).toString();
+
+//        System.out.println(formattedZonedDateTime);
+
+        return zonedDateTime;
+
     }
 
 
