@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 import static controller.SceneController.switchToScene;
 import static database.DbValidation.*;
 import static database.Queries.*;
-import static java.time.ZoneOffset.UTC;
 import static utilities.DateTimeHelper.convertToUTC;
 
 public class AddAppointmentFormController implements Initializable {
@@ -76,42 +75,16 @@ public class AddAppointmentFormController implements Initializable {
         ZonedDateTime utcStartTime = convertToUTC(startDatePicker.getValue(),startHour,startMinute, currentTimeZone);
         ZonedDateTime utcEndTime = convertToUTC(startDatePicker.getValue(),endHour,endMinute, currentTimeZone);
 
-        String formatStart = utcStartTime.format(sqlFormatter).toString();
-        String formatEnd = utcEndTime.format(sqlFormatter).toString();
+        String formattedStartTime = utcStartTime.format(sqlFormatter).toString();
+        String formattedEndTime = utcEndTime.format(sqlFormatter).toString();
 
-
-        ZonedDateTime estBusinessStart = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(8,0), ZoneId.of("America/New_York") );
-        ZonedDateTime estBusinessEnd = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(22,0), ZoneId.of("America/New_York") );
-
-        ZonedDateTime utcBusinessStart = estBusinessStart.withZoneSameInstant(UTC);
-        ZonedDateTime utcBusinessEnd = estBusinessEnd.withZoneSameInstant(UTC);
-
-        DayOfWeek startDayOfWeek = utcStartTime.withZoneSameInstant(ZoneId.of("America/New_York")).getDayOfWeek();
-
-
-
-
-
-
-
-        if (  utcStartTime.isBefore(ZonedDateTime.now(UTC))) {
-            Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
-                    "Start date must be today or later.");
-        }
-        else if ( utcStartTime.isBefore(utcBusinessStart) || utcStartTime.isAfter(utcBusinessEnd) || utcEndTime.isBefore(utcBusinessStart) || utcEndTime.isAfter(utcBusinessEnd) ) {
-            Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time Monday through Friday between 8AM and 10PM Eastern Time");
-        }
-        else if (startDayOfWeek == DayOfWeek.SATURDAY || startDayOfWeek == DayOfWeek.SUNDAY ) {
-            Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time Monday through Friday between 8AM and 10PM Eastern Time");
-        }
-        else {
+        if (validateAppointmentTime(startDatePicker.getValue(), utcStartTime, utcEndTime)) {
             validDateTimes = true;
         }
 
-        if ( userIdCombo.getValue() == null || customerIdCombo.getValue() == null || contactIdCombo.getValue() == null) {
-            Alerts.dialogBox("Invalid Input","Input Fields Blank", "Please select an option for each dropdown field.");
+        if (validateAppointmentCombos(userIdCombo, customerIdCombo, contactIdCombo)) {
+            validCombos = true;
         }
-        else {validCombos = true;}
 
         int userID = userIdCombo.getValue().getUserID();
         int customerID = customerIdCombo.getValue().getCustomerId();
@@ -119,7 +92,7 @@ public class AddAppointmentFormController implements Initializable {
 
 
         if (validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName) && validDateTimes && validCombos) {
-            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, formatStart, formatEnd);
+            insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, formattedStartTime, formattedEndTime);
             switchToScene(event, "/view/DatabaseForm.fxml");
         }
 
@@ -197,7 +170,6 @@ public class AddAppointmentFormController implements Initializable {
         }
         userIdCombo.getItems().addAll(users);
 
-//        LocalTime start = LocalTime.parse("12:00");
-//        System.out.println(start);
+`
     }
 }
