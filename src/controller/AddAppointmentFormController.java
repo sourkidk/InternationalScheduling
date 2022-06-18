@@ -27,7 +27,6 @@ import static database.DbValidation.*;
 import static database.Queries.*;
 import static java.time.ZoneOffset.UTC;
 import static utilities.DateTimeHelper.convertToUTC;
-import static utilities.DateTimeHelper.formatTime;
 
 public class AddAppointmentFormController implements Initializable {
 
@@ -74,11 +73,11 @@ public class AddAppointmentFormController implements Initializable {
         int endMinute = endMinuteSpinner.getValue();
 
 
-        ZonedDateTime utcStartDate = convertToUTC(startDatePicker.getValue(),startHour,startMinute, currentTimeZone);
-        ZonedDateTime utcEndDate = convertToUTC(endDatePicker.getValue(),endHour,endMinute, currentTimeZone);
+        ZonedDateTime utcStartTime = convertToUTC(startDatePicker.getValue(),startHour,startMinute, currentTimeZone);
+        ZonedDateTime utcEndTime = convertToUTC(startDatePicker.getValue(),endHour,endMinute, currentTimeZone);
 
-        String formatStart = utcStartDate.format(sqlFormatter).toString();
-        String formatEnd = utcEndDate.format(sqlFormatter).toString();
+        String formatStart = utcStartTime.format(sqlFormatter).toString();
+        String formatEnd = utcEndTime.format(sqlFormatter).toString();
 
 
         ZonedDateTime estBusinessStart = ZonedDateTime.of(startDatePicker.getValue(), LocalTime.of(8,0), ZoneId.of("America/New_York") );
@@ -87,23 +86,23 @@ public class AddAppointmentFormController implements Initializable {
         ZonedDateTime utcBusinessStart = estBusinessStart.withZoneSameInstant(UTC);
         ZonedDateTime utcBusinessEnd = estBusinessEnd.withZoneSameInstant(UTC);
 
-
-
-        System.out.println("");
-        System.out.println("");
-        System.out.println("UTC Start    " + utcStartDate);
-        System.out.println("UTC End    " + utcEndDate);
-        System.out.println("UTC Bus Start   " + utcBusinessStart);
-        System.out.println("UTC Bus END   " + utcBusinessEnd);
+        DayOfWeek startDayOfWeek = utcStartTime.withZoneSameInstant(ZoneId.of("America/New_York")).getDayOfWeek();
 
 
 
-        if (  utcStartDate.isAfter(utcEndDate) || utcStartDate.isEqual(utcEndDate)|| utcStartDate.isBefore(ZonedDateTime.now(UTC))) {
+
+
+
+
+        if (  utcStartTime.isBefore(ZonedDateTime.now(UTC))) {
             Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
                     "Start date must be today or later.");
         }
-        else if ( utcStartDate.isBefore(utcBusinessStart) || utcStartDate.isAfter(utcBusinessEnd) || utcEndDate.isBefore(utcBusinessStart) || utcEndDate.isAfter(utcBusinessEnd) ) {
-            Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time between 8AM and 10PM Eastern Standard Time");
+        else if ( utcStartTime.isBefore(utcBusinessStart) || utcStartTime.isAfter(utcBusinessEnd) || utcEndTime.isBefore(utcBusinessStart) || utcEndTime.isAfter(utcBusinessEnd) ) {
+            Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time Monday through Friday between 8AM and 10PM Eastern Time");
+        }
+        else if (startDayOfWeek == DayOfWeek.SATURDAY || startDayOfWeek == DayOfWeek.SUNDAY ) {
+            Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time Monday through Friday between 8AM and 10PM Eastern Time");
         }
         else {
             validDateTimes = true;
@@ -128,6 +127,8 @@ public class AddAppointmentFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        endDatePicker.setDisable(true);
+
         JDBC.makeConnection();
 
         SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
