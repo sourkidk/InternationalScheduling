@@ -15,10 +15,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -112,12 +111,65 @@ public class ModifyAppointmentFormController implements Initializable {
                 String appointmentDescription = rs.getString("Description");
                 String appointmentLocation = rs.getString("Location");
                 String appointmentType = rs.getString("Type");
+                int userID = rs.getInt("User_ID");
+                int contactID = rs.getInt("Contact_ID");
+                int customerID = rs.getInt("Customer_ID");
+                String startDatetimeString = rs.getString("Start");
+                String endDatetimeString = rs.getString("End");
+//                ZonedDateTime zsdt = ZonedDateTime.parse(startDatetimeString,sqlFormatter);
+
+
+
+                LocalDateTime start = LocalDateTime.parse(startDatetimeString,sqlFormatter);
+                LocalDateTime end = LocalDateTime.parse(endDatetimeString,sqlFormatter);
+                int startHour = start.getHour();
+                int startMinute = start.getMinute();
+                int endHour = end.getHour();
+                int endMinute = end.getMinute();
+
+                System.out.println(startHour);
+                System.out.println(startMinute);
+
+                SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, startHour);
+                startHourValueFactory.setWrapAround(true);
+                startHourSpinner.setValueFactory(startHourValueFactory);
+
+                SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, startMinute, 5);
+                startMinuteValueFactory.setWrapAround(true);
+                startMinuteSpinner.setValueFactory(startMinuteValueFactory);
+
+                SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, endHour);
+                endHourValueFactory.setWrapAround(true);
+                endHourSpinner.setValueFactory((endHourValueFactory));
+
+                SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, endMinute, 5);
+                endMinuteValueFactory.setWrapAround(true);
+                endMinuteSpinner.setValueFactory(endMinuteValueFactory);
+
+
+
 
                 appointmentIdTextfield.setText(String.valueOf(appointmentID));
                 appointmentTitleTextfield.setText(appointmentTitle);
                 appointmentDescriptionTextfield.setText(appointmentDescription);
                 appointmentLocationTextfield.setText(appointmentLocation);
                 appointmentTypeTextfield.setText(appointmentType);
+                for (User user: users) {
+                    if ( user.getUserID() == userID) {
+                        userIdCombo.setValue(user);
+                    }
+                }
+                for (Contact contact: contacts) {
+                    if ( contact.getContactID() == contactID) {
+                        contactIdCombo.setValue(contact);
+                    }
+                }
+                for (Customer customer:customers) {
+                    if ( customer.getCustomerId() == customerID) {
+                        customerIdCombo.setValue(customer);
+                    }
+                }
+
 
 
             }
@@ -148,6 +200,8 @@ public class ModifyAppointmentFormController implements Initializable {
         SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
         endMinuteValueFactory.setWrapAround(true);
         endMinuteSpinner.setValueFactory(endMinuteValueFactory);
+
+
 
         startDatePicker.setValue(LocalDate.now());
         endDatePicker.setValue(LocalDate.now());

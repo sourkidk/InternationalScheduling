@@ -92,14 +92,11 @@ public class ModifyCustomerFormController implements Initializable {
 
                 for (FirstLevelDivision div : firstLevelDivisions) {
                     if (div.getDivisionID() == divisionID) {
-//                        customerDivisionCombo.setDisable(false);
-//                        customerCountryCombo.setDisable(false);
                         for (Country country : countries) {
                             if (country.getCountryID() == div.getCountryID()) {
                                 customerCountryCombo.setValue(country);
                                 customerDivisionCombo.setValue(div);
                             }
-
                         }
                     }
 
