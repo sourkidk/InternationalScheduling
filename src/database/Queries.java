@@ -98,6 +98,14 @@ public abstract class Queries {
         return rowsAffected;
     }
 
+    public static int deleteSelectedCustomer(int customerID) throws SQLException{
+        String sql = "DELETE FROM Customers WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, customerID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
+
     public static void select() throws SQLException {
         String sql = "SELECT * FROM CONTACTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -109,6 +117,16 @@ public abstract class Queries {
             System.out.println(contactId + " | " + contactName + " | " + contactEmail);
         }
     }
+    public static ResultSet getCustomerToModifySelect(int selectedCustomerID) throws SQLException {
+        String sql = "SELECT * FROM Customers Where Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, selectedCustomerID);
+
+        ResultSet rs = ps.executeQuery();
+        return rs;
+
+    }
+
     public static ResultSet getContactsSelect() throws SQLException {
         String sql = "SELECT * FROM CONTACTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

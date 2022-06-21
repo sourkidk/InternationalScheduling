@@ -13,7 +13,10 @@ import java.sql.SQLException;
 
 public class DynamicTableview {
 
+
     public static void populateTableView(TableView tableview, ResultSet rs, ObservableList data) throws SQLException {
+//        ObservableList<Integer> objectIDList = FXCollections.observableArrayList();
+
         try {
 
             tableview.getItems().clear();
@@ -29,9 +32,11 @@ public class DynamicTableview {
             }
 
             while (rs.next()) {
+//                objectIDList.add(rs.getInt(0));
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
                     row.add(rs.getString(i));
+
                 }
                 data.add(row);
             }

@@ -33,11 +33,7 @@ public class AddCustomerFormController implements Initializable {
     @FXML private TextField customerPhoneTextfield;
     @FXML private ComboBox<Country> customerCountryCombo;
     @FXML private ComboBox<FirstLevelDivision> customerDivisionCombo;
-    @FXML private Label customerIdErrorMessage;
-    @FXML private Label customerNameErrorMessage;
-    @FXML private Label customerAddressErrorMessage;
-    @FXML private Label customerPhoneErrorMessage;
-    @FXML private Label customerPostalErrorMessage;
+
 
     private ObservableList<Country> countries = FXCollections.observableArrayList();
     private ObservableList<FirstLevelDivision> firstLevelDivisions = FXCollections.observableArrayList();

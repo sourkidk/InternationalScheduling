@@ -96,11 +96,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
-                     <children>
-                        <Label fx:id="customerIdErrorMessage" text="This is sample text for input validation" textFill="#830707" />
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
                   <Label fx:id="customerIdErrorMessage" textFill="#ae2828" GridPane.columnIndex="3">
                      <font>
                         <Font size="14.0" />
@@ -175,15 +171,6 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Label fx:id="appointmentDescriptionErrorMessage" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Label fx:id="appointmentIdErrorMessage" layoutX="516.0" layoutY="67.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" />
-                  <Label fx:id="appointmentTitleErrorMessage" layoutX="516.0" layoutY="17.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Label fx:id="appointmentLocationErrorMessage" layoutX="516.0" layoutY="67.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                  <Label fx:id="appointmentTypeErrorMessage" layoutX="516.0" layoutY="167.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                  <Label fx:id="userIdErrorMessage" layoutX="516.0" layoutY="217.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                  <Label fx:id="contactIdErrorMessage" layoutX="516.0" layoutY="267.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                  <Label fx:id="startTimeErrorMessage" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                  <Label fx:id="endTimeErrorMessage" layoutX="132.0" layoutY="506.0" text="This is sample text for input validation" textFill="#830707" GridPane.columnIndex="3" GridPane.rowIndex="10" />
                   <ComboBox fx:id="userIdCombo" prefHeight="30.0" prefWidth="319.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <ComboBox fx:id="customerIdCombo" layoutX="132.0" layoutY="255.0" prefHeight="30.0" prefWidth="319.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <ComboBox fx:id="contactIdCombo" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="319.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />

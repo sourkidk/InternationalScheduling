@@ -29,5 +29,26 @@ public class Alerts {
         }
     }
 
+    public static boolean confirmDeleteBox() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item? ");
+        Optional<ButtonType> result = alert.showAndWait();
+        if ( result.isPresent() && result.get() == ButtonType.OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public static boolean confirmUpdateBox() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to update this item? ");
+        Optional<ButtonType> result = alert.showAndWait();
+        if ( result.isPresent() && result.get() == ButtonType.OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
 }

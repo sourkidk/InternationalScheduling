@@ -5,11 +5,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import database.JDBC;
 import database.Queries;
+import javafx.stage.Stage;
 import model.Table;
+import utilities.Alerts;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,15 +23,15 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static controller.SceneController.switchToScene;
 import static java.time.ZoneOffset.*;
 
 public class DatabaseFormController implements Initializable {
 
-//    @FXML private TableColumn<Table, String> contactEmailColumn;
-//    @FXML private TableColumn<Table, Integer> contactIdColumn;
-//    @FXML private TableColumn<Table, String> contactNameColumn;
+    private static Stage stage;
     @FXML private TableView mainTableview;
     @FXML private Button dynamicAddButton;
     @FXML private Button dynamicDeleteButton;
@@ -128,7 +133,35 @@ public class DatabaseFormController implements Initializable {
     void onActionModifyEntry(ActionEvent event) throws IOException {
 
         if ( viewCustomersRadioButton.isSelected() ) {
-            switchToScene(event, "/view/ModifyCustomerForm.fxml");
+            try {
+
+                String selectedIndex = mainTableview.getSelectionModel().getSelectedItems().get(0).toString();
+
+
+                String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
+                System.out.println(newString);
+                int selectedCustomer = Integer.parseInt(newString);
+                System.out.println("selected index = " + selectedCustomer);
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/view/ModifyCustomerForm.fxml"));
+                loader.load();
+
+                ModifyCustomerFormController ModCusController = loader.getController();
+                ModCusController.sendCustomers(selectedCustomer);
+                ModCusController.setFieldsForEdit(selectedCustomer);
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                Parent scene = loader.getRoot();
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
+            catch (NullPointerException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("No Product Selected.");
+                alert.show();
+            }
         }
         else {
             switchToScene(event, "/view/ModifyAppointmentForm.fxml");
@@ -137,7 +170,35 @@ public class DatabaseFormController implements Initializable {
     }
 
     @FXML
-    void onActionDeleteEntry(ActionEvent event) {
+    void onActionDeleteEntry(ActionEvent event) throws IOException {
+
+        if ( viewCustomersRadioButton.isSelected() ) {
+            try {
+
+                String selectedIndex = mainTableview.getSelectionModel().getSelectedItems().get(0).toString();
+
+
+                String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
+                int selectedCustomer = Integer.parseInt(newString);
+
+                if( Alerts.confirmDeleteBox() ) {
+
+                    Queries.deleteSelectedCustomer(selectedCustomer);
+
+                    ResultSet rs = Queries.getAllCustomersSelect();
+                    DynamicTableview.populateTableView(mainTableview, rs, data);
+                }
+
+
+
+            }
+            catch (NullPointerException | SQLException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("No Customer Selected.");
+                alert.show();
+            }
+        }
 
     }
 
