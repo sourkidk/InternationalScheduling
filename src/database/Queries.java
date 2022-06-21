@@ -50,6 +50,28 @@ public abstract class Queries {
         return rowsAffected;
     }
 
+    public static int updateAppointment(int appointmentID, String apptTitle, String apptDescription,
+                                             String apptLocation, String apptType,
+                                             String lastUpdatedBy, int customerID,
+                                             int userID, int contactID, String startDateTime, String endDateTime) throws SQLException {
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, "
+                + "Last_Updated_By = ? , Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1,apptTitle);
+        ps.setString(2,apptDescription);
+        ps.setString(3,apptLocation);
+        ps.setString(4,apptType);
+        ps.setString(5,startDateTime);
+        ps.setString(6,endDateTime);
+        ps.setString(7,lastUpdatedBy);
+        ps.setInt(8,customerID);
+        ps.setInt(9,userID);
+        ps.setInt(10,contactID);
+        ps.setInt(11, appointmentID);
+
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
     public static int insertAppointment(String apptTitle, String apptDescription,
                                              String apptLocation, String apptType, String createdBy,
                                              String lastUpdatedBy, int customerID,
@@ -105,6 +127,13 @@ public abstract class Queries {
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
+    public static int deleteSelectedAppointment(int appointmentID) throws SQLException{
+        String sql = "DELETE FROM Appointments WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, appointmentID);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    }
 
     public static void select() throws SQLException {
         String sql = "SELECT * FROM CONTACTS";
@@ -122,6 +151,14 @@ public abstract class Queries {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, selectedCustomerID);
 
+        ResultSet rs = ps.executeQuery();
+        return rs;
+
+    }
+    public static ResultSet getAppointmentToModifySelect(int selectedAppointmentID) throws SQLException {
+        String sql = "SELECT * FROM Appointments Where Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, selectedAppointmentID);
         ResultSet rs = ps.executeQuery();
         return rs;
 

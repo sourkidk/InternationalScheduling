@@ -79,7 +79,7 @@ public class ModifyCustomerFormController implements Initializable {
         }
     }
 
-    public void setFieldsForEdit(int customerIDToGrab) {
+    public void setCustomerFieldsForEdit(int customerIDToGrab) {
         try {
             ResultSet rs = Queries.getCustomerToModifySelect(customerIDToGrab);
             while (rs.next()) {

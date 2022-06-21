@@ -23,8 +23,6 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static controller.SceneController.switchToScene;
 import static java.time.ZoneOffset.*;
@@ -149,7 +147,7 @@ public class DatabaseFormController implements Initializable {
 
                 ModifyCustomerFormController ModCusController = loader.getController();
                 ModCusController.sendCustomers(selectedCustomer);
-                ModCusController.setFieldsForEdit(selectedCustomer);
+                ModCusController.setCustomerFieldsForEdit(selectedCustomer);
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 Parent scene = loader.getRoot();
@@ -164,7 +162,35 @@ public class DatabaseFormController implements Initializable {
             }
         }
         else {
-            switchToScene(event, "/view/ModifyAppointmentForm.fxml");
+            try {
+
+                String selectedIndex = mainTableview.getSelectionModel().getSelectedItems().get(0).toString();
+
+
+                String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
+                System.out.println(newString);
+                int selectedAppointment = Integer.parseInt(newString);
+                System.out.println("selected index = " + selectedAppointment);
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/view/ModifyAppointmentForm.fxml"));
+                loader.load();
+
+                ModifyAppointmentFormController ModApptController = loader.getController();
+                ModApptController.sendCustomers(selectedAppointment);
+                ModApptController.setAppointmentFieldsForEdit(selectedAppointment);
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                Parent scene = loader.getRoot();
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
+            catch (NullPointerException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("No Product Selected.");
+                alert.show();
+            }
         }
 
     }
