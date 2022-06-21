@@ -46,6 +46,7 @@ public class ModifyCustomerFormController implements Initializable {
     }
 
     public void sendCustomers(int selectedCustomerID) {
+
         transferredCustomerID = selectedCustomerID;
     }
 
@@ -89,13 +90,28 @@ public class ModifyCustomerFormController implements Initializable {
                 String customerPhone = rs.getString("Phone");
                 int divisionID = rs.getInt("Division_ID");
 
-                customerIdTextfield.setText(String.valueOf(customerID));
-                customerNameTextfield.setText(customerName);
-                customerAddressTextfield.setText(customerAddress);
-                customerPostalTextfield.setText(customerPostal);
-                customerPhoneTextfield.setText(customerPhone);
+                for (FirstLevelDivision div : firstLevelDivisions) {
+                    if (div.getDivisionID() == divisionID) {
+//                        customerDivisionCombo.setDisable(false);
+//                        customerCountryCombo.setDisable(false);
+                        for (Country country : countries) {
+                            if (country.getCountryID() == div.getCountryID()) {
+                                customerCountryCombo.setValue(country);
+                                customerDivisionCombo.setValue(div);
+                            }
+
+                        }
+                    }
 
 
+                    customerIdTextfield.setText(String.valueOf(customerID));
+                    customerNameTextfield.setText(customerName);
+                    customerAddressTextfield.setText(customerAddress);
+                    customerPostalTextfield.setText(customerPostal);
+                    customerPhoneTextfield.setText(customerPhone);
+
+
+                }
             }
         } catch (SQLException e) {
         }
