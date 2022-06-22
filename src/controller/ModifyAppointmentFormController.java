@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import model.*;
 import utilities.Alerts;
+import utilities.DateTimeHelper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -122,10 +123,19 @@ public class ModifyAppointmentFormController implements Initializable {
 
                 LocalDateTime start = LocalDateTime.parse(startDatetimeString,sqlFormatter);
                 LocalDateTime end = LocalDateTime.parse(endDatetimeString,sqlFormatter);
-                int startHour = start.getHour();
-                int startMinute = start.getMinute();
-                int endHour = end.getHour();
-                int endMinute = end.getMinute();
+                ZonedDateTime zonedStart = DateTimeHelper.convertFromUTC(start, ZoneId.systemDefault());
+                ZonedDateTime zonedEnd = DateTimeHelper.convertFromUTC(end, ZoneId.systemDefault());
+
+
+                int startHour = zonedStart.getHour();
+                int startMinute = zonedStart.getMinute();
+                int endHour = zonedEnd.getHour();
+                int endMinute = zonedEnd.getMinute();
+
+//                int startHour = start.getHour();
+//                int startMinute = start.getMinute();
+//                int endHour = end.getHour();
+//                int endMinute = end.getMinute();
 
                 System.out.println(startHour);
                 System.out.println(startMinute);

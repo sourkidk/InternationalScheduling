@@ -47,6 +47,12 @@ public class DateTimeHelper {
         return zonedDateTime;
 
     }
+    public static ZonedDateTime convertFromUTC(LocalDateTime datetime, ZoneId timeZone) {
+
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(datetime, UTC).withZoneSameInstant(timeZone);
+        return zonedDateTime;
+
+    }
 
 
     public static LocalDate getStartofMonth(LocalDate date) {
