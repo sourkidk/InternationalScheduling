@@ -100,7 +100,6 @@ public class AddAppointmentFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        endDatePicker.setDisable(true);
 
         JDBC.makeConnection();
 
@@ -122,7 +121,7 @@ public class AddAppointmentFormController implements Initializable {
         endMinuteSpinner.setValueFactory(endMinuteValueFactory);
 
         startDatePicker.setValue(LocalDate.now());
-        endDatePicker.setValue(LocalDate.now());
+
 
         currentTimeZone = ZoneId.systemDefault();
 

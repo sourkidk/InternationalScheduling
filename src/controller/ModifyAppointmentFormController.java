@@ -190,8 +190,6 @@ public class ModifyAppointmentFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        endDatePicker.setDisable(true);
-
         JDBC.makeConnection();
 
         SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
@@ -214,7 +212,6 @@ public class ModifyAppointmentFormController implements Initializable {
 
 
         startDatePicker.setValue(LocalDate.now());
-        endDatePicker.setValue(LocalDate.now());
 
         currentTimeZone = ZoneId.systemDefault();
 

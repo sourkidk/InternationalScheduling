@@ -269,7 +269,7 @@ public abstract class Queries {
     public static ResultSet getTotalAppointmentsByContact() throws SQLException {
         String sql = "Select Contact_Name, Count(*) AS \"Total Appointments by Contact\" from appointments " +
                 "Inner Join Contacts On appointments.Contact_ID =\n" +
-                "contacts.Contact_ID\n" + "group by Contact_Name;";
+                "contacts.Contact_ID\n" + "group by Contact_Name Order by Count(*) Desc;";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;

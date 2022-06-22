@@ -245,7 +245,6 @@ public class DatabaseFormController implements Initializable {
 
         mainDatePicker.setValue(LocalDate.now());
 
-//        systemTimeZoneLabel.setText(LocalDateTime.now().toString());
         systemTimeZoneLabel.setText(ZoneId.systemDefault().getId());
         ZonedDateTime currentSystemTime = ZonedDateTime.now();
         ZonedDateTime utcTime = currentSystemTime.withZoneSameInstant(UTC);
@@ -255,10 +254,7 @@ public class DatabaseFormController implements Initializable {
         Set<String> zones = ZoneId.getAvailableZoneIds();
         System.out.println(zones.size());
 
-//
-//        for ( String zone : zones  ) {
-//            System.out.println(zone);
-//        }
+
 
 
 
