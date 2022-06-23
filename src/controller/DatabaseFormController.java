@@ -137,9 +137,7 @@ public class DatabaseFormController implements Initializable {
 
 
                 String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
-                System.out.println(newString);
                 int selectedCustomer = Integer.parseInt(newString);
-                System.out.println("selected index = " + selectedCustomer);
 
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/view/ModifyCustomerForm.fxml"));
@@ -168,9 +166,7 @@ public class DatabaseFormController implements Initializable {
 
 
                 String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
-                System.out.println(newString);
                 int selectedAppointment = Integer.parseInt(newString);
-                System.out.println("selected index = " + selectedAppointment);
 
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/view/ModifyAppointmentForm.fxml"));
@@ -248,16 +244,6 @@ public class DatabaseFormController implements Initializable {
         systemTimeZoneLabel.setText(ZoneId.systemDefault().getId());
         ZonedDateTime currentSystemTime = ZonedDateTime.now();
         ZonedDateTime utcTime = currentSystemTime.withZoneSameInstant(UTC);
-        System.out.println(currentSystemTime);
-        System.out.println(utcTime);
-
-        Set<String> zones = ZoneId.getAvailableZoneIds();
-        System.out.println(zones.size());
-
-
-
-
-
 
 
         data = FXCollections.observableArrayList();

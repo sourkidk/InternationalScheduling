@@ -48,10 +48,7 @@ public class ReportFormController implements Initializable {
             String monthName = months[i];
             Month month = new Month(monthID, monthName);
             monthsList.add(month);
-            System.out.println(month);
         }
-
-        System.out.println(monthsList);
     }
 
     void addYears() {

@@ -83,10 +83,7 @@ public class DynamicTableview {
                     ZoneId currentZone = ZoneId.systemDefault();
                     if(i == 5 || i == 6 ) {
                         LocalDateTime utcTime = LocalDateTime.parse(rs.getString(i), sqlFormatter);
-                        System.out.println(utcTime);
                         ZonedDateTime zdtTime = ZonedDateTime.of(utcTime, UTC).withZoneSameInstant(currentZone);
-                        System.out.println(zdtTime);
-
                         row.add(zdtTime.format(sqlFormatter).toString());
 
                     }

@@ -30,7 +30,6 @@ public class DateTimeHelper {
     public static String toStringDateTime(String date, int hour, int minute) {
         String time = formatTime(hour, minute);
         String dateTime = String.valueOf(date) + " " + time;
-//        System.out.println(time);
         return dateTime;
     }
 
@@ -39,10 +38,6 @@ public class DateTimeHelper {
         LocalDateTime localDateTime = LocalDateTime.parse(date + "T"+ formatTime(hour,min));
 
         ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, timeZone).withZoneSameInstant(UTC);
-
-//        String formattedZonedDateTime = zonedDateTime.format(sqlFormatter).toString();
-
-//        System.out.println(formattedZonedDateTime);
 
         return zonedDateTime;
 
@@ -59,7 +54,7 @@ public class DateTimeHelper {
         int year = date.getYear();
         int month = date.getMonthValue();
         LocalDate monthStart = LocalDate.of(year,month,1);
-        System.out.println(monthStart);
+
         return monthStart;
     }
 
@@ -69,7 +64,6 @@ public class DateTimeHelper {
         LocalDate nextMonthStart = LocalDate.of(year,month + 1,1);
         int lastDay = nextMonthStart.getDayOfYear() - 1;
         LocalDate monthEnd = LocalDate.ofYearDay(year, lastDay);
-        System.out.println(monthEnd);
         return monthEnd;
     }
 

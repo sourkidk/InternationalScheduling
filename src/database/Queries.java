@@ -143,7 +143,6 @@ public abstract class Queries {
             int contactId = rs.getInt("Contact_ID");
             String contactName = rs.getString("Contact_Name");
             String contactEmail = rs.getString("Email");
-            System.out.println(contactId + " | " + contactName + " | " + contactEmail);
         }
     }
     public static ResultSet getCustomerToModifySelect(int selectedCustomerID) throws SQLException {
@@ -313,7 +312,6 @@ public abstract class Queries {
             int contactId = rs.getInt("Contact_ID");
             String contactName = rs.getString("Contact_Name");
             String contactEmail = rs.getString("Email");
-            System.out.println(contactId + " | " + contactName + " | " + contactEmail);
         }
     }
 }
