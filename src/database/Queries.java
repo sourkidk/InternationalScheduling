@@ -296,6 +296,15 @@ public abstract class Queries {
         ResultSet rs = ps.executeQuery();
         return rs;
     }
+
+    public static ResultSet getUserLoginSelect(String userName) throws SQLException {
+        String sql = "SELECT * FROM USERS WHERE User_Name = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, userName);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
+
     public static ResultSet getContactNameSelect() throws SQLException {
         String sql = "SELECT DISTINCT Contact_Name FROM CONTACTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

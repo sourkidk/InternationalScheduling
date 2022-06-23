@@ -117,7 +117,6 @@ public class ModifyAppointmentFormController implements Initializable {
                 int customerID = rs.getInt("Customer_ID");
                 String startDatetimeString = rs.getString("Start");
                 String endDatetimeString = rs.getString("End");
-//                ZonedDateTime zsdt = ZonedDateTime.parse(startDatetimeString,sqlFormatter);
 
 
 
@@ -132,13 +131,6 @@ public class ModifyAppointmentFormController implements Initializable {
                 int endHour = zonedEnd.getHour();
                 int endMinute = zonedEnd.getMinute();
 
-//                int startHour = start.getHour();
-//                int startMinute = start.getMinute();
-//                int endHour = end.getHour();
-//                int endMinute = end.getMinute();
-
-                System.out.println(startHour);
-                System.out.println(startMinute);
 
                 SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, startHour);
                 startHourValueFactory.setWrapAround(true);
