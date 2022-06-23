@@ -72,7 +72,7 @@ public class DatabaseFormController implements Initializable {
 
         try {
             ResultSet rs = Queries.getThisWeeksAppointmentsSelect(mainDatePicker.getValue());
-            DynamicTableview.populateTableView(mainTableview, rs, data);
+            DynamicTableview.populateApptTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
 
@@ -85,7 +85,7 @@ public class DatabaseFormController implements Initializable {
 
         try {
             ResultSet rs = Queries.getThisMonthsAppointmentsSelect(mainDatePicker.getValue());
-            DynamicTableview.populateTableView(mainTableview, rs, data);
+            DynamicTableview.populateApptTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
 
@@ -99,7 +99,7 @@ public class DatabaseFormController implements Initializable {
 
         try {
             ResultSet rs = Queries.getAllAppointmentsSelect();
-            DynamicTableview.populateTableView(mainTableview, rs, data);
+            DynamicTableview.populateApptTableView(mainTableview, rs, data);
 
         } catch (SQLException e) {
 

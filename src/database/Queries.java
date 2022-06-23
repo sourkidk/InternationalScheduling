@@ -179,7 +179,8 @@ public abstract class Queries {
     }
 
     public static ResultSet getAllAppointmentsSelect() throws SQLException {
-        String sql = "SELECT * FROM Appointments";
+        String sql = "SELECT Appointment_ID,Title,Description,Location,Start,End, Customer_ID, User_ID, Contact_ID" +
+                " FROM Appointments";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;
@@ -192,7 +193,7 @@ public abstract class Queries {
     }
 
     public static ResultSet getThisWeeksAppointmentsSelect(LocalDate date) throws SQLException {
-        String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
+        String sql = "SELECT Appointment_ID,Title,Description,Location,Start,End, Customer_ID, User_ID, Contact_ID FROM Appointments WHERE Start > ? AND Start < ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         int dayValue = date.getDayOfWeek().getValue(); // ? 1
         int yearValue = date.getDayOfYear();            // 164
@@ -215,7 +216,8 @@ public abstract class Queries {
      *
      * */
     public static ResultSet getThisMonthsAppointmentsSelect(LocalDate date) throws SQLException {
-        String sql = "SELECT * FROM Appointments WHERE Start > ? AND Start < ?";
+        String sql = "SELECT Appointment_ID,Title,Description,Location,Start,End, Customer_ID, User_ID, Contact_ID " +
+                " FROM Appointments WHERE Start > ? AND Start < ?";
 
         LocalDate monthStart = DateTimeHelper.getStartofMonth(date);
         LocalDate monthEnd = DateTimeHelper.getEndOfMonth(date);
@@ -284,7 +286,7 @@ public abstract class Queries {
     }
 
     public static ResultSet getAllCustomersSelect() throws SQLException {
-        String sql = "SELECT * FROM CUSTOMERS";
+        String sql = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;
