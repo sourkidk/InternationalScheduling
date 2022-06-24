@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.User;
 import utilities.Alerts;
+import utilities.SignOnLog;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,6 +59,7 @@ public class LoginFormController implements Initializable {
 
 
         if ( userNameEntry == null ) {
+            SignOnLog.addSignOnAttempt("No user name attempt.");
             validLogin = false;
             Alerts.dialogBox("No UserName", "Blank or Incorrect Username", "Please enter a valid username.");
         }
@@ -65,6 +67,7 @@ public class LoginFormController implements Initializable {
             try {
                 JDBC.makeConnection();
                 ResultSet rs = Queries.getUserLoginSelect(userNameEntry);
+                SignOnLog.addSignOnAttempt("No user name attempt.");
                 if (rs.next()) {
                     setAppUsername(userNameEntry);
                     int userID = rs.getInt("User_ID");
