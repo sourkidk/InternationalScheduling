@@ -1,1 +1,11 @@
 No user name attempt.
+No user name attempt.
+No user name attempt.
+2022-06-24 14:10:21 America/New_York No user name attempt.
+2022-06-24 14:12:55 America/New_York No user name attempt.
+2022-06-24 14:12:55 America/New_York test successful login.
+2022-06-24 14:18:59 America/New_York Username: : Invalid Username.  Login Failed.
+2022-06-24 14:19:04 America/New_York Username: test: Invalid Password.  Login Failed.
+2022-06-24 14:19:10 America/New_York Username: test: Invalid Password.  Login Failed.
+2022-06-24 14:19:21 America/New_York Username: sourkidk: Invalid Username.  Login Failed.
+2022-06-24 14:19:29 America/New_York Username: admin successful login.

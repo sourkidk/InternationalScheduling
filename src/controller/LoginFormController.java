@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -40,6 +41,8 @@ public class LoginFormController implements Initializable {
 
     private ObservableList<User> users = FXCollections.observableArrayList();
     private static String appUsername = null;
+    DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 
 
     public static String getAppUsername() {
@@ -59,7 +62,7 @@ public class LoginFormController implements Initializable {
 
 
         if ( userNameEntry == null ) {
-            SignOnLog.addSignOnAttempt("No user name attempt.");
+            SignOnLog.logSignOnAttempt(" --- No Username Attempt.");
             validLogin = false;
             Alerts.dialogBox("No UserName", "Blank or Incorrect Username", "Please enter a valid username.");
         }
@@ -67,18 +70,20 @@ public class LoginFormController implements Initializable {
             try {
                 JDBC.makeConnection();
                 ResultSet rs = Queries.getUserLoginSelect(userNameEntry);
-                SignOnLog.addSignOnAttempt("No user name attempt.");
                 if (rs.next()) {
                     setAppUsername(userNameEntry);
                     int userID = rs.getInt("User_ID");
                     String userName = rs.getString("User_Name");
                     String password = rs.getString("Password");
+
                     users.add(new User(userID,userName,password));
 
                     if (passwordEntry.equals(password)) {
                         validLogin = true;
                     }
                     else {
+                        SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Password ---  Login Failed.");
+
                         validLogin = false;
                         Alerts.dialogBox("Incorrect Password", "Password not found", "Please enter the correct password.");
 
@@ -88,6 +93,7 @@ public class LoginFormController implements Initializable {
 
                 }
                 else {
+                    SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
                     validLogin = false;
                     Alerts.dialogBox("Incorrect UserName", "Username not found", "Please enter a valid username.");
 
@@ -95,6 +101,8 @@ public class LoginFormController implements Initializable {
             }
             catch (SQLException e) {
                 validLogin = false;
+                SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
+
                 Alerts.dialogBox("Invalid UserName", "Incorrect Username", "That username could not be found.  " +
                         "Please enter a valid username.");
 
@@ -104,6 +112,7 @@ public class LoginFormController implements Initializable {
 
 
         if (validLogin) {
+            SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + " --- Successful Login.");
             switchToScene(event, "/view/DatabaseForm.fxml");
         }
     }
