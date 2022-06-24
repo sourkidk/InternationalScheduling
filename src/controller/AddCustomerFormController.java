@@ -9,9 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Contact;
 import model.Country;
 import model.FirstLevelDivision;
 import utilities.Alerts;
@@ -61,7 +59,7 @@ public class AddCustomerFormController implements Initializable {
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws IOException, SQLException {
 
-        String userName = JDBC.getUserName();
+        String userName = LoginFormController.getAppUsername();
         String customerName = customerNameTextfield.getText();
         String customerAddress = customerAddressTextfield.getText();
         String customerPostalCode = customerPostalTextfield.getText();

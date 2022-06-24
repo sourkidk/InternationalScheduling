@@ -59,7 +59,7 @@ public class AddAppointmentFormController implements Initializable {
 
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws IOException, SQLException {
-        String userName = JDBC.getUserName();
+        String userName = LoginFormController.getAppUsername();
         String apptTitle = appointmentTitleTextfield.getText();
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();

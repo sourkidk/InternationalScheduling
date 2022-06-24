@@ -38,12 +38,25 @@ public class LoginFormController implements Initializable {
     private TextField usernameTextField;
 
     private ObservableList<User> users = FXCollections.observableArrayList();
+    private static String appUsername = null;
+
+
+    public static String getAppUsername() {
+        return appUsername;
+    }
+
+    public static void setAppUsername(String appUsername) {
+        LoginFormController.appUsername = appUsername;
+    }
+
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
         boolean validLogin = true;
         String userNameEntry = usernameTextField.getText();
         String passwordEntry = passwordTextField.getText();
+
+
         if ( userNameEntry == null ) {
             validLogin = false;
             Alerts.dialogBox("No UserName", "Blank or Incorrect Username", "Please enter a valid username.");
@@ -53,6 +66,7 @@ public class LoginFormController implements Initializable {
                 JDBC.makeConnection();
                 ResultSet rs = Queries.getUserLoginSelect(userNameEntry);
                 if (rs.next()) {
+                    setAppUsername(userNameEntry);
                     int userID = rs.getInt("User_ID");
                     String userName = rs.getString("User_Name");
                     String password = rs.getString("Password");
@@ -98,6 +112,24 @@ public class LoginFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+//        try {
+//            JDBC.makeConnection();
+//            ResultSet rs = Queries.getUsersSelect();
+//            if (rs.next()) {
+//                int userID = rs.getInt("User_ID");
+//                String userName = rs.getString("User_Name");
+//                String password = rs.getString("Password");
+//                users.add(new User(userID, userName, password));
+//            }
+//
+//            JDBC.closeConnection();
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            Alerts.dialogBox("Database Connection Error", "Database connection failed",
+//                    "Please contact your administator for assistance.");
+//        }
 
         ZonedDateTime currentSystemTime = ZonedDateTime.now();
         timezoneLabel.setText(ZoneId.systemDefault().getId());

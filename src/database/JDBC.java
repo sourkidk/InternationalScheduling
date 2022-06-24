@@ -11,8 +11,13 @@ public class JDBC {
              private static final String databaseName = "client_schedule";
                  private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
         private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
-        private static final String userName = "sqlUser"; // Username
-        private static String password = "Passw0rd!"; // Password
+
+    public static void setDbUserName(String dbUserName) {
+        JDBC.dbUserName = dbUserName;
+    }
+
+    private static String dbUserName = "sqlUser"; // Username
+        private static String dbPassword = "Passw0rd!"; // Password
         public static Connection connection = null;  // Connection Interface
         private static PreparedStatement preparedStatement;
 
@@ -21,7 +26,7 @@ public class JDBC {
           try {
               Class.forName(driver); // Locate Driver
               //password = Details.getPassword(); // Assign password
-              connection = DriverManager.getConnection(jdbcUrl, userName, password); // reference Connection object
+              connection = DriverManager.getConnection(jdbcUrl, dbUserName, dbPassword); // reference Connection object
               System.out.println("Connection successful!");
           }
                   catch(ClassNotFoundException e) {
@@ -60,15 +65,15 @@ public class JDBC {
            return null;
        }
 
-    public static String getUserName() {
-        return userName;
+    public static String getDbUserName() {
+        return dbUserName;
     }
 
-    public static String getPassword() {
-        return password;
+    public static String getDbPassword() {
+        return dbPassword;
     }
 
-    public static void setPassword(String password) {
-        JDBC.password = password;
+    public static void setDbPassword(String dbPassword) {
+        JDBC.dbPassword = dbPassword;
     }
 }

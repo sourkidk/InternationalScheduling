@@ -18,7 +18,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
@@ -65,7 +64,7 @@ public class ModifyAppointmentFormController implements Initializable {
 
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws IOException, SQLException {
-        String userName = JDBC.getUserName();
+        String userName = LoginFormController.getAppUsername();
         String apptTitle = appointmentTitleTextfield.getText();
         String apptDescription = appointmentDescriptionTextfield.getText();
         String apptLocation = appointmentLocationTextfield.getText();
