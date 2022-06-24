@@ -1,5 +1,6 @@
 package controller;
 
+import database.JDBC;
 import database.Queries;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,12 +41,16 @@ public class LoginFormController implements Initializable {
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
+        boolean validLogin = true;
         String userNameEntry = usernameTextField.getText();
+        String passwordEntry = passwordTextField.getText();
         if ( userNameEntry == null ) {
-            Alerts.dialogBox("Invalid UserName", "Blank or Incorrect Username", "Please enter a valid username.");
+            validLogin = false;
+            Alerts.dialogBox("No UserName", "Blank or Incorrect Username", "Please enter a valid username.");
         }
         else {
             try {
+                JDBC.makeConnection();
                 ResultSet rs = Queries.getUserLoginSelect(userNameEntry);
                 if (rs.next()) {
                     int userID = rs.getInt("User_ID");
@@ -53,9 +58,26 @@ public class LoginFormController implements Initializable {
                     String password = rs.getString("Password");
                     users.add(new User(userID,userName,password));
 
+                    if (passwordEntry.equals(password)) {
+                        validLogin = true;
+                    }
+                    else {
+                        validLogin = false;
+                        Alerts.dialogBox("Incorrect Password", "Password not found", "Please enter the correct password.");
+
+                    }
+
+
+
+                }
+                else {
+                    validLogin = false;
+                    Alerts.dialogBox("Incorrect UserName", "Username not found", "Please enter a valid username.");
+
                 }
             }
             catch (SQLException e) {
+                validLogin = false;
                 Alerts.dialogBox("Invalid UserName", "Incorrect Username", "That username could not be found.  " +
                         "Please enter a valid username.");
 
@@ -64,9 +86,9 @@ public class LoginFormController implements Initializable {
         }
 
 
-
-        switchToScene(event, "/view/DatabaseForm.fxml");
-
+        if (validLogin) {
+            switchToScene(event, "/view/DatabaseForm.fxml");
+        }
     }
 
     @FXML
