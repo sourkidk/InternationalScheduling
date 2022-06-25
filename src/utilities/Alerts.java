@@ -16,6 +16,34 @@ public class Alerts {
         alert.setContentText(alertMessage);
         alert.showAndWait();
     }
+    public static void invalidUsernameFrenchDialogBox() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Nom d'utilisateur invalide");
+        alert.setContentText("Merci d'entrer un nom d'utilisateur valide.");
+        alert.showAndWait();
+    }
+    public static void invalidUsernameEnglishDialogBox() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText("Invalid Username");
+        alert.setContentText("Please enter a valid Username.");
+        alert.showAndWait();
+    }
+    public static void invalidPasswordFrenchDialogBox() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Mot de passe incorrecte");
+        alert.setContentText("Veuillez entrer le mot de passe correct.");
+        alert.showAndWait();
+    }
+    public static void invalidPasswordEnglishDialogBox() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText("Incorrect Password");
+        alert.setContentText("Please enter the correct password.");
+        alert.showAndWait();
+    }
 
     public static boolean confirmCancelBox() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will clear any changes you've made. " +

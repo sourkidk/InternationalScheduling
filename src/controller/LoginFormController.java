@@ -7,9 +7,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import model.User;
 import utilities.Alerts;
 import utilities.SignOnLog;
@@ -21,23 +23,24 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
 
 public class LoginFormController implements Initializable {
 
-    @FXML
-    private ComboBox<?> languageCombobox;
-
-    @FXML
-    private TextField passwordTextField;
-
-    @FXML
-    private Label timezoneLabel;
-
-    @FXML
-    private TextField usernameTextField;
+    @FXML private Label currentTimeZoneLabel;
+    @FXML private Label languageLabel;
+    @FXML private Text passwordLabel;
+    @FXML private TextField passwordTextField;
+    @FXML private Text timeZoneLabel;
+    @FXML private Text titleLabel;
+    @FXML private Text usernameLabel;
+    @FXML private TextField usernameTextField;
+    @FXML private Button resetButton;
+    @FXML private Button loginButton;
+    public String localeCode;
 
     private ObservableList<User> users = FXCollections.observableArrayList();
     private static String appUsername = null;
@@ -56,15 +59,21 @@ public class LoginFormController implements Initializable {
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
+        System.out.println(localeCode);
         boolean validLogin = true;
         String userNameEntry = usernameTextField.getText();
         String passwordEntry = passwordTextField.getText();
 
 
-        if ( userNameEntry == null ) {
+        if ( userNameEntry.equals("") ) {
             SignOnLog.logSignOnAttempt(" --- No Username Attempt.");
             validLogin = false;
-            Alerts.dialogBox("No UserName", "Blank or Incorrect Username", "Please enter a valid username.");
+            if( localeCode.equals("en_US")) {
+                Alerts.invalidUsernameFrenchDialogBox();
+            }
+            else {
+                Alerts.invalidUsernameEnglishDialogBox();
+            }
         }
         else {
             try {
@@ -85,8 +94,12 @@ public class LoginFormController implements Initializable {
                         SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Password ---  Login Failed.");
 
                         validLogin = false;
-                        Alerts.dialogBox("Incorrect Password", "Password not found", "Please enter the correct password.");
-
+                        if( localeCode.equals("en_US")) {
+                            Alerts.invalidPasswordFrenchDialogBox();
+                        }
+                        else {
+                            Alerts.invalidPasswordEnglishDialogBox();
+                        }
                     }
 
 
@@ -95,16 +108,24 @@ public class LoginFormController implements Initializable {
                 else {
                     SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
                     validLogin = false;
-                    Alerts.dialogBox("Incorrect UserName", "Username not found", "Please enter a valid username.");
-
+                    if( localeCode.equals("en_US")) {
+                        Alerts.invalidUsernameFrenchDialogBox();
+                    }
+                    else {
+                        Alerts.invalidUsernameEnglishDialogBox();
+                    }
                 }
             }
             catch (SQLException e) {
                 validLogin = false;
                 SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
 
-                Alerts.dialogBox("Invalid UserName", "Incorrect Username", "That username could not be found.  " +
-                        "Please enter a valid username.");
+                if( localeCode.equals("en_US")) {
+                    Alerts.invalidUsernameFrenchDialogBox();
+                }
+                else {
+                    Alerts.invalidUsernameEnglishDialogBox();
+                }
 
             }
 
@@ -122,29 +143,28 @@ public class LoginFormController implements Initializable {
 
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-//        try {
-//            JDBC.makeConnection();
-//            ResultSet rs = Queries.getUsersSelect();
-//            if (rs.next()) {
-//                int userID = rs.getInt("User_ID");
-//                String userName = rs.getString("User_Name");
-//                String password = rs.getString("Password");
-//                users.add(new User(userID, userName, password));
-//            }
-//
-//            JDBC.closeConnection();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            Alerts.dialogBox("Database Connection Error", "Database connection failed",
-//                    "Please contact your administator for assistance.");
-//        }
+        System.out.println(Locale.getDefault().toString());
+        localeCode = Locale.getDefault().toString();
+
+        if( localeCode.equals("en_US")) {
+            titleLabel.setText("Horaire de Rendez-vous");
+            languageLabel.setText("Française");
+            timeZoneLabel.setText("Fuseau Horaire Actuel");
+            usernameLabel.setText("Nom D'utilisateur");
+            passwordLabel.setText("Mot de passe");
+            loginButton.setText("Connexion");
+            resetButton.setText("Réinitialiser");
+
+        }
+
+
 
         ZonedDateTime currentSystemTime = ZonedDateTime.now();
-        timezoneLabel.setText(ZoneId.systemDefault().getId());
+        currentTimeZoneLabel.setText(ZoneId.systemDefault().getId());
 
     }
 }
