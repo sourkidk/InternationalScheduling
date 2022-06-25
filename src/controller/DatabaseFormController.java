@@ -216,9 +216,6 @@ public class DatabaseFormController implements Initializable {
                     ResultSet rs = Queries.getAllCustomersSelect();
                     DynamicTableview.populateTableView(mainTableview, rs, data);
                 }
-
-
-
             }
             catch (NullPointerException | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -226,6 +223,35 @@ public class DatabaseFormController implements Initializable {
                 alert.setContentText("No Customer Selected.");
                 alert.show();
             }
+        } else {
+            try {
+
+                String selectedIndex = mainTableview.getSelectionModel().getSelectedItems().get(0).toString();
+
+                String selectedApptType = null;
+                String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
+                int selectedAppointment = Integer.parseInt(newString);
+
+                if( Alerts.confirmDeleteBox() ) {
+
+                    Queries.deleteSelectedCustomer(selectedAppointment);
+
+                    ResultSet rs = Queries.getAllAppointmentsSelect();
+                    DynamicTableview.populateTableView(mainTableview, rs, data);
+                    ResultSet rsType = Queries.getSelectedAppointmentType(selectedAppointment);
+                    if (rsType.next()) {
+                        selectedApptType = rsType.getString("Type");
+                    }
+                    Alerts.deletedApptMessage(selectedAppointment, selectedApptType );
+                }
+            }
+            catch (NullPointerException | SQLException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText("No Appointment Selected.");
+                alert.show();
+            }
+
         }
 
     }
@@ -324,7 +350,7 @@ public class DatabaseFormController implements Initializable {
             System.out.println(appt.getApptStart());
             if ( appt.getApptStart().minusMinutes(15).isBefore(currentTime) && appt.getApptStart().isAfter(currentTime) ) {
                 upcomingAppt = true;
-                Alerts.dialogBox("Upcoming Appointment", "Appointment Starting Soon", "Your " +
+                Alerts.dialogBox("Upcoming Appointment", "Appointment " + appt.getApptID() + ": " + appt.getApptName() + " Starting Soon", "Your " +
                         appt.getApptType() + " session is starting at " + appt.getApptStart().format(sqlFormatter));
             }
         }

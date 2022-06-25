@@ -16,6 +16,13 @@ public class Alerts {
         alert.setContentText(alertMessage);
         alert.showAndWait();
     }
+    public static void deletedApptMessage(int apptID, String apptType) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Appointment Cancelled");
+        alert.setHeaderText("Appointment " + apptID ) ;
+        alert.setContentText(apptType + " Session has been cancelled " );
+        alert.showAndWait();
+    }
     public static void invalidUsernameFrenchDialogBox() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Erreur");
@@ -67,6 +74,7 @@ public class Alerts {
             return false;
         }
     }
+
     public static boolean confirmUpdateBox() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to update this item? ");
         Optional<ButtonType> result = alert.showAndWait();

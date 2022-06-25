@@ -134,6 +134,13 @@ public abstract class Queries {
         int rowsAffected = ps.executeUpdate();
         return rowsAffected;
     }
+    public static ResultSet getSelectedAppointmentType(int appointmentID) throws SQLException{
+        String sql = "Select Type FROM Appointments WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, appointmentID);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
 
     public static void select() throws SQLException {
         String sql = "SELECT * FROM CONTACTS";
