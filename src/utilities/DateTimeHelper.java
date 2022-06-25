@@ -49,6 +49,15 @@ public class DateTimeHelper {
 
     }
 
+    public static LocalDateTime convertFromUTCLocal(String timeString, DateTimeFormatter sqlFormatter, ZoneId currentZone) {
+
+        LocalDateTime utcTime = LocalDateTime.parse(timeString, sqlFormatter);
+        ZonedDateTime zdtTime = ZonedDateTime.of(utcTime, UTC).withZoneSameInstant(currentZone);
+        LocalDateTime localTime = zdtTime.toLocalDateTime();
+        return localTime;
+
+    }
+
 
     public static LocalDate getStartofMonth(LocalDate date) {
         int year = date.getYear();

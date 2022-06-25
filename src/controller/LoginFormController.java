@@ -44,6 +44,12 @@ public class LoginFormController implements Initializable {
 
     private ObservableList<User> users = FXCollections.observableArrayList();
     private static String appUsername = null;
+
+    public static int getAppUserID() {
+        return appUserID;
+    }
+
+    private static int appUserID;
     DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
@@ -84,6 +90,7 @@ public class LoginFormController implements Initializable {
                     int userID = rs.getInt("User_ID");
                     String userName = rs.getString("User_Name");
                     String password = rs.getString("Password");
+                    appUserID = userID;
 
                     users.add(new User(userID,userName,password));
 

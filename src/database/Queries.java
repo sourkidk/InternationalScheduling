@@ -275,6 +275,13 @@ public abstract class Queries {
         ResultSet rs = ps.executeQuery();
         return rs;
     }
+    public static ResultSet getTotalAppointmentsByUser(int userID) throws SQLException {
+        String sql = "Select * from Appointments Where User_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1,userID);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    }
 
     public static ResultSet getFilteredFirstLevelDivSelect(int country) throws SQLException {
         String sql = "SELECT * FROM First_Level_Divisions WHERE Country_ID = ?";

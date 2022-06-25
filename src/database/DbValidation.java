@@ -187,6 +187,7 @@ public class DbValidation {
         else if (startDayOfWeek == DayOfWeek.SATURDAY || startDayOfWeek == DayOfWeek.SUNDAY ) {
             Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time Monday through Friday between 8AM and 10PM Eastern Time");
         }
+
         else {
             validDateTimes = true;
         }

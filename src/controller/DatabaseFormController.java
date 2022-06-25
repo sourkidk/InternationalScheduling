@@ -13,14 +13,17 @@ import javafx.scene.control.*;
 import database.JDBC;
 import database.Queries;
 import javafx.stage.Stage;
+import model.Appointment;
 import model.Table;
 import utilities.Alerts;
+import utilities.DateTimeHelper;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -42,6 +45,9 @@ public class DatabaseFormController implements Initializable {
     @FXML private RadioButton viewWeekRadioButton;
 
     private ObservableList<ObservableList> data;
+    private ObservableList<Appointment> currentUserAppointments = FXCollections.observableArrayList();
+    DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 
     public void setRadioButtonsLabel(String viewType) {
         dynamicAddButton.setText("Add " + viewType);
@@ -268,22 +274,63 @@ public class DatabaseFormController implements Initializable {
                             ResultSet rs3 = Queries.getThisWeeksAppointmentsSelect(newVal);
                             DynamicTableview.populateTableView(mainTableview, rs3, data);
                         } catch (SQLException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         return;
                     }
-
             });
 
-//        JDBC.closeConnection();
-            //TODO Maybe delete this closeConnection
 
             setRadioButtonsLabel("Appointment");
 
-
-
-
         } catch (SQLException e) {
+            e.printStackTrace();
+            }
+
+        int currentUserID = LoginFormController.getAppUserID();
+        try {
+            ResultSet rs5 = Queries.getTotalAppointmentsByUser(currentUserID);
+            while (rs5.next()) {
+                int ApptID = rs5.getInt("Appointment_ID");
+                String apptTitle = rs5.getString("Title");
+                String apptDesc = rs5.getString("Description");
+                String apptLocation =rs5.getString("Location");
+                String apptType = rs5.getString("Type");
+//                LocalDateTime apptStart = LocalDateTime.parse(rs5.getString("Start"), sqlFormatter);
+//                LocalDateTime apptEnd = LocalDateTime.parse(rs5.getString("End"),sqlFormatter);
+                LocalDateTime apptStart = DateTimeHelper.convertFromUTCLocal(rs5.getString("Start"), sqlFormatter, ZoneId.systemDefault());
+                LocalDateTime apptEnd = DateTimeHelper.convertFromUTCLocal(rs5.getString("End"), sqlFormatter, ZoneId.systemDefault());
+
+                int custID = rs5.getInt("Customer_ID");
+                int userId = rs5.getInt("User_ID");
+                int contactId = rs5.getInt("Contact_ID");
+                System.out.println(apptStart);
+                System.out.println(apptEnd);
+                currentUserAppointments.add(new Appointment(ApptID,apptTitle,apptDesc,apptLocation,
+                        apptType,apptStart,apptEnd,custID,userId,contactId));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        System.out.println(currentTime);
+
+        boolean upcomingAppt = false;
+
+        for (Appointment appt : currentUserAppointments) {
+            System.out.println(appt.getApptStart());
+            if ( appt.getApptStart().minusMinutes(15).isBefore(currentTime) && appt.getApptStart().isAfter(currentTime) ) {
+                upcomingAppt = true;
+                Alerts.dialogBox("Upcoming Appointment", "Appointment Starting Soon", "Your " +
+                        appt.getApptType() + " session is starting at " + appt.getApptStart().format(sqlFormatter));
             }
         }
+        if (upcomingAppt == false) {
+            Alerts.dialogBox("No Upcoming Appointments", "", "You have no appointments in the next 15 minutes.");
+        }
+
+    }
     }
