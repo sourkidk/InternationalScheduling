@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import model.Contact;
 import model.Month;
 import utilities.DateTimeHelper;
+import utilities.WeekInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 /**
  * The type Queries.
  */
-public abstract class Queries {
+public abstract class Queries implements WeekInterface {
 
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
 
@@ -371,8 +372,12 @@ public abstract class Queries {
         return rs;
     }
 
+
+
     /**
-     * Gets this weeks appointments select.
+     * Gets this weeks appointments select. A lamdba expression was implemented here to calculate
+     * the day of the year for the sunday starting the week of the date selected.  The WeekInterface
+     * was implemented which contains the abstract method sundayMath.
      *
      * @param date the date
      * @return the this weeks appointments select
@@ -381,9 +386,18 @@ public abstract class Queries {
     public static ResultSet getThisWeeksAppointmentsSelect(LocalDate date) throws SQLException {
         String sql = "SELECT Appointment_ID,Title,Description,Location,Start,End, Customer_ID, User_ID, Contact_ID FROM Appointments WHERE Start > ? AND Start < ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        int dayValue = date.getDayOfWeek().getValue(); // ? 1
-        int yearValue = date.getDayOfYear();            // 164
-        int sunday = yearValue - (dayValue);        //163
+
+        WeekInterface weekInterface = (inputDate) -> {
+            int sunday;
+            int dayValue = inputDate.getDayOfWeek().getValue();
+            int yearValue = inputDate.getDayOfYear();
+            if (dayValue == 7) {sunday = yearValue;}
+            else { sunday = yearValue - (dayValue);}
+            return sunday;
+        };
+
+
+        int sunday = weekInterface.sundayMath(date);
 
 
         int saturday = sunday + 6;
