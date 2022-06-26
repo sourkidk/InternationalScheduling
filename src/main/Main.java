@@ -12,6 +12,9 @@ import java.sql.SQLException;
 
 /**
  * The Main Class.  Initializes the application and prepares Stage and Scene for display.
+ * @author Keith Fletcher
+ * @version  Scheduling Application 1.0.1
+ *
  */
 public class Main extends Application {
 
