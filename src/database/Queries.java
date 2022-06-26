@@ -375,7 +375,7 @@ public abstract class Queries implements WeekInterface {
 
 
     /**
-     * Gets this weeks appointments select. A lamdba expression was implemented here to calculate
+     * Gets this weeks appointments select. A lambda expression was implemented here to calculate
      * the day of the year for the sunday starting the week of the date selected.  The WeekInterface
      * was implemented which contains the abstract method sundayMath.
      *
