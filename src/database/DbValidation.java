@@ -191,6 +191,12 @@ public class DbValidation {
             Alerts.dialogBox("Invalid Date Input", "Improper Date Values", "Please enter valid values for start and end date.  " +
                     "Start date must be today or later.");
         }
+        else if ( endTime.isBefore(startTime)) {
+            Alerts.dialogBox("Invalid Time Input", "End Time is before Start time", "Please select appropriate start and end times.");
+        }
+        else if ( endTime.isEqual(startTime)) {
+            Alerts.dialogBox("Invalid Time Input", "End Time is the same as Start time", "Please select appropriate Start and End times.");
+        }
         else if ( startTime.isBefore(utcBusinessStart) || startTime.isAfter(utcBusinessEnd) || endTime.isBefore(utcBusinessStart) || endTime.isAfter(utcBusinessEnd) ) {
             Alerts.dialogBox("Invalid Date Input", "Outside Business Hours", "Please select a time Monday through Friday between 8AM and 10PM Eastern Time");
         }
@@ -202,6 +208,32 @@ public class DbValidation {
             validDateTimes = true;
         }
         return validDateTimes;
+    }
+
+    public static int countCustomerAppointments (int customerID ) {
+        customerAppointments.clear();
+        try {
+            ResultSet rs = Queries.getAppointmentsByCustomer(customerID);
+            while (rs.next()) {
+                int ApptID = rs.getInt("Appointment_ID");
+                String apptTitle = rs.getString("Title");
+                String apptDesc = rs.getString("Description");
+                String apptLocation = rs.getString("Location");
+                String apptType = rs.getString("Type");
+                LocalDateTime apptStart = LocalDateTime.parse(rs.getString("Start"), sqlFormatter);
+                LocalDateTime apptEnd = LocalDateTime.parse(rs.getString("End"),sqlFormatter);
+                int custID = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                customerAppointments.add(new Appointment(ApptID, apptTitle, apptDesc, apptLocation,
+                        apptType, apptStart, apptEnd, custID, userId, contactId));
+                System.out.println(customerAppointments.size());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerAppointments.size();
     }
     
     public static boolean validateAppointmentOverlap (int customerID, ZonedDateTime startTime, ZonedDateTime endTime) {
@@ -234,7 +266,6 @@ public class DbValidation {
         }
 
         for (Appointment appt: customerAppointments) {
-//            if (newApptStart.isBefore(appt.getApptStart()) && newApptEnd.isAfter(appt.getApptEnd())) {
             if (newApptStart.isAfter(appt.getApptEnd()) || newApptEnd.isBefore(appt.getApptStart())) {
 
             }

@@ -111,7 +111,7 @@ public class ReportFormController implements Initializable {
 
     @FXML
     void onActionMainMenu(ActionEvent event) throws IOException {
-        switchToScene(event,"/view/DatabaseForm.fxml");
+        switchToScene(event, "/view/MainForm.fxml");
 
 
     }

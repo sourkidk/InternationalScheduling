@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -141,7 +140,7 @@ public class LoginFormController implements Initializable {
 
         if (validLogin) {
             SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + " --- Successful Login.");
-            switchToScene(event, "/view/DatabaseForm.fxml");
+            switchToScene(event, "/view/MainForm.fxml");
         }
     }
 

@@ -53,7 +53,7 @@ public class ModifyAppointmentFormController implements Initializable {
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         if (Alerts.confirmCancelBox()) {
-            switchToScene(event, "/view/DatabaseForm.fxml");
+            switchToScene(event, "/view/MainForm.fxml");
         }
     }
 
@@ -98,7 +98,7 @@ public class ModifyAppointmentFormController implements Initializable {
 
         if (validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName) && validDateTimes && validCombos) {
             insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, formattedStartTime, formattedEndTime);
-            switchToScene(event, "/view/DatabaseForm.fxml");
+            switchToScene(event, "/view/MainForm.fxml");
         }
     }
 

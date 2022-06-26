@@ -77,7 +77,7 @@ public class AddCustomerFormController implements Initializable {
         try {
             DbValidation.validateCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber);
             Queries.insertCustomer(customerName, customerAddress, customerPostalCode, customerPhoneNumber, userName, userName, divisionID);
-            switchToScene(event, "/view/DatabaseForm.fxml");
+            switchToScene(event, "/view/MainForm.fxml");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class AddCustomerFormController implements Initializable {
 
     @FXML void onActionCancel(ActionEvent event) throws IOException {
         if (Alerts.confirmCancelBox()) {
-            switchToScene(event, "/view/DatabaseForm.fxml");
+            switchToScene(event, "/view/MainForm.fxml");
         }
     }
 

@@ -43,9 +43,7 @@ public class DynamicTable extends Application{
             //ResultSet
             ResultSet rs = Queries.getAllCustomersSelect();
 
-            /**********************************
-             * TABLE COLUMN ADDED DYNAMICALLY *
-             **********************************/
+
             for(int i=0 ; i<rs.getMetaData().getColumnCount(); i++){
                 //We are using non property style for making dynamic table
                 final int j = i;
@@ -60,9 +58,6 @@ public class DynamicTable extends Application{
                 System.out.println("Column ["+i+"] ");
             }
 
-            /********************************
-             * Data added to ObservableList *
-             ********************************/
             while(rs.next()){
                 //Iterate Row
                 ObservableList<String> row = FXCollections.observableArrayList();

@@ -1,5 +1,6 @@
 package controller;
 
+import database.DbValidation;
 import database.DynamicTableview;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +32,7 @@ import java.util.Set;
 import static controller.SceneController.switchToScene;
 import static java.time.ZoneOffset.*;
 
-public class DatabaseFormController implements Initializable {
+public class MainFormController implements Initializable {
 
     private static Stage stage;
     @FXML private TableView mainTableview;
@@ -209,8 +210,15 @@ public class DatabaseFormController implements Initializable {
 
                 String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
                 int selectedCustomer = Integer.parseInt(newString);
+                int associatedAppointments = DbValidation.countCustomerAppointments(selectedCustomer);
 
-                if( Alerts.confirmDeleteBox() ) {
+                if (associatedAppointments != 0) {
+                    Alerts.dialogBox("Problem","Associated Appointments",
+                            "You cannot delete a customer that has appointments associated with it.  " +
+                                    "Please delete all customer appointments before deleting a customer.");
+                }
+
+                else if( Alerts.confirmDeleteBox() ) {
 
                     Queries.deleteSelectedCustomer(selectedCustomer);
 
@@ -235,7 +243,7 @@ public class DatabaseFormController implements Initializable {
 
                 if( Alerts.confirmDeleteBox() ) {
 
-                    Queries.deleteSelectedCustomer(selectedAppointment);
+                    Queries.deleteSelectedAppointment(selectedAppointment);
 
                     ResultSet rs = Queries.getAllAppointmentsSelect();
                     DynamicTableview.populateTableView(mainTableview, rs, data);
