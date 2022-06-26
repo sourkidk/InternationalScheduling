@@ -12,6 +12,7 @@ import model.Contact;
 import model.Customer;
 import model.User;
 import utilities.Alerts;
+import utilities.SpinnerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -109,22 +110,7 @@ public class AddAppointmentFormController implements Initializable {
 
         JDBC.makeConnection();
 
-        SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
-        startHourValueFactory.setWrapAround(true);
-        startHourSpinner.setValueFactory(startHourValueFactory);
-
-        SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
-        startMinuteValueFactory.setWrapAround(true);
-        startMinuteSpinner.setValueFactory(startMinuteValueFactory);
-
-
-        SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
-        endHourValueFactory.setWrapAround(true);
-        endHourSpinner.setValueFactory((endHourValueFactory));
-
-        SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
-        endMinuteValueFactory.setWrapAround(true);
-        endMinuteSpinner.setValueFactory(endMinuteValueFactory);
+        SpinnerFactory.setSpinners(startHourSpinner,12,startMinuteSpinner,0,endHourSpinner,12,endMinuteSpinner,  0);
 
         startDatePicker.setValue(LocalDate.now());
 

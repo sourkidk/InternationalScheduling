@@ -341,8 +341,6 @@ public class MainFormController implements Initializable {
                 int custID = rs5.getInt("Customer_ID");
                 int userId = rs5.getInt("User_ID");
                 int contactId = rs5.getInt("Contact_ID");
-                System.out.println(apptStart);
-                System.out.println(apptEnd);
                 currentUserAppointments.add(new Appointment(ApptID,apptTitle,apptDesc,apptLocation,
                         apptType,apptStart,apptEnd,custID,userId,contactId));
 
@@ -352,12 +350,10 @@ public class MainFormController implements Initializable {
         }
 
         LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println(currentTime);
 
         boolean upcomingAppt = false;
 
         for (Appointment appt : currentUserAppointments) {
-            System.out.println(appt.getApptStart());
             if ( appt.getApptStart().minusMinutes(15).isBefore(currentTime) && appt.getApptStart().isAfter(currentTime) ) {
                 upcomingAppt = true;
                 Alerts.dialogBox("Upcoming Appointment", "Appointment " + appt.getApptID() + ": " + appt.getApptName() + " Starting Soon", "Your " +

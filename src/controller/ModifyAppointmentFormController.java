@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import model.*;
 import utilities.Alerts;
 import utilities.DateTimeHelper;
+import utilities.SpinnerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -130,25 +131,8 @@ public class ModifyAppointmentFormController implements Initializable {
                 int endHour = zonedEnd.getHour();
                 int endMinute = zonedEnd.getMinute();
 
-
-                SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, startHour);
-                startHourValueFactory.setWrapAround(true);
-                startHourSpinner.setValueFactory(startHourValueFactory);
-
-                SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, startMinute, 5);
-                startMinuteValueFactory.setWrapAround(true);
-                startMinuteSpinner.setValueFactory(startMinuteValueFactory);
-
-                SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, endHour);
-                endHourValueFactory.setWrapAround(true);
-                endHourSpinner.setValueFactory((endHourValueFactory));
-
-                SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, endMinute, 5);
-                endMinuteValueFactory.setWrapAround(true);
-                endMinuteSpinner.setValueFactory(endMinuteValueFactory);
-
-
-
+                SpinnerFactory.setSpinners(startHourSpinner,startHour,startMinuteSpinner,startMinute,endHourSpinner,endHour,endMinuteSpinner,  endMinute);
+                
 
                 appointmentIdTextfield.setText(String.valueOf(appointmentID));
                 appointmentTitleTextfield.setText(appointmentTitle);
@@ -183,24 +167,7 @@ public class ModifyAppointmentFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JDBC.makeConnection();
 
-        SpinnerValueFactory<Integer> startHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
-        startHourValueFactory.setWrapAround(true);
-        startHourSpinner.setValueFactory(startHourValueFactory);
-
-        SpinnerValueFactory<Integer> startMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
-        startMinuteValueFactory.setWrapAround(true);
-        startMinuteSpinner.setValueFactory(startMinuteValueFactory);
-
-
-        SpinnerValueFactory<Integer> endHourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23, 12);
-        endHourValueFactory.setWrapAround(true);
-        endHourSpinner.setValueFactory((endHourValueFactory));
-
-        SpinnerValueFactory<Integer> endMinuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59, 0, 5);
-        endMinuteValueFactory.setWrapAround(true);
-        endMinuteSpinner.setValueFactory(endMinuteValueFactory);
-
-
+        SpinnerFactory.setSpinners(startHourSpinner,12,startMinuteSpinner,0,endHourSpinner,12,endMinuteSpinner,  0);
 
         startDatePicker.setValue(LocalDate.now());
 

@@ -227,7 +227,6 @@ public class DbValidation {
                 int contactId = rs.getInt("Contact_ID");
                 customerAppointments.add(new Appointment(ApptID, apptTitle, apptDesc, apptLocation,
                         apptType, apptStart, apptEnd, custID, userId, contactId));
-                System.out.println(customerAppointments.size());
             }
 
         } catch (SQLException e) {
@@ -258,7 +257,6 @@ public class DbValidation {
                 int contactId = rs.getInt("Contact_ID");
                 customerAppointments.add(new Appointment(ApptID, apptTitle, apptDesc, apptLocation,
                         apptType, apptStart, apptEnd, custID, userId, contactId));
-                System.out.println(customerAppointments.size());
             }
             
         } catch (SQLException e) {

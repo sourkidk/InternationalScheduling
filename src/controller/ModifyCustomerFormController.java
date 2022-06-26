@@ -116,8 +116,6 @@ public class ModifyCustomerFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         JDBC.makeConnection();
 
-        System.out.println("Init: transfer customer id: " + transferredCustomerID);
-
 
 
         customerCountryCombo.getItems().addAll(countries);

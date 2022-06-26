@@ -40,31 +40,29 @@ public class LoginFormController implements Initializable {
     @FXML private Button resetButton;
     @FXML private Button loginButton;
     public String localeCode;
-
-    private ObservableList<User> users = FXCollections.observableArrayList();
     private static String appUsername = null;
+    private ObservableList<User> users = FXCollections.observableArrayList();
 
     public static int getAppUserID() {
         return appUserID;
     }
 
     private static int appUserID;
-    DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
 
 
     public static String getAppUsername() {
+
         return appUsername;
     }
 
     public static void setAppUsername(String appUsername) {
+
         LoginFormController.appUsername = appUsername;
     }
 
 
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
-        System.out.println(localeCode);
         boolean validLogin = true;
         String userNameEntry = usernameTextField.getText();
         String passwordEntry = passwordTextField.getText();
@@ -153,10 +151,10 @@ public class LoginFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println(Locale.getDefault().toString());
+
         localeCode = Locale.getDefault().toString();
 
-        if( localeCode.equals("en_US")) {
+        if( localeCode.equals("fr_CA")) {
             titleLabel.setText("Horaire de Rendez-vous");
             languageLabel.setText("Française");
             timeZoneLabel.setText("Fuseau Horaire Actuel");
