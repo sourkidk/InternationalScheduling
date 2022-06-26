@@ -66,6 +66,7 @@ public class AddAppointmentFormController implements Initializable {
         String apptType = appointmentTypeTextfield.getText();
         boolean validDateTimes = false;
         boolean validCombos = false;
+        boolean appointmentTimeAvailable = false;
         int startHour = startHourSpinner.getValue();
         int startMinute = startMinuteSpinner.getValue();
         int endHour = endHourSpinner.getValue();
@@ -78,6 +79,9 @@ public class AddAppointmentFormController implements Initializable {
         String formattedStartTime = utcStartTime.format(sqlFormatter).toString();
         String formattedEndTime = utcEndTime.format(sqlFormatter).toString();
 
+        if (validateAppointmentOverlap(customerIdCombo.getValue().getCustomerId() , utcStartTime , utcEndTime)) {
+            appointmentTimeAvailable = true;
+        }
         if (validateAppointmentTime(startDatePicker.getValue(), utcStartTime, utcEndTime)) {
             validDateTimes = true;
         }
@@ -86,12 +90,14 @@ public class AddAppointmentFormController implements Initializable {
             validCombos = true;
         }
 
+
         int userID = userIdCombo.getValue().getUserID();
         int customerID = customerIdCombo.getValue().getCustomerId();
         int contactID = contactIdCombo.getValue().getContactID();
 
 
-        if (validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName) && validDateTimes && validCombos) {
+
+        if (validateAppointment(apptTitle, apptDescription, apptLocation, apptType, userName) && validDateTimes && validCombos && appointmentTimeAvailable ) {
             insertAppointment(apptTitle, apptDescription, apptLocation, apptType, userName, userName, customerID, userID, contactID, formattedStartTime, formattedEndTime);
             switchToScene(event, "/view/DatabaseForm.fxml");
         }

@@ -13,6 +13,8 @@ import java.sql.SQLException;
 
 public class Main extends Application {
 
+    public static int visitCount = 0;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../view/LoginForm.fxml"));

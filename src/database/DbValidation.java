@@ -1,15 +1,25 @@
 package database;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import model.Appointment;
 import utilities.Alerts;
+import utilities.DateTimeHelper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static java.time.ZoneOffset.UTC;
 
 public class DbValidation {
 
     private static String error;
+    private static ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+    private static DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
     public static Boolean validateCustomer(String name, String address, String postalCode, String phoneNumber){
@@ -192,6 +202,51 @@ public class DbValidation {
             validDateTimes = true;
         }
         return validDateTimes;
+    }
+    
+    public static boolean validateAppointmentOverlap (int customerID, ZonedDateTime startTime, ZonedDateTime endTime) {
+        customerAppointments.clear();
+        boolean appointmentsClearOverlap = true;
+
+        ChronoLocalDateTime newApptStart = ChronoLocalDateTime.from(startTime);
+        ChronoLocalDateTime newApptEnd = ChronoLocalDateTime.from(endTime);
+        
+        try {
+            ResultSet rs = Queries.getAppointmentsByCustomer(customerID);
+            while (rs.next()) {
+                int ApptID = rs.getInt("Appointment_ID");
+                String apptTitle = rs.getString("Title");
+                String apptDesc = rs.getString("Description");
+                String apptLocation = rs.getString("Location");
+                String apptType = rs.getString("Type");
+                LocalDateTime apptStart = LocalDateTime.parse(rs.getString("Start"), sqlFormatter);
+                LocalDateTime apptEnd = LocalDateTime.parse(rs.getString("End"),sqlFormatter);
+                int custID = rs.getInt("Customer_ID");
+                int userId = rs.getInt("User_ID");
+                int contactId = rs.getInt("Contact_ID");
+                customerAppointments.add(new Appointment(ApptID, apptTitle, apptDesc, apptLocation,
+                        apptType, apptStart, apptEnd, custID, userId, contactId));
+                System.out.println(customerAppointments.size());
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (Appointment appt: customerAppointments) {
+//            if (newApptStart.isBefore(appt.getApptStart()) && newApptEnd.isAfter(appt.getApptEnd())) {
+            if (newApptStart.isAfter(appt.getApptEnd()) || newApptEnd.isBefore(appt.getApptStart())) {
+
+            }
+            else {
+                appointmentsClearOverlap = false;
+
+            }
+        }
+        if( appointmentsClearOverlap == false) {
+            Alerts.dialogBox("Appointment Confict", "Appointment Confict", "Appointment Confict");
+        }
+        return appointmentsClearOverlap;
     }
 
     private static boolean validateUserName (String userName) {

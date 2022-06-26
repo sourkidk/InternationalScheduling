@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import database.JDBC;
 import database.Queries;
 import javafx.stage.Stage;
+import main.Main;
 import model.Appointment;
 import model.Table;
 import utilities.Alerts;
@@ -270,6 +271,7 @@ public class DatabaseFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Main.visitCount++;
 
         mainDatePicker.setValue(LocalDate.now());
 
@@ -354,7 +356,7 @@ public class DatabaseFormController implements Initializable {
                         appt.getApptType() + " session is starting at " + appt.getApptStart().format(sqlFormatter));
             }
         }
-        if (upcomingAppt == false) {
+        if (upcomingAppt == false && Main.visitCount < 2) {
             Alerts.dialogBox("No Upcoming Appointments", "", "You have no appointments in the next 15 minutes.");
         }
 

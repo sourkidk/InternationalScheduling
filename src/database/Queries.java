@@ -161,6 +161,14 @@ public abstract class Queries {
         return rs;
 
     }
+    public static ResultSet getAppointmentsByCustomer (int customerID) throws SQLException {
+        String sql = "SELECT * FROM Appointments Where Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, customerID);
+        ResultSet rs = ps.executeQuery();
+        return rs;
+
+    }
     public static ResultSet getAppointmentToModifySelect(int selectedAppointmentID) throws SQLException {
         String sql = "SELECT * FROM Appointments Where Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
