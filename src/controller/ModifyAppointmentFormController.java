@@ -74,7 +74,7 @@ public class ModifyAppointmentFormController implements Initializable {
     }
 
     /**
-     * Send customers.
+     * Send customers.  This method transfers the appointment ID from the main form to the modify form.
      *
      * @param selectedAppointmentID the selected appointment id
      */
@@ -84,7 +84,8 @@ public class ModifyAppointmentFormController implements Initializable {
     }
 
     /**
-     * On action save appointment.
+     * On action save appointment.  This method collects input from all the fields on the form and validates them against a number of
+     * parameters.  DateTime time zone adjustment occurs here.
      *
      * @param event the event
      * @throws IOException  the io exception
@@ -131,7 +132,7 @@ public class ModifyAppointmentFormController implements Initializable {
     }
 
     /**
-     * Sets appointment fields for edit.
+     * Sets appointment fields for edit.  This method populates all the form fields with the information from the currently selected item.
      *
      * @param appointmentIDToGrab the appointment id to grab
      */
@@ -194,6 +195,11 @@ public class ModifyAppointmentFormController implements Initializable {
         }
     }
 
+    /**
+     * When the modify form is loaded, the date pickers and comboboxes are initialized.
+     * @param url
+     * @param resourceBundle
+     * */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

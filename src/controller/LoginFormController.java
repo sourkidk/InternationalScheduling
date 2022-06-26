@@ -83,7 +83,8 @@ public class LoginFormController implements Initializable {
 
 
     /**
-     * On action login.
+     * On action login.  When pressed this method checks the entered values against the database of users and determines
+     * if the credentials are sufficient to allow access to the program.
      *
      * @param event the event
      * @throws IOException  the io exception
@@ -180,6 +181,11 @@ public class LoginFormController implements Initializable {
 
     }
 
+    /**
+     * When the Login form is loaded, the system Locale Code is checked and used to display the form in English or French..
+     * @param url
+     * @param resourceBundle
+     * */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -198,9 +204,6 @@ public class LoginFormController implements Initializable {
 
         }
 
-
-
-        ZonedDateTime currentSystemTime = ZonedDateTime.now();
         currentTimeZoneLabel.setText(ZoneId.systemDefault().getId());
 
     }

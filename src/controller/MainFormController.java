@@ -68,8 +68,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action view customers.
-     *
+     * On action view customers.  This fills the tableview with the full list of customers.
      * @param event the event
      * @throws SQLException the sql exception
      */
@@ -91,7 +90,8 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action by week view.
+     * On action by week view.  This fills the tableview with a set of appointments filtered by the week of the main
+     * date picker.
      *
      * @param event the event
      */
@@ -110,7 +110,8 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action by month view.
+     * On action by month view.  This fills the tableview with a set of appointments filtered by the month of the main
+     * date picker.
      *
      * @param event the event
      */
@@ -129,7 +130,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action view all.
+     * On action view all.  This fills the tableview with all appointments.
      *
      * @param event the event
      */
@@ -149,7 +150,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action view reports.
+     * On action view reports. This button takes the user to the report form.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -160,7 +161,8 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action add entry.
+     * On action add entry.  Depending on the radio button selection, this button takes the user to the AddAppointmentForm
+     * or the AddCustomerForm
      *
      * @param event the event
      * @throws IOException the io exception
@@ -180,7 +182,9 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action modify entry.
+     * On action modify entry. Depending on the radio button selection, this button takes the user
+     * to the ModifyAppointmentForm or the ModifyCustomerForm.  Because of the use of the generic tableview,
+     * the method used to populate the modify forms is a combination of getters and string slicing.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -322,7 +326,7 @@ public class MainFormController implements Initializable {
     }
 
     /**
-     * On action logout.
+     * On action logout.  Takes the user back to the Login Form.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -338,6 +342,16 @@ public class MainFormController implements Initializable {
      * The Contact list.
      */
     ObservableList<Table> contactList = FXCollections.observableArrayList();
+
+
+    /**
+     * When the Main form is loaded, the tableview is queried and diplayed.  The visit counter is incremented to prevent
+     * excessive messages.  The lambda expression is used here to add a Listener to the Picker so that any changes in that
+     * field, reload the tableview.
+     * @param url
+     * @param resourceBundle
+     * */
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

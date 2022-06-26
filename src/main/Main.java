@@ -1,7 +1,6 @@
 package main;
 
 import database.JDBC;
-import database.Queries;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +11,7 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 
 /**
- * The type Main.
+ * The Main Class.  Initializes the application and prepares Stage and Scene for display.
  */
 public class Main extends Application {
 
@@ -38,8 +37,6 @@ public class Main extends Application {
      */
     public static void main(String[] args) throws SQLException {
         JDBC.makeConnection();
-        Queries.select();
-        JDBC.closeConnection();
         launch(args);
     }
 }
