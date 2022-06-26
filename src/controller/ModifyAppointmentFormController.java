@@ -26,6 +26,9 @@ import static database.DbValidation.*;
 import static database.Queries.insertAppointment;
 import static utilities.DateTimeHelper.convertToUTC;
 
+/**
+ * The type Modify appointment form controller.
+ */
 public class ModifyAppointmentFormController implements Initializable {
 
     @FXML private TextField appointmentDescriptionTextfield;
@@ -43,14 +46,26 @@ public class ModifyAppointmentFormController implements Initializable {
     @FXML private Spinner<Integer> startMinuteSpinner;
     @FXML private ComboBox<User> userIdCombo;
     private static ZoneId currentTimeZone;
+    /**
+     * The constant transferredAppointmentID.
+     */
     public static int transferredAppointmentID;
 
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<User> users = FXCollections.observableArrayList();
+    /**
+     * The Sql formatter.
+     */
     DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
+    /**
+     * On action cancel.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         if (Alerts.confirmCancelBox()) {
@@ -58,11 +73,23 @@ public class ModifyAppointmentFormController implements Initializable {
         }
     }
 
+    /**
+     * Send customers.
+     *
+     * @param selectedAppointmentID the selected appointment id
+     */
     public void sendCustomers(int selectedAppointmentID) {
 
         transferredAppointmentID = selectedAppointmentID;
     }
 
+    /**
+     * On action save appointment.
+     *
+     * @param event the event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws IOException, SQLException {
         String userName = LoginFormController.getAppUsername();
@@ -103,6 +130,11 @@ public class ModifyAppointmentFormController implements Initializable {
         }
     }
 
+    /**
+     * Sets appointment fields for edit.
+     *
+     * @param appointmentIDToGrab the appointment id to grab
+     */
     public void setAppointmentFieldsForEdit(int appointmentIDToGrab) {
         try {
             ResultSet rs = Queries.getAppointmentToModifySelect(appointmentIDToGrab);
@@ -132,7 +164,7 @@ public class ModifyAppointmentFormController implements Initializable {
                 int endMinute = zonedEnd.getMinute();
 
                 SpinnerFactory.setSpinners(startHourSpinner,startHour,startMinuteSpinner,startMinute,endHourSpinner,endHour,endMinuteSpinner,  endMinute);
-                
+
 
                 appointmentIdTextfield.setText(String.valueOf(appointmentID));
                 appointmentTitleTextfield.setText(appointmentTitle);

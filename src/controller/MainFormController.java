@@ -27,11 +27,13 @@ import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import static controller.SceneController.switchToScene;
 import static java.time.ZoneOffset.*;
 
+/**
+ * The type Main form controller.
+ */
 public class MainFormController implements Initializable {
 
     private static Stage stage;
@@ -48,15 +50,29 @@ public class MainFormController implements Initializable {
 
     private ObservableList<ObservableList> data;
     private ObservableList<Appointment> currentUserAppointments = FXCollections.observableArrayList();
+    /**
+     * The Sql formatter.
+     */
     DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
+    /**
+     * Sets radio buttons label.
+     *
+     * @param viewType the view type
+     */
     public void setRadioButtonsLabel(String viewType) {
         dynamicAddButton.setText("Add " + viewType);
         dynamicModifyButton.setText("Modify " + viewType);
         dynamicDeleteButton.setText("Delete " + viewType);
     }
 
+    /**
+     * On action view customers.
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     */
     @FXML
     void onActionViewCustomers(ActionEvent event) throws SQLException {
         setRadioButtonsLabel("Customer");
@@ -74,6 +90,11 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * On action by week view.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionByWeekView(ActionEvent event) {
         setRadioButtonsLabel("Appointment");
@@ -87,6 +108,12 @@ public class MainFormController implements Initializable {
         }
 
     }
+
+    /**
+     * On action by month view.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionByMonthView(ActionEvent event) {
         setRadioButtonsLabel("Appointment");
@@ -101,6 +128,11 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * On action view all.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionViewAll(ActionEvent event) {
         setRadioButtonsLabel("Appointment");
@@ -116,11 +148,23 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * On action view reports.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionViewReports(ActionEvent event) throws IOException {
         switchToScene(event,"/view/ReportForm.fxml");
     }
 
+    /**
+     * On action add entry.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionAddEntry(ActionEvent event) throws IOException {
 
@@ -135,6 +179,12 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * On action modify entry.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionModifyEntry(ActionEvent event) throws IOException {
 
@@ -199,6 +249,12 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * On action delete entry.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionDeleteEntry(ActionEvent event) throws IOException {
 
@@ -265,6 +321,12 @@ public class MainFormController implements Initializable {
 
     }
 
+    /**
+     * On action logout.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
         switchToScene(event,"/view/LoginForm.fxml");
@@ -272,9 +334,9 @@ public class MainFormController implements Initializable {
     }
 
 
-
-
-
+    /**
+     * The Contact list.
+     */
     ObservableList<Table> contactList = FXCollections.observableArrayList();
 
     @Override
@@ -294,20 +356,20 @@ public class MainFormController implements Initializable {
             ResultSet rs = Queries.getAllAppointmentsSelect();
             DynamicTableview.populateTableView(mainTableview, rs, data);
 
-            mainDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            mainDatePicker.valueProperty().addListener((obs, previousValue, newValue) -> {
 
                     mainDatePicker.setDisable(false);
                     if( viewMonthRadioButton.isSelected() ) {
 
                         try {
-                            ResultSet rs2 = Queries.getThisMonthsAppointmentsSelect(newVal);
+                            ResultSet rs2 = Queries.getThisMonthsAppointmentsSelect(newValue);
                             DynamicTableview.populateTableView(mainTableview, rs2, data);
                         } catch (SQLException e) {
                         }
                     } else if ( viewWeekRadioButton.isSelected() ) {
 
                         try {
-                            ResultSet rs3 = Queries.getThisWeeksAppointmentsSelect(newVal);
+                            ResultSet rs3 = Queries.getThisWeeksAppointmentsSelect(newValue);
                             DynamicTableview.populateTableView(mainTableview, rs3, data);
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -333,8 +395,6 @@ public class MainFormController implements Initializable {
                 String apptDesc = rs5.getString("Description");
                 String apptLocation =rs5.getString("Location");
                 String apptType = rs5.getString("Type");
-//                LocalDateTime apptStart = LocalDateTime.parse(rs5.getString("Start"), sqlFormatter);
-//                LocalDateTime apptEnd = LocalDateTime.parse(rs5.getString("End"),sqlFormatter);
                 LocalDateTime apptStart = DateTimeHelper.convertFromUTCLocal(rs5.getString("Start"), sqlFormatter, ZoneId.systemDefault());
                 LocalDateTime apptEnd = DateTimeHelper.convertFromUTCLocal(rs5.getString("End"), sqlFormatter, ZoneId.systemDefault());
 

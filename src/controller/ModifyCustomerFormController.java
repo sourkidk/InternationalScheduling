@@ -21,6 +21,9 @@ import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
 
+/**
+ * The type Modify customer form controller.
+ */
 public class ModifyCustomerFormController implements Initializable {
 
     @FXML private TextField customerIdTextfield;
@@ -30,12 +33,21 @@ public class ModifyCustomerFormController implements Initializable {
     @FXML private TextField customerNameTextfield;
     @FXML private TextField customerPhoneTextfield;
     @FXML private TextField customerPostalTextfield;
+    /**
+     * The constant transferredCustomerID.
+     */
     public static int transferredCustomerID;
 
     private ObservableList<Country> countries = FXCollections.observableArrayList();
     private ObservableList<FirstLevelDivision> firstLevelDivisions = FXCollections.observableArrayList();
     private ObservableList<FirstLevelDivision> filterFirstLevelDivisions = FXCollections.observableArrayList();
 
+    /**
+     * On action cancel.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         if (Alerts.confirmCancelBox()) {
@@ -43,11 +55,22 @@ public class ModifyCustomerFormController implements Initializable {
         }
     }
 
+    /**
+     * Send customers.
+     *
+     * @param selectedCustomerID the selected customer id
+     */
     public void sendCustomers(int selectedCustomerID) {
 
         transferredCustomerID = selectedCustomerID;
     }
 
+    /**
+     * On action save customer.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws IOException {
         int customerID = Integer.parseInt(customerIdTextfield.getText());
@@ -77,6 +100,11 @@ public class ModifyCustomerFormController implements Initializable {
         }
     }
 
+    /**
+     * Sets customer fields for edit.
+     *
+     * @param customerIDToGrab the customer id to grab
+     */
     public void setCustomerFieldsForEdit(int customerIDToGrab) {
         try {
             ResultSet rs = Queries.getCustomerToModifySelect(customerIDToGrab);

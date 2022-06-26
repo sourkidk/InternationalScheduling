@@ -18,12 +18,25 @@ import java.time.format.DateTimeFormatter;
 
 import static java.time.ZoneOffset.UTC;
 
+/**
+ * The type Dynamic tableview.
+ */
 public class DynamicTableview {
 
+    /**
+     * The Sql formatter.
+     */
     static DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
-
+    /**
+     * Populate table view.
+     *
+     * @param tableview the tableview
+     * @param rs        the rs
+     * @param data      the data
+     * @throws SQLException the sql exception
+     */
     public static void populateTableView(TableView tableview, ResultSet rs, ObservableList data) throws SQLException {
 //        ObservableList<Integer> objectIDList = FXCollections.observableArrayList();
 
@@ -59,6 +72,14 @@ public class DynamicTableview {
         }
     }
 
+    /**
+     * Populate appt table view.
+     *
+     * @param tableview the tableview
+     * @param rs        the rs
+     * @param data      the data
+     * @throws SQLException the sql exception
+     */
     public static void populateApptTableView(TableView tableview, ResultSet rs, ObservableList data) throws SQLException {
 //        ObservableList<Integer> objectIDList = FXCollections.observableArrayList();
 

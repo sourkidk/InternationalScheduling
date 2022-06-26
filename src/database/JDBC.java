@@ -4,6 +4,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * The type Jdbc.
+ */
 public class JDBC {
  private static final String protocol = "jdbc";
      private static final String vendor = ":mysql:";
@@ -12,16 +15,27 @@ public class JDBC {
                  private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
         private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
 
+    /**
+     * Sets db user name.
+     *
+     * @param dbUserName the db user name
+     */
     public static void setDbUserName(String dbUserName) {
         JDBC.dbUserName = dbUserName;
     }
 
     private static String dbUserName = "sqlUser"; // Username
         private static String dbPassword = "Passw0rd!"; // Password
-        public static Connection connection = null;  // Connection Interface
+    /**
+     * The constant connection.
+     */
+    public static Connection connection = null;  // Connection Interface
         private static PreparedStatement preparedStatement;
 
-         public static void makeConnection() {
+    /**
+     * Make connection.
+     */
+    public static void makeConnection() {
 
           try {
               Class.forName(driver); // Locate Driver
@@ -37,10 +51,19 @@ public class JDBC {
                   }
           }
 
-            public static Connection getConnection() {
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
+    public static Connection getConnection() {
                 return connection;
             }
-             public static void closeConnection() {
+
+    /**
+     * Close connection.
+     */
+    public static void closeConnection() {
                  try {
                      connection.close();
                      System.out.println("Connection closed!");
@@ -49,13 +72,27 @@ public class JDBC {
                  }
              }
 
-       public static void makePreparedStatement(String sqlStatement, Connection conn) throws SQLException {
+    /**
+     * Make prepared statement.
+     *
+     * @param sqlStatement the sql statement
+     * @param conn         the conn
+     * @throws SQLException the sql exception
+     */
+    public static void makePreparedStatement(String sqlStatement, Connection conn) throws SQLException {
            if (conn != null)
                preparedStatement = conn.prepareStatement(sqlStatement);
            else
                System.out.println("Prepared Statement Creation Failed!");
        }
-       public static PreparedStatement getPreparedStatement() throws SQLException {
+
+    /**
+     * Gets prepared statement.
+     *
+     * @return the prepared statement
+     * @throws SQLException the sql exception
+     */
+    public static PreparedStatement getPreparedStatement() throws SQLException {
            if (preparedStatement != null) {
                System.out.println(preparedStatement);
 //               String rs =
@@ -65,14 +102,29 @@ public class JDBC {
            return null;
        }
 
+    /**
+     * Gets db user name.
+     *
+     * @return the db user name
+     */
     public static String getDbUserName() {
         return dbUserName;
     }
 
+    /**
+     * Gets db password.
+     *
+     * @return the db password
+     */
     public static String getDbPassword() {
         return dbPassword;
     }
 
+    /**
+     * Sets db password.
+     *
+     * @param dbPassword the db password
+     */
     public static void setDbPassword(String dbPassword) {
         JDBC.dbPassword = dbPassword;
     }

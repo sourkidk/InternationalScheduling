@@ -28,6 +28,9 @@ import static database.DbValidation.*;
 import static database.Queries.*;
 import static utilities.DateTimeHelper.convertToUTC;
 
+/**
+ * The type Add appointment form controller.
+ */
 public class AddAppointmentFormController implements Initializable {
 
     @FXML private TextField appointmentDescriptionTextfield;
@@ -49,8 +52,17 @@ public class AddAppointmentFormController implements Initializable {
     private ObservableList<Contact> contacts = FXCollections.observableArrayList();
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
     private ObservableList<User> users = FXCollections.observableArrayList();
+    /**
+     * The Sql formatter.
+     */
     DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    /**
+     * On action cancel.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         if (Alerts.confirmCancelBox()) {
@@ -58,6 +70,13 @@ public class AddAppointmentFormController implements Initializable {
         }
     }
 
+    /**
+     * On action save appointment.
+     *
+     * @param event the event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     @FXML
     void onActionSaveAppointment(ActionEvent event) throws IOException, SQLException {
         String userName = LoginFormController.getAppUsername();

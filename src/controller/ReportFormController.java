@@ -13,6 +13,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import model.Contact;
 import model.Month;
+import utilities.ComboBoxStaging;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +24,9 @@ import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
 
+/**
+ * The type Report form controller.
+ */
 public class ReportFormController implements Initializable {
 
     @FXML private RadioButton contactScheduleRadioButton;
@@ -41,6 +45,9 @@ public class ReportFormController implements Initializable {
     private ObservableList<String> types = FXCollections.observableArrayList();
     private ObservableList<Integer> yearList = FXCollections.observableArrayList();
 
+    /**
+     * Add months.
+     */
     void addMonths() {
         String[] months = {"January", "February", "March", "April","May","June", "July","August","September","October", "November", "December"};
         for (int i = 0 ; i < months.length; i++ ) {
@@ -51,6 +58,9 @@ public class ReportFormController implements Initializable {
         }
     }
 
+    /**
+     * Add years.
+     */
     void addYears() {
         for (int i = 0; i < 31 ; i++ ) {
             int startYear = 2020;
@@ -60,15 +70,17 @@ public class ReportFormController implements Initializable {
     }
 
 
+    /**
+     * On action by month report.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionByMonthReport(ActionEvent event) {
         mainTableview.getColumns().clear();
         mainTableview.getItems().clear();
 
-        contactComboBox.setDisable(true);
-        typeComboBox.setDisable(true);
-        monthComboBox.setDisable(false);
-        yearComboBox.setDisable(false);
+        ComboBoxStaging.setComboBoxStatus(contactComboBox, true, typeComboBox, true, monthComboBox,false, yearComboBox, false);
 
         Month selectedMonth = monthComboBox.getValue();
         int year = yearComboBox.getValue();
@@ -82,33 +94,51 @@ public class ReportFormController implements Initializable {
         }
     }
 
+    /**
+     * On action by type report.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionByTypeReport(ActionEvent event) {
         mainTableview.getColumns().clear();
         mainTableview.getItems().clear();
 
-        contactComboBox.setDisable(true);
-        typeComboBox.setDisable(false);
-        monthComboBox.setDisable(true);
-        yearComboBox.setDisable(true);
+        ComboBoxStaging.setComboBoxStatus(contactComboBox, true, typeComboBox, false, monthComboBox,true, yearComboBox, true);
+
 
     }
 
+    /**
+     * On action contact schedule report.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionContactScheduleReport(ActionEvent event) {
-        typeComboBox.setDisable(true);
-        monthComboBox.setDisable(true);
-        yearComboBox.setDisable(true);
-        contactComboBox.setDisable(false);
+        ComboBoxStaging.setComboBoxStatus(contactComboBox, false, typeComboBox, true, monthComboBox,true, yearComboBox, true);
+
 
     }
 
+    /**
+     * On action logout.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
         switchToScene(event,"/view/LoginForm.fxml");
 
     }
 
+    /**
+     * On action main menu.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void onActionMainMenu(ActionEvent event) throws IOException {
         switchToScene(event, "/view/MainForm.fxml");
@@ -116,14 +146,18 @@ public class ReportFormController implements Initializable {
 
     }
 
+    /**
+     * On action special report.
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     */
     @FXML
     void onActionSpecialReport(ActionEvent event) throws SQLException {
         mainTableview.getColumns().clear();
         mainTableview.getItems().clear();
-        typeComboBox.setDisable(true);
-        monthComboBox.setDisable(true);
-        yearComboBox.setDisable(true);
-        contactComboBox.setDisable(true);
+        ComboBoxStaging.setComboBoxStatus(contactComboBox, true, typeComboBox, true, monthComboBox,true, yearComboBox, true);
+
         ResultSet rs = Queries.getTotalAppointmentsByContact();
         DynamicTableview.populateTableView(mainTableview, rs, data);
 
@@ -132,10 +166,8 @@ public class ReportFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        typeComboBox.setDisable(true);
-        monthComboBox.setDisable(true);
-        yearComboBox.setDisable(true);
-        contactComboBox.setDisable(false);
+        ComboBoxStaging.setComboBoxStatus(contactComboBox, false, typeComboBox, true, monthComboBox,true, yearComboBox, true);
+
 
         addMonths();
         monthComboBox.getItems().addAll(monthsList);
@@ -191,8 +223,8 @@ public class ReportFormController implements Initializable {
 
 
 
-        contactComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal == null) {
+        contactComboBox.valueProperty().addListener((obs, previousValue, newValue) -> {
+            if (newValue == null) {
                 contactComboBox.getItems().clear();
                 contactComboBox.setDisable(true);
 
@@ -206,15 +238,15 @@ public class ReportFormController implements Initializable {
             }
         });
 
-        typeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-                    if (newVal == null) {
+        typeComboBox.valueProperty().addListener((obs, previousValue, newValue) -> {
+                    if (newValue == null) {
                         typeComboBox.getItems().clear();
                         typeComboBox.setDisable(true);
 
                     } else {
                         typeComboBox.setDisable(false);
                         try {
-                            ResultSet rs = Queries.getCustomersByTypeSelect(newVal);
+                            ResultSet rs = Queries.getCustomersByTypeSelect(newValue);
                             DynamicTableview.populateTableView(mainTableview,rs,data);
                             } catch (SQLException e) {
                         }
@@ -223,32 +255,32 @@ public class ReportFormController implements Initializable {
 
 
 
-        monthComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+        monthComboBox.valueProperty().addListener((obs, previousValue, newValue) -> {
                     int year = yearComboBox.getValue();
-                    if (newVal == null) {
+                    if (newValue == null) {
                         monthComboBox.getItems().clear();
                         monthComboBox.setDisable(true);
 
                     } else {
                         monthComboBox.setDisable(false);
                         try {
-                            ResultSet rs = Queries.getMonthsCustomersSelect(year, newVal);
+                            ResultSet rs = Queries.getMonthsCustomersSelect(year, newValue);
                             DynamicTableview.populateTableView(mainTableview,rs,data);
                             } catch (SQLException e) {
                         }
                     }
                 });
 
-        yearComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+        yearComboBox.valueProperty().addListener((obs, previousValue, newValue) -> {
                     Month month = monthComboBox.getValue();
-                    if (newVal == null) {
+                    if (newValue == null) {
                         yearComboBox.getItems().clear();
                         yearComboBox.setDisable(true);
 
                     } else {
                         yearComboBox.setDisable(false);
                         try {
-                            ResultSet rs = Queries.getMonthsCustomersSelect(newVal, month);
+                            ResultSet rs = Queries.getMonthsCustomersSelect(newValue, month);
                             DynamicTableview.populateTableView(mainTableview,rs,data);
                             } catch (SQLException e) {
                         }

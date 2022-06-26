@@ -8,11 +8,24 @@ import java.time.format.DateTimeFormatter;
 
 import static java.time.ZoneOffset.UTC;
 
+/**
+ * The type Date time helper.
+ */
 public class DateTimeHelper {
 
+    /**
+     * The Sql formatter.
+     */
     DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
+    /**
+     * Format time string.
+     *
+     * @param hour   the hour
+     * @param minute the minute
+     * @return the string
+     */
     public static String formatTime(int hour, int minute) {
         String tempHour = "";
         String tempMin = "";
@@ -27,12 +40,29 @@ public class DateTimeHelper {
         return time;
      }
 
+    /**
+     * To string date time string.
+     *
+     * @param date   the date
+     * @param hour   the hour
+     * @param minute the minute
+     * @return the string
+     */
     public static String toStringDateTime(String date, int hour, int minute) {
         String time = formatTime(hour, minute);
         String dateTime = String.valueOf(date) + " " + time;
         return dateTime;
     }
 
+    /**
+     * Convert to utc zoned date time.
+     *
+     * @param date     the date
+     * @param hour     the hour
+     * @param min      the min
+     * @param timeZone the time zone
+     * @return the zoned date time
+     */
     public static ZonedDateTime convertToUTC(LocalDate date, int hour, int min, ZoneId timeZone) {
 
         LocalDateTime localDateTime = LocalDateTime.parse(date + "T"+ formatTime(hour,min));
@@ -42,6 +72,14 @@ public class DateTimeHelper {
         return zonedDateTime;
 
     }
+
+    /**
+     * Convert from utc zoned date time.
+     *
+     * @param datetime the datetime
+     * @param timeZone the time zone
+     * @return the zoned date time
+     */
     public static ZonedDateTime convertFromUTC(LocalDateTime datetime, ZoneId timeZone) {
 
         ZonedDateTime zonedDateTime = ZonedDateTime.of(datetime, UTC).withZoneSameInstant(timeZone);
@@ -49,6 +87,14 @@ public class DateTimeHelper {
 
     }
 
+    /**
+     * Convert from utc local local date time.
+     *
+     * @param timeString   the time string
+     * @param sqlFormatter the sql formatter
+     * @param currentZone  the current zone
+     * @return the local date time
+     */
     public static LocalDateTime convertFromUTCLocal(String timeString, DateTimeFormatter sqlFormatter, ZoneId currentZone) {
 
         LocalDateTime utcTime = LocalDateTime.parse(timeString, sqlFormatter);
@@ -59,6 +105,12 @@ public class DateTimeHelper {
     }
 
 
+    /**
+     * Gets startof month.
+     *
+     * @param date the date
+     * @return the startof month
+     */
     public static LocalDate getStartofMonth(LocalDate date) {
         int year = date.getYear();
         int month = date.getMonthValue();
@@ -67,6 +119,12 @@ public class DateTimeHelper {
         return monthStart;
     }
 
+    /**
+     * Gets end of month.
+     *
+     * @param date the date
+     * @return the end of month
+     */
     public static LocalDate getEndOfMonth(LocalDate date) {
         int year = date.getYear();
         int month = date.getMonthValue();

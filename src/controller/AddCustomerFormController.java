@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
 
+/**
+ * The type Add customer form controller.
+ */
 public class AddCustomerFormController implements Initializable {
 
     @FXML private TextField customerIdTextfield;
@@ -37,6 +40,11 @@ public class AddCustomerFormController implements Initializable {
     private ObservableList<FirstLevelDivision> firstLevelDivisions = FXCollections.observableArrayList();
     private ObservableList<FirstLevelDivision> filterFirstLevelDivisions = FXCollections.observableArrayList();
 
+    /**
+     * On action filter divisions.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionFilterDivisions(ActionEvent event) {
 
@@ -56,6 +64,13 @@ public class AddCustomerFormController implements Initializable {
     }
 
 
+    /**
+     * On action save customer.
+     *
+     * @param event the event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     @FXML
     void onActionSaveCustomer(ActionEvent event) throws IOException, SQLException {
 
@@ -83,6 +98,12 @@ public class AddCustomerFormController implements Initializable {
         }
     }
 
+    /**
+     * On action cancel.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML void onActionCancel(ActionEvent event) throws IOException {
         if (Alerts.confirmCancelBox()) {
             switchToScene(event, "/view/MainForm.fxml");

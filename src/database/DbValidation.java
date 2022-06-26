@@ -15,6 +15,9 @@ import java.time.format.DateTimeFormatter;
 
 import static java.time.ZoneOffset.UTC;
 
+/**
+ * The type Db validation.
+ */
 public class DbValidation {
 
     private static String error;
@@ -22,6 +25,15 @@ public class DbValidation {
     private static DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
+    /**
+     * Validate customer boolean.
+     *
+     * @param name        the name
+     * @param address     the address
+     * @param postalCode  the postal code
+     * @param phoneNumber the phone number
+     * @return the boolean
+     */
     public static Boolean validateCustomer(String name, String address, String postalCode, String phoneNumber){
         error = "";
         if (validateName(name) == false || validateAddress(address) == false || validatePostalCode(postalCode) == false || validatePhoneNumber(phoneNumber) == false ){
@@ -87,6 +99,16 @@ public class DbValidation {
         }
     }
 
+    /**
+     * Validate appointment boolean.
+     *
+     * @param title       the title
+     * @param description the description
+     * @param location    the location
+     * @param type        the type
+     * @param userName    the user name
+     * @return the boolean
+     */
     public static Boolean validateAppointment(String title, String description, String location,
                                               String type, String userName) {
         error = "";
@@ -139,6 +161,14 @@ public class DbValidation {
         }
     }
 
+    /**
+     * Validate appointment combos boolean.
+     *
+     * @param userCombo     the user combo
+     * @param customerCombo the customer combo
+     * @param contactCombo  the contact combo
+     * @return the boolean
+     */
     public static boolean validateAppointmentCombos( ComboBox userCombo, ComboBox customerCombo, ComboBox contactCombo) {
         boolean validCombos = false;
         if ( userCombo.getValue() == null || customerCombo.getValue() == null || contactCombo.getValue() == null) {
@@ -176,6 +206,14 @@ public class DbValidation {
         }
     }
 
+    /**
+     * Validate appointment time boolean.
+     *
+     * @param date      the date
+     * @param startTime the start time
+     * @param endTime   the end time
+     * @return the boolean
+     */
     public static boolean validateAppointmentTime (LocalDate date, ZonedDateTime startTime, ZonedDateTime endTime) {
         boolean validDateTimes = false;
 
@@ -210,6 +248,12 @@ public class DbValidation {
         return validDateTimes;
     }
 
+    /**
+     * Count customer appointments int.
+     *
+     * @param customerID the customer id
+     * @return the int
+     */
     public static int countCustomerAppointments (int customerID ) {
         customerAppointments.clear();
         try {
@@ -234,7 +278,15 @@ public class DbValidation {
         }
         return customerAppointments.size();
     }
-    
+
+    /**
+     * Validate appointment overlap boolean.
+     *
+     * @param customerID the customer id
+     * @param startTime  the start time
+     * @param endTime    the end time
+     * @return the boolean
+     */
     public static boolean validateAppointmentOverlap (int customerID, ZonedDateTime startTime, ZonedDateTime endTime) {
         customerAppointments.clear();
         boolean appointmentsClearOverlap = true;

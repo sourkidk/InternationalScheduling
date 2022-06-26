@@ -7,8 +7,18 @@ import java.util.Optional;
 
 import static controller.SceneController.switchToScene;
 
+/**
+ * The type Alerts.
+ */
 public class Alerts {
 
+    /**
+     * Dialog box.
+     *
+     * @param alertTitle   the alert title
+     * @param alertReason  the alert reason
+     * @param alertMessage the alert message
+     */
     public static void dialogBox(String alertTitle, String alertReason, String alertMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(alertTitle);
@@ -16,6 +26,13 @@ public class Alerts {
         alert.setContentText(alertMessage);
         alert.showAndWait();
     }
+
+    /**
+     * Deleted appt message.
+     *
+     * @param apptID   the appt id
+     * @param apptType the appt type
+     */
     public static void deletedApptMessage(int apptID, String apptType) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Appointment Cancelled");
@@ -23,6 +40,10 @@ public class Alerts {
         alert.setContentText(apptType + " Session has been cancelled " );
         alert.showAndWait();
     }
+
+    /**
+     * Invalid username french dialog box.
+     */
     public static void invalidUsernameFrenchDialogBox() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Erreur");
@@ -30,6 +51,10 @@ public class Alerts {
         alert.setContentText("Merci d'entrer un nom d'utilisateur valide.");
         alert.showAndWait();
     }
+
+    /**
+     * Invalid username english dialog box.
+     */
     public static void invalidUsernameEnglishDialogBox() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
@@ -44,6 +69,10 @@ public class Alerts {
         alert.setContentText("Veuillez entrer le mot de passe correct.");
         alert.showAndWait();
     }
+
+    /**
+     * Invalid password english dialog box.
+     */
     public static void invalidPasswordEnglishDialogBox() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
@@ -52,6 +81,11 @@ public class Alerts {
         alert.showAndWait();
     }
 
+    /**
+     * Confirm cancel box boolean.
+     *
+     * @return the boolean
+     */
     public static boolean confirmCancelBox() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will clear any changes you've made. " +
                 "Do you want to continue? ");
@@ -64,6 +98,11 @@ public class Alerts {
         }
     }
 
+    /**
+     * Confirm delete box boolean.
+     *
+     * @return the boolean
+     */
     public static boolean confirmDeleteBox() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item? ");
         Optional<ButtonType> result = alert.showAndWait();
@@ -75,6 +114,11 @@ public class Alerts {
         }
     }
 
+    /**
+     * Confirm update box boolean.
+     *
+     * @return the boolean
+     */
     public static boolean confirmUpdateBox() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to update this item? ");
         Optional<ButtonType> result = alert.showAndWait();

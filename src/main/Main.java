@@ -11,8 +11,14 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
+/**
+ * The type Main.
+ */
 public class Main extends Application {
 
+    /**
+     * The constant visitCount.
+     */
     public static int visitCount = 0;
 
     @Override
@@ -24,6 +30,12 @@ public class Main extends Application {
     }
 
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws SQLException the sql exception
+     */
     public static void main(String[] args) throws SQLException {
         JDBC.makeConnection();
         Queries.select();

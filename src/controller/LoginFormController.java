@@ -27,6 +27,9 @@ import java.util.ResourceBundle;
 
 import static controller.SceneController.switchToScene;
 
+/**
+ * The type Login form controller.
+ */
 public class LoginFormController implements Initializable {
 
     @FXML private Label currentTimeZoneLabel;
@@ -39,10 +42,18 @@ public class LoginFormController implements Initializable {
     @FXML private TextField usernameTextField;
     @FXML private Button resetButton;
     @FXML private Button loginButton;
+    /**
+     * The Locale code.
+     */
     public String localeCode;
     private static String appUsername = null;
     private ObservableList<User> users = FXCollections.observableArrayList();
 
+    /**
+     * Gets app user id.
+     *
+     * @return the app user id
+     */
     public static int getAppUserID() {
         return appUserID;
     }
@@ -50,17 +61,34 @@ public class LoginFormController implements Initializable {
     private static int appUserID;
 
 
+    /**
+     * Gets app username.
+     *
+     * @return the app username
+     */
     public static String getAppUsername() {
 
         return appUsername;
     }
 
+    /**
+     * Sets app username.
+     *
+     * @param appUsername the app username
+     */
     public static void setAppUsername(String appUsername) {
 
         LoginFormController.appUsername = appUsername;
     }
 
 
+    /**
+     * On action login.
+     *
+     * @param event the event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     @FXML
     void onActionLogin(ActionEvent event) throws IOException, SQLException {
         boolean validLogin = true;
@@ -98,7 +126,7 @@ public class LoginFormController implements Initializable {
                         SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Password ---  Login Failed.");
 
                         validLogin = false;
-                        if( localeCode.equals("en_US")) {
+                        if( localeCode.equals("fr_CA")) {
                             Alerts.invalidPasswordFrenchDialogBox();
                         }
                         else {
@@ -112,7 +140,7 @@ public class LoginFormController implements Initializable {
                 else {
                     SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
                     validLogin = false;
-                    if( localeCode.equals("en_US")) {
+                    if( localeCode.equals("fr_CA")) {
                         Alerts.invalidUsernameFrenchDialogBox();
                     }
                     else {
@@ -124,7 +152,7 @@ public class LoginFormController implements Initializable {
                 validLogin = false;
                 SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
 
-                if( localeCode.equals("en_US")) {
+                if( localeCode.equals("fr_CA")) {
                     Alerts.invalidUsernameFrenchDialogBox();
                 }
                 else {
@@ -142,6 +170,11 @@ public class LoginFormController implements Initializable {
         }
     }
 
+    /**
+     * On action reset fields.
+     *
+     * @param event the event
+     */
     @FXML
     void onActionResetFields(ActionEvent event) {
 
