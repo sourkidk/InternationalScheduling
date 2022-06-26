@@ -61,7 +61,7 @@ public class ModifyAppointmentFormController implements Initializable {
 
 
     /**
-     * On action cancel.
+     * On action cancel.  This button will cancel any changes made to the Appointment after being prompted for confirmation.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -78,7 +78,7 @@ public class ModifyAppointmentFormController implements Initializable {
      *
      * @param selectedAppointmentID the selected appointment id
      */
-    public void sendCustomers(int selectedAppointmentID) {
+    public void sendAppointment(int selectedAppointmentID) {
 
         transferredAppointmentID = selectedAppointmentID;
     }

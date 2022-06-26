@@ -43,7 +43,7 @@ public class ModifyCustomerFormController implements Initializable {
     private ObservableList<FirstLevelDivision> filterFirstLevelDivisions = FXCollections.observableArrayList();
 
     /**
-     * On action cancel.
+     * On action cancel.  This button will cancel any changes made to the customer after being prompted for confirmation.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -56,7 +56,7 @@ public class ModifyCustomerFormController implements Initializable {
     }
 
     /**
-     * Send customers.
+     * Send customers.  This method transfers the appointment ID from the main form to the modify form.
      *
      * @param selectedCustomerID the selected customer id
      */
@@ -66,7 +66,8 @@ public class ModifyCustomerFormController implements Initializable {
     }
 
     /**
-     * On action save customer.
+     * On action save customer.  This method collects input from all the fields on the form and validates they are not blank.
+     * Once validated the changes are written to the database.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -101,7 +102,7 @@ public class ModifyCustomerFormController implements Initializable {
     }
 
     /**
-     * Sets customer fields for edit.
+     * Sets customer fields for edit.  This method populates all the form fields with the information from the currently selected item.
      *
      * @param customerIDToGrab the customer id to grab
      */
@@ -139,6 +140,13 @@ public class ModifyCustomerFormController implements Initializable {
         } catch (SQLException e) {
         }
     }
+
+    /**
+     * When the modify form is loaded, comboboxes are initialized with the Countries and First-level Divisions.
+     * Lambda function is used here to filter the first-level divisions bases on the country selected.
+     * @param url
+     * @param resourceBundle
+     * */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

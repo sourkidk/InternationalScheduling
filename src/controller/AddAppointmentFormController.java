@@ -58,7 +58,7 @@ public class AddAppointmentFormController implements Initializable {
     DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * On action cancel.
+     * On action cancel.  This button will cancel any changes made to the appointment form after being prompted for confirmation.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -71,7 +71,8 @@ public class AddAppointmentFormController implements Initializable {
     }
 
     /**
-     * On action save appointment.
+     * On action save appointment.  This method collects input from all the fields on the form and validates them against a number of
+     * parameters.  DateTime time zone adjustment occurs here.
      *
      * @param event the event
      * @throws IOException  the io exception
@@ -124,6 +125,11 @@ public class AddAppointmentFormController implements Initializable {
 
     }
 
+    /**
+     * When the add appointment form is loaded, the date pickers and comboboxes are initialized.
+     * @param url
+     * @param resourceBundle
+     * */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

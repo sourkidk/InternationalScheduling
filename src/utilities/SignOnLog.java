@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * The type Sign on log.
+ * The type Sign on log.  Class for generating log file from login attempts.
  */
 public class SignOnLog {
 
@@ -20,7 +20,7 @@ public class SignOnLog {
     public static DateTimeFormatter sqlFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * Log sign on attempt.
+     * Log sign on attempt.  Uses BufferedWriter class to generate lines of text from the login parameters.
      *
      * @param input the input
      * @throws FileNotFoundException the file not found exception

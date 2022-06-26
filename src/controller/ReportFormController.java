@@ -110,7 +110,7 @@ public class ReportFormController implements Initializable {
     }
 
     /**
-     * On action contact schedule report.
+     * On action contact schedule report.  This method displays the schedule for each contact.  It is modulated by the contact ComboBox.
      *
      * @param event the event
      */
@@ -122,7 +122,7 @@ public class ReportFormController implements Initializable {
     }
 
     /**
-     * On action logout.
+     * On action logout.  You can exit to the logout form from this form.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -134,7 +134,7 @@ public class ReportFormController implements Initializable {
     }
 
     /**
-     * On action main menu.
+     * On action switch scenes to main menu.
      *
      * @param event the event
      * @throws IOException the io exception
@@ -147,7 +147,12 @@ public class ReportFormController implements Initializable {
     }
 
     /**
-     * On action special report.
+     * On action special report.  My special report uses an aggregate SQL function to count the number of appointments
+     * with each contact and displays them in order of that count.
+     * This should allow the user to, at a glance, get a sense of which contacts are the most active and which
+     * need to be scheduled more or less.
+     *
+     *
      *
      * @param event the event
      * @throws SQLException the sql exception
@@ -162,7 +167,12 @@ public class ReportFormController implements Initializable {
         DynamicTableview.populateTableView(mainTableview, rs, data);
 
     }
-
+    /**
+     * When the report form is loaded, the comboboxes are initialized but disabled.  Lambdas are used here to add listeners to each
+     * combobox, that when they are modified the tableview will refresh, displaying the new results.
+     * @param url
+     * @param resourceBundle
+     * */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

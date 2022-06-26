@@ -8,7 +8,7 @@ import java.util.Optional;
 import static controller.SceneController.switchToScene;
 
 /**
- * The type Alerts.
+ * The type Alerts.  Custom alert templates and specific alerts.
  */
 public class Alerts {
 

@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 import static java.time.ZoneOffset.UTC;
 
 /**
- * The type Date time helper.
+ * The type Date time helper.  Various methods to assist with manipulating Date and Time Values.
+ *
  */
 public class DateTimeHelper {
 

@@ -235,7 +235,7 @@ public class MainFormController implements Initializable {
                 loader.load();
 
                 ModifyAppointmentFormController ModApptController = loader.getController();
-                ModApptController.sendCustomers(selectedAppointment);
+                ModApptController.sendAppointment(selectedAppointment);
                 ModApptController.setAppointmentFieldsForEdit(selectedAppointment);
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

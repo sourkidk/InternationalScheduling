@@ -100,7 +100,7 @@ public class DbValidation {
     }
 
     /**
-     * Validate appointment boolean.
+     * Validate appointment fields are not empty and meet required criteria.
      *
      * @param title       the title
      * @param description the description
@@ -162,7 +162,7 @@ public class DbValidation {
     }
 
     /**
-     * Validate appointment combos boolean.
+     * Validate appointment combos are not empty.
      *
      * @param userCombo     the user combo
      * @param customerCombo the customer combo
@@ -207,7 +207,7 @@ public class DbValidation {
     }
 
     /**
-     * Validate appointment time boolean.
+     * Validate appointment time.  Checks the proposed appointment time against several constraints.
      *
      * @param date      the date
      * @param startTime the start time

@@ -8,7 +8,7 @@ import javafx.scene.control.ComboBox;
 public class ComboBoxStaging {
 
     /**
-     * Sets combo box status.
+     * Sets combo box status.  Reduced code reuse by a factor of 5.
      *
      * @param contactComboBox the contact combo box
      * @param disableContact  the disable contact

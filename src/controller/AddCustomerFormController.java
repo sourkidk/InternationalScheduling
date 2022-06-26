@@ -41,7 +41,8 @@ public class AddCustomerFormController implements Initializable {
     private ObservableList<FirstLevelDivision> filterFirstLevelDivisions = FXCollections.observableArrayList();
 
     /**
-     * On action filter divisions.
+     * On action filter divisions.  This method refers to the Country comboBox and filters the selection of divisions based
+     * on that value.
      *
      * @param event the event
      */
@@ -65,7 +66,8 @@ public class AddCustomerFormController implements Initializable {
 
 
     /**
-     * On action save customer.
+     * On action save customer.  This method collects input from all the fields on the form and validates they are not blank.  Once
+     * verified the customer is written to the database.
      *
      * @param event the event
      * @throws IOException  the io exception
@@ -109,6 +111,13 @@ public class AddCustomerFormController implements Initializable {
             switchToScene(event, "/view/MainForm.fxml");
         }
     }
+
+    /**
+     * When the modify form is loaded, comboboxes are initialized with the Countries and First-level Divisions.
+     * Lambda function is used here to filter the first-level divisions bases on the country selected.
+     * @param url
+     * @param resourceBundle
+     * */
 
 
     @Override

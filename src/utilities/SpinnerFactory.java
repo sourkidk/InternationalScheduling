@@ -4,7 +4,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
 /**
- * The type Spinner factory.
+ * The type Spinner factory.  Made to reduce code duplication.
  */
 public class SpinnerFactory {
 
