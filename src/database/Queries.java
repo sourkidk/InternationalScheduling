@@ -428,7 +428,6 @@ public abstract class Queries implements WeekInterface {
         LocalDate monthEnd = DateTimeHelper.getEndOfMonth(date);
 
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        System.out.println(monthEnd);
         ps.setString(1, monthStart.toString());
         ps.setString(2, monthEnd.toString());
         ResultSet rs = ps.executeQuery();

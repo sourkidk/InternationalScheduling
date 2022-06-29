@@ -106,7 +106,7 @@ public class DynamicTableview {
                     if(i == 5 || i == 6 ) {
                         LocalDateTime utcTime = LocalDateTime.parse(rs.getString(i), sqlFormatter);
                         ZonedDateTime zdtTime = ZonedDateTime.of(utcTime, UTC).withZoneSameInstant(currentZone);
-                        row.add(zdtTime.format(sqlFormatter).toString());
+                        row.add(zdtTime.format(sqlFormatter));
 
                     }
                     else {

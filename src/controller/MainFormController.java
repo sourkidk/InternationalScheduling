@@ -368,7 +368,7 @@ public class MainFormController implements Initializable {
         try{
             JDBC.makeConnection();
             ResultSet rs = Queries.getAllAppointmentsSelect();
-            DynamicTableview.populateTableView(mainTableview, rs, data);
+            DynamicTableview.populateApptTableView(mainTableview, rs, data);
 
             mainDatePicker.valueProperty().addListener((obs, previousValue, newValue) -> {
 
@@ -377,14 +377,14 @@ public class MainFormController implements Initializable {
 
                         try {
                             ResultSet rs2 = Queries.getThisMonthsAppointmentsSelect(newValue);
-                            DynamicTableview.populateTableView(mainTableview, rs2, data);
+                            DynamicTableview.populateApptTableView(mainTableview, rs2, data);
                         } catch (SQLException e) {
                         }
                     } else if ( viewWeekRadioButton.isSelected() ) {
 
                         try {
                             ResultSet rs3 = Queries.getThisWeeksAppointmentsSelect(newValue);
-                            DynamicTableview.populateTableView(mainTableview, rs3, data);
+                            DynamicTableview.populateApptTableView(mainTableview, rs3, data);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

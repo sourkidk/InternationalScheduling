@@ -158,6 +158,9 @@ public class ModifyAppointmentFormController implements Initializable {
                 ZonedDateTime zonedStart = DateTimeHelper.convertFromUTC(start, ZoneId.systemDefault());
                 ZonedDateTime zonedEnd = DateTimeHelper.convertFromUTC(end, ZoneId.systemDefault());
 
+                startDatePicker.setValue(LocalDate.from(start));
+
+
 
                 int startHour = zonedStart.getHour();
                 int startMinute = zonedStart.getMinute();
@@ -207,7 +210,7 @@ public class ModifyAppointmentFormController implements Initializable {
 
         SpinnerFactory.setSpinners(startHourSpinner,12,startMinuteSpinner,0,endHourSpinner,12,endMinuteSpinner,  0);
 
-        startDatePicker.setValue(LocalDate.now());
+//        startDatePicker.setValue(LocalDate.now());
 
         currentTimeZone = ZoneId.systemDefault();
 
