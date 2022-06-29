@@ -313,6 +313,7 @@ public class MainFormController implements Initializable {
                     Queries.deleteSelectedAppointment(selectedAppointment);
 
                 }
+                Alerts.deletedApptMessage(selectedAppointment,selectedApptType);
                 ResultSet rs1 = Queries.getAllAppointmentsSelect();
                 DynamicTableview.populateTableView(mainTableview, rs1, data);
             }
