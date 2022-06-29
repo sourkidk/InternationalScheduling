@@ -114,6 +114,18 @@ public class Alerts {
         }
     }
 
+    public static boolean confirmApptDeleteBox(int apptID, String apptType) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to Delete " + apptType+" Appointment with ID: " +
+                apptID + "? ");
+        Optional<ButtonType> result = alert.showAndWait();
+        if ( result.isPresent() && result.get() == ButtonType.OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * Confirm update box boolean.
      *

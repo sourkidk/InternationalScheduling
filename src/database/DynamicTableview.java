@@ -30,7 +30,7 @@ public class DynamicTableview {
 
 
     /**
-     * Populate table view.  This method uses metadata from the Resultset to fill a tableview without preset columns.
+     * Populate table view.  This method uses meta-data from the Resultset to fill a tableview without preset columns.
      *
      * @param tableview the tableview
      * @param rs        the rs
@@ -73,7 +73,7 @@ public class DynamicTableview {
     }
 
     /**
-     * Populate appt table view.  This method uses metadata from the Resultset to fill a tableview without preset columns. Some variation
+     * Populate Appointment table view.  This method uses meta-data from the Resultset to fill a tableview without preset columns. Some variation
      * for dealing the specifics of appointments.
      *
      * @param tableview the tableview

@@ -21,6 +21,7 @@ import utilities.Alerts;
 import utilities.DateTimeHelper;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -286,7 +287,7 @@ public class MainFormController implements Initializable {
                     DynamicTableview.populateTableView(mainTableview, rs, data);
                 }
             }
-            catch (NullPointerException | SQLException e) {
+            catch (NullPointerException | SQLException |IndexOutOfBoundsException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setContentText("No Customer Selected.");
@@ -301,20 +302,21 @@ public class MainFormController implements Initializable {
                 String newString = selectedIndex.substring(1, selectedIndex.indexOf(","));
                 int selectedAppointment = Integer.parseInt(newString);
 
-                if( Alerts.confirmDeleteBox() ) {
+                ResultSet rs = Queries.getAllAppointmentsSelect();
+                DynamicTableview.populateTableView(mainTableview, rs, data);
+                ResultSet rsType = Queries.getSelectedAppointmentType(selectedAppointment);
+                if (rsType.next()) {
+                    selectedApptType = rsType.getString("Type");
+                }
+                if( Alerts.confirmApptDeleteBox(selectedAppointment, selectedApptType) ) {
 
                     Queries.deleteSelectedAppointment(selectedAppointment);
 
-                    ResultSet rs = Queries.getAllAppointmentsSelect();
-                    DynamicTableview.populateTableView(mainTableview, rs, data);
-                    ResultSet rsType = Queries.getSelectedAppointmentType(selectedAppointment);
-                    if (rsType.next()) {
-                        selectedApptType = rsType.getString("Type");
-                    }
-                    Alerts.deletedApptMessage(selectedAppointment, selectedApptType );
                 }
+                ResultSet rs1 = Queries.getAllAppointmentsSelect();
+                DynamicTableview.populateTableView(mainTableview, rs1, data);
             }
-            catch (NullPointerException | SQLException e) {
+            catch (IndexOutOfBoundsException | NullPointerException | SQLException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setContentText("No Appointment Selected.");

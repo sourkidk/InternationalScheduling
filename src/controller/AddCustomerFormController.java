@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 import static controller.SceneController.switchToScene;
 
 /**
- * The type Add customer form controller.
+ * The Add customer form controller.
  */
 public class AddCustomerFormController implements Initializable {
 
@@ -101,7 +101,7 @@ public class AddCustomerFormController implements Initializable {
     }
 
     /**
-     * On action cancel.
+     * On action cancel.  This method confirms that the user will lose any input and then returns to the main form.
      *
      * @param event the event
      * @throws IOException the io exception
