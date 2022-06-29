@@ -96,11 +96,13 @@ public class LoginFormController implements Initializable {
         String userNameEntry = usernameTextField.getText();
         String passwordEntry = passwordTextField.getText();
 
+        System.out.println(localeCode.substring(0,2));
+
 
         if ( userNameEntry.equals("") ) {
             SignOnLog.logSignOnAttempt(" --- No Username Attempt.");
             validLogin = false;
-            if( localeCode.equals("en_US")) {
+            if( localeCode.substring(0,2).equals("fr")) {
                 Alerts.invalidUsernameFrenchDialogBox();
             }
             else {
@@ -127,7 +129,7 @@ public class LoginFormController implements Initializable {
                         SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Password ---  Login Failed.");
 
                         validLogin = false;
-                        if( localeCode.equals("fr_CA")) {
+                        if( localeCode.substring(0,2).equals("fr")) {
                             Alerts.invalidPasswordFrenchDialogBox();
                         }
                         else {
@@ -141,7 +143,7 @@ public class LoginFormController implements Initializable {
                 else {
                     SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
                     validLogin = false;
-                    if( localeCode.equals("fr_CA")) {
+                    if( localeCode.substring(0,2).equals("fr")) {
                         Alerts.invalidUsernameFrenchDialogBox();
                     }
                     else {
@@ -153,7 +155,7 @@ public class LoginFormController implements Initializable {
                 validLogin = false;
                 SignOnLog.logSignOnAttempt(" --- Username: " + userNameEntry + ": Invalid Username ---  Login Failed.");
 
-                if( localeCode.equals("fr_CA")) {
+                if( localeCode.substring(0,2).equals("fr")) {
                     Alerts.invalidUsernameFrenchDialogBox();
                 }
                 else {
@@ -193,7 +195,7 @@ public class LoginFormController implements Initializable {
 
         localeCode = Locale.getDefault().toString();
 
-        if( localeCode.equals("fr_CA")) {
+        if( localeCode.substring(0,2).equals("fr")) {
             titleLabel.setText("Horaire de Rendez-vous");
             languageLabel.setText("Française");
             timeZoneLabel.setText("Fuseau Horaire Actuel");
