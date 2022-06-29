@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 
 
 /**
@@ -426,6 +428,7 @@ public abstract class Queries implements WeekInterface {
         LocalDate monthEnd = DateTimeHelper.getEndOfMonth(date);
 
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        System.out.println(monthEnd);
         ps.setString(1, monthStart.toString());
         ps.setString(2, monthEnd.toString());
         ResultSet rs = ps.executeQuery();
@@ -446,7 +449,8 @@ public abstract class Queries implements WeekInterface {
                 "on customers.Customer_ID = appointments.Customer_ID \n" +
                 "Where Start >= ? AND Start <= ?";
         LocalDate monthStart = LocalDate.of(year,month.getMonthID(),1);
-        LocalDate monthEnd = LocalDate.of(year, month.getMonthID(), 30);
+        LocalDate lastDay = monthStart.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate monthEnd = LocalDate.of(year, month.getMonthID(), lastDay.getDayOfMonth());
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, monthStart.toString());
         ps.setString(2, monthEnd.toString());

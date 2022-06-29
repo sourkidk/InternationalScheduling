@@ -21,9 +21,9 @@ public class ComboBoxStaging {
      */
     public static void setComboBoxStatus(ComboBox contactComboBox, boolean disableContact, ComboBox typeComboBox, boolean disableType,
                                          ComboBox monthComboBox, boolean disableMonth, ComboBox yearComboBox, boolean disableYear ) {
-        contactComboBox.setDisable(true);
-        typeComboBox.setDisable(true);
-        monthComboBox.setDisable(false);
-        yearComboBox.setDisable(false);
+        contactComboBox.setDisable(disableContact);
+        typeComboBox.setDisable(disableType);
+        monthComboBox.setDisable(disableMonth);
+        yearComboBox.setDisable(disableYear);
     }
 }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 import static java.time.ZoneOffset.UTC;
 
@@ -129,9 +130,9 @@ public class DateTimeHelper {
     public static LocalDate getEndOfMonth(LocalDate date) {
         int year = date.getYear();
         int month = date.getMonthValue();
-        LocalDate nextMonthStart = LocalDate.of(year,month + 1,1);
-        int lastDay = nextMonthStart.getDayOfYear() - 1;
-        LocalDate monthEnd = LocalDate.ofYearDay(year, lastDay);
+        LocalDate monthStart = LocalDate.of(year,month,1);
+        LocalDate lastDay = monthStart.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate monthEnd = LocalDate.of(year, month, lastDay.getDayOfMonth());
         return monthEnd;
     }
 
