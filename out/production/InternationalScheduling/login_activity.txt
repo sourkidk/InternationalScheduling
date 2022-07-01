@@ -96,3 +96,5 @@
 2022-06-29 05:28:35 America/New_York  --- Username: aaa: Invalid Username ---  Login Failed.
 2022-06-29 05:28:42 America/New_York  --- Username: aaa: Invalid Username ---  Login Failed.
 2022-07-01 18:07:32 America/New_York  --- Username: sdf: Invalid Username ---  Login Failed.
+2022-07-01 18:07:50 America/New_York  --- Username: teste: Invalid Username ---  Login Failed.
+2022-07-01 18:07:54 America/New_York  --- Username: sdf: Invalid Username ---  Login Failed.
