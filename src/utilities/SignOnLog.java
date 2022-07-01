@@ -13,7 +13,7 @@ public class SignOnLog {
     /**
      * The constant logFileName.
      */
-    public static String logFileName = "/login_activity.txt";
+    public static String logFileName = "./src/login_activity.txt";
     /**
      * The constant sqlFormatter.
      */
