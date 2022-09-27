@@ -1,4 +1,4 @@
-International Scheduling Application - C195 Performance Evaluation
+International Scheduling Application 
 
 This is a GUI application for managing scheduling of business meetings for
 companies with personnel located in multiple countries and states/provinces.
@@ -14,11 +14,6 @@ well, that can be filtered for convenience.
 
 Author Info:
 Keith S. Fletcher
-009224586
-BS Comp-Sci (5/1/22)
-Karl Lloyd
-828-423-3501 EST
-kflet87@wgu.edu
 
 Application Version 1.0.1
 Submitted for Evaluation: June 29, 2022
